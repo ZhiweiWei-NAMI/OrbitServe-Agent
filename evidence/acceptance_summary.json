@@ -1,0 +1,1942 @@
+{
+  "experiment_run_ids": {
+    "E0": "20261016T134417Z-E0-0e9e8f75",
+    "E1": [
+      "20261016T134422Z-E1-f964c21a",
+      "20261016T134427Z-E1-278b50b9",
+      "20261016T134432Z-E1-b634a664"
+    ],
+    "E2": [
+      "20261016T134437Z-E2-whole-00d21884",
+      "20261016T134442Z-E2-tiled-7e69305c"
+    ],
+    "E3": [
+      "20261016T134437Z-E2-whole-00d21884",
+      "20261016T134448Z-E3-d40e9947"
+    ],
+    "E4": "20261016T134453Z-E4-6ba40314",
+    "E5": "20261016T134507Z-E5-5970f5b6",
+    "E6": "20261016T134514Z-E6-1bf2f3ab"
+  },
+  "feedback_links": [
+    {
+      "consuming_run_id": "20261016T134427Z-E1-278b50b9",
+      "forecast_id": "forecast-5a9e8055198c4bbd9bfe1edcf8bcebb1",
+      "preceding_run_id": "20261016T134422Z-E1-f964c21a",
+      "source_event_ids": [
+        "e-51638c39ce4643eda696f048dd6484bc",
+        "e-ff270471bf6546aab6867592fd33f8c7",
+        "e-d6152283e7734458b1347b9817d5baf4",
+        "e-2e3d02c83569469281acaae70089b77c"
+      ]
+    },
+    {
+      "consuming_run_id": "20261016T134432Z-E1-b634a664",
+      "forecast_id": "forecast-f8c3d29802384a7c82c6077e52c7d290",
+      "preceding_run_id": "20261016T134427Z-E1-278b50b9",
+      "source_event_ids": [
+        "e-6353e77b9c88431da2fa34af90e6797a",
+        "e-f0769b61430e4d48a8aebea90ace30ed",
+        "e-2210f3cdada74012903d7cf42c34a1b0",
+        "e-01f62bdea90443ccbd9018ead8cd6719"
+      ]
+    }
+  ],
+  "independent_suite_checks": [
+    {
+      "check": "all_seven_experiments_present",
+      "status": "PASS"
+    },
+    {
+      "check": "E0_harness_material_evidence",
+      "status": "PASS"
+    },
+    {
+      "check": "three_real_AOIs",
+      "status": "PASS"
+    },
+    {
+      "check": "E0_independent_science:question2",
+      "status": "PASS"
+    },
+    {
+      "check": "E0_independent_science:question4",
+      "status": "PASS"
+    },
+    {
+      "check": "E0_independent_science:lake_mead",
+      "status": "PASS"
+    },
+    {
+      "check": "E0_independent_science:lake_powell",
+      "status": "PASS"
+    },
+    {
+      "check": "E0_independent_science:lake_shasta",
+      "status": "PASS"
+    },
+    {
+      "check": "E1_three_AOI_runs",
+      "status": "PASS"
+    },
+    {
+      "check": "E1_runtime:20261016T134422Z-E1-f964c21a",
+      "status": "PASS"
+    },
+    {
+      "check": "E1_equals_E0:lake_mead",
+      "status": "PASS"
+    },
+    {
+      "check": "E1_actual_analytical_reference:lake_mead",
+      "status": "PASS"
+    },
+    {
+      "check": "E1_runtime:20261016T134427Z-E1-278b50b9",
+      "status": "PASS"
+    },
+    {
+      "check": "E1_equals_E0:lake_powell",
+      "status": "PASS"
+    },
+    {
+      "check": "E1_actual_analytical_reference:lake_powell",
+      "status": "PASS"
+    },
+    {
+      "check": "E1_runtime:20261016T134432Z-E1-b634a664",
+      "status": "PASS"
+    },
+    {
+      "check": "E1_equals_E0:lake_shasta",
+      "status": "PASS"
+    },
+    {
+      "check": "E1_actual_analytical_reference:lake_shasta",
+      "status": "PASS"
+    },
+    {
+      "check": "acquisition_actual_download_or_cache_receipts",
+      "status": "PASS"
+    },
+    {
+      "check": "bounded_COG_range_receipts",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:before:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_mead:before:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B02.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:before:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_mead:before:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B03.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:before:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_mead:before:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B04.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:before:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_mead:before:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B08.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:before:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_mead:before:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B11.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:before:SCL",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/SCL.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:after:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_mead:after:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B02.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:after:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_mead:after:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B03.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:after:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_mead:after:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B04.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:after:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_mead:after:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B08.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:after:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_mead:after:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B11.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_mead:after:SCL",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/SCL.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:before:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_powell:before:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B02.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:before:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_powell:before:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B03.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:before:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_powell:before:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B04.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:before:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_powell:before:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B08.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:before:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_powell:before:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B11.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:before:SCL",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/SCL.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:after:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_powell:after:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B02.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:after:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_powell:after:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B03.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:after:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_powell:after:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B04.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:after:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_powell:after:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B08.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:after:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_powell:after:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B11.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_powell:after:SCL",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/SCL.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:before:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_shasta:before:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B02.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:before:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_shasta:before:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B03.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:before:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_shasta:before:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B04.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:before:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_shasta:before:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B08.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:before:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_shasta:before:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/B11.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:before:SCL",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/before/SCL.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:after:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_shasta:after:B02",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B02.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:after:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_shasta:after:B03",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B03.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:after:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_shasta:after:B04",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B04.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:after:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_shasta:after:B08",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B08.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:after:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "harmonization_flag_matches_original_item:lake_shasta:after:B11",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/B11.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "asset_matches_pinned_STAC:lake_shasta:after:SCL",
+      "status": "PASS"
+    },
+    {
+      "check": "source_range_actually_requested:imagery/after/SCL.tif",
+      "status": "PASS"
+    },
+    {
+      "check": "EarthBench_pinned_source_hash:question2:LST",
+      "status": "PASS"
+    },
+    {
+      "check": "EarthBench_pinned_source_hash:question2:NDVI",
+      "status": "PASS"
+    },
+    {
+      "check": "EarthBench_pinned_source_hash:question4:LST",
+      "status": "PASS"
+    },
+    {
+      "check": "EarthBench_pinned_source_hash:question4:NDVI",
+      "status": "PASS"
+    },
+    {
+      "check": "actual_feedback_records_exist",
+      "status": "PASS"
+    },
+    {
+      "check": "feedback_actual_worker_observation",
+      "status": "PASS"
+    },
+    {
+      "check": "feedback_after_real_tool_completion",
+      "status": "PASS"
+    },
+    {
+      "check": "feedback_exact_epoch_rebase",
+      "status": "PASS"
+    },
+    {
+      "check": "feedback_new_forecast_consumed",
+      "status": "PASS"
+    },
+    {
+      "check": "feedback_actual_worker_observation",
+      "status": "PASS"
+    },
+    {
+      "check": "feedback_after_real_tool_completion",
+      "status": "PASS"
+    },
+    {
+      "check": "feedback_exact_epoch_rebase",
+      "status": "PASS"
+    },
+    {
+      "check": "feedback_new_forecast_consumed",
+      "status": "PASS"
+    },
+    {
+      "check": "E2_same_observed_state",
+      "status": "PASS"
+    },
+    {
+      "check": "E2_explicit_fixture",
+      "status": "PASS"
+    },
+    {
+      "check": "E2_future_only_intervention",
+      "status": "PASS"
+    },
+    {
+      "check": "E2_same_science_and_input",
+      "status": "PASS"
+    },
+    {
+      "check": "E2_changed_real_DAG",
+      "status": "PASS"
+    },
+    {
+      "check": "E2_forecast_consumed",
+      "status": "PASS"
+    },
+    {
+      "check": "E2_actual_execution:whole",
+      "status": "PASS"
+    },
+    {
+      "check": "E2_actual_execution:tiled",
+      "status": "PASS"
+    },
+    {
+      "check": "E2_equivalent_products",
+      "status": "PASS"
+    },
+    {
+      "check": "E3_identical_plan",
+      "status": "PASS"
+    },
+    {
+      "check": "E3_identical_forecast",
+      "status": "PASS"
+    },
+    {
+      "check": "E3_identical_inputs",
+      "status": "PASS"
+    },
+    {
+      "check": "E3_actual_execution_node_changed",
+      "status": "PASS"
+    },
+    {
+      "check": "E3_runtime_perturbation_observed_locally",
+      "status": "PASS"
+    },
+    {
+      "check": "E3_runtime",
+      "status": "PASS"
+    },
+    {
+      "check": "E3_equivalent_products",
+      "status": "PASS"
+    },
+    {
+      "check": "E4_runtime",
+      "status": "PASS"
+    },
+    {
+      "check": "E4_scenario",
+      "status": "PASS"
+    },
+    {
+      "check": "E4_equivalent_products",
+      "status": "PASS"
+    },
+    {
+      "check": "E5_runtime",
+      "status": "PASS"
+    },
+    {
+      "check": "E5_scenario",
+      "status": "PASS"
+    },
+    {
+      "check": "E5_equivalent_products",
+      "status": "PASS"
+    },
+    {
+      "check": "E6_recorded_successful_command",
+      "status": "PASS"
+    },
+    {
+      "check": "E6_new_run_and_root",
+      "status": "PASS"
+    },
+    {
+      "check": "E6_same_plan_input_code",
+      "status": "PASS"
+    },
+    {
+      "check": "E6_new_materialized_products",
+      "status": "PASS"
+    },
+    {
+      "check": "E6_distinct_execution_trace",
+      "status": "PASS"
+    },
+    {
+      "check": "E6_runtime",
+      "status": "PASS"
+    },
+    {
+      "check": "E6_equivalent_products",
+      "status": "PASS"
+    },
+    {
+      "check": "source_boundary:forecast",
+      "status": "PASS"
+    },
+    {
+      "check": "source_boundary:policy",
+      "status": "PASS"
+    },
+    {
+      "check": "broker_does_not_execute_policy_or_science",
+      "status": "PASS"
+    },
+    {
+      "check": "verifier_independent_from_authors",
+      "status": "PASS"
+    }
+  ],
+  "limits": [
+    "Analytical reference predictor; no learned WM",
+    "Rule planner; no LLM",
+    "Local rule policies; no MARL",
+    "Synthetic contacts/resources/energy, single-host process isolation",
+    "Water change candidates; no externally validated accuracy claim"
+  ],
+  "raw_and_binary_products_in_git": false,
+  "runs": [
+    {
+      "acceptance_sha256": "bd2acdc09bb69d5269fe4548d81306ac8eee17d0b3f0ce97d39693ba6f5f3847",
+      "code_revision": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+      "configuration_sha256": "5ef4139c235599366c8ebc536bc846c1c5bdb3c90ee029debb003393cb553ac0",
+      "experiment": "E0",
+      "finished_at": "2026-10-16T13:44:22.043900+00:00",
+      "run_id": "20261016T134417Z-E0-0e9e8f75",
+      "run_manifest_sha256": "d737aac2fca6c75878e0da445f6dd36ad1e3c1e8d9f365ccc065731fe5179c11",
+      "source_sha256": "3a2b64b37ae77b8f8f4245f35f278ca970aabc4db622414a11d600ce6593c555",
+      "started_at": "2026-10-16T13:44:17.226533+00:00",
+      "status": "PASS"
+    },
+    {
+      "acceptance_sha256": "deeba1f4204246e8fc7afba9715a1124ae3ca685d5b05d32c9a2fb63d3620efc",
+      "code_revision": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+      "configuration_sha256": "a9fefdf0d3bc32f239a2fc449f217596e3a0cd69f65415f83f36f8fcc414b5d6",
+      "elapsed_wall_s": 4.860620169999493,
+      "events": [
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_000",
+          "timestamp": 0.18662314899938792
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134422Z-E1-f964c21a:water_tile_000:6d16325ce1",
+          "step_id": "water_tile_000",
+          "timestamp": 0.18723882799986313
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_merge",
+          "timestamp": 2.248784376999538
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134422Z-E1-f964c21a:water_merge:c0c4161901",
+          "step_id": "water_merge",
+          "timestamp": 2.249289643999873
+        },
+        {
+          "event": "delivered",
+          "timestamp": 4.779557716999989
+        }
+      ],
+      "execution_nodes": {
+        "water_merge": "B",
+        "water_tile_000": "B"
+      },
+      "experiment": "E1",
+      "finished_at": "2026-10-16T13:44:27.220534+00:00",
+      "forecast_id": "forecast-3d6db7555aec407a8779ca561d43db8e",
+      "forecast_source": "analytical_reference",
+      "grain": "whole",
+      "independent_check_counts": {
+        "PASS": 1275
+      },
+      "payload_bytes": 5305390,
+      "plan_id": "plan-42b3f98c98a84cfea9e3e212c6272ca5",
+      "product_manifest_sha256": "2332795d6010dc8a71a8532f107c5e1ef4c4ecf3d0feb5da84f687e2d22eb86e",
+      "products": [
+        {
+          "path": "after_mndwi.tif",
+          "sha256": "cfd3d0fa5a193e0979a6d2f1f788ac7b8ff148ba3e7292fa807245477a6ba18c",
+          "size_bytes": 162500
+        },
+        {
+          "path": "after_ndvi.tif",
+          "sha256": "4211c251b79e8bfdbec2b032a248eab730ba04b9f0cdc9519761fd2a20e89a06",
+          "size_bytes": 165296
+        },
+        {
+          "path": "after_ndwi.tif",
+          "sha256": "2a360af7c07836a453a5c184c1c5240bb42995043049958281d0c433e612a22a",
+          "size_bytes": 158918
+        },
+        {
+          "path": "after_water.tif",
+          "sha256": "adcb739e8491914fc0fc68a89b927078eacd058ab944ff7274cbd9a8f690f116",
+          "size_bytes": 3131
+        },
+        {
+          "path": "before_mndwi.tif",
+          "sha256": "7d111110823602bb01b3d9f30140a53c127c4bb0ad53595bd0ac538878df9718",
+          "size_bytes": 196744
+        },
+        {
+          "path": "before_ndvi.tif",
+          "sha256": "73cc4767c10870acc88ea8c30955ed70b9b924acc9b9bb26f0012e995732cde5",
+          "size_bytes": 216316
+        },
+        {
+          "path": "before_ndwi.tif",
+          "sha256": "92be4b936790d63322893cbb70342695d5c1d37ebc6bc85de0e6a89ed0f2c9ed",
+          "size_bytes": 193548
+        },
+        {
+          "path": "before_water.tif",
+          "sha256": "8ec59919c38d8cb1f9b739023d0944dbd0011eb1a243de6155fc4ee0c01448dd",
+          "size_bytes": 2863
+        },
+        {
+          "path": "change.tif",
+          "sha256": "cd3a13a7a8d34d36ef2eb5b7c7e384c82934ea3a325cffbbc5a88f0b9b62b5c8",
+          "size_bytes": 4221
+        },
+        {
+          "path": "changes.geojson",
+          "sha256": "ddd8a10a3f4870bdf86290a03fd04161e106440a80e635bc5e1079360beb86fb",
+          "size_bytes": 295086
+        },
+        {
+          "path": "map.png",
+          "sha256": "70d354f73fa7facf80ea38f62da5790a1d3383723d187ec82264f52da52ebe06",
+          "size_bytes": 26245
+        },
+        {
+          "path": "stats.json",
+          "sha256": "c78851626d23d3de3ebe021f8d64e65e0d4cdc43208833e9fcffd38216dffefd",
+          "size_bytes": 26585
+        },
+        {
+          "path": "valid_after.tif",
+          "sha256": "03604f24f832ee115a6d85aee797f9d4d7624a8f6dc55ef82d449c3b3a4405bd",
+          "size_bytes": 2169
+        },
+        {
+          "path": "valid_before.tif",
+          "sha256": "a9f0cecc584a65897e9a104590f61f9985885baa3daaf48be354b1acecee0afe",
+          "size_bytes": 1613
+        },
+        {
+          "path": "valid_common.tif",
+          "sha256": "d4ec0fd0283d22349777d0a7baa4e91823c3a563bb7e01da40ce6b5aed96f2f0",
+          "size_bytes": 2215
+        }
+      ],
+      "run_id": "20261016T134422Z-E1-f964c21a",
+      "run_manifest_sha256": "7f2559d3c799946a13665fc9154dbeae6bc9582c022f5c876f0783b06f220e76",
+      "scenario": "normal",
+      "source_sha256": "3a2b64b37ae77b8f8f4245f35f278ca970aabc4db622414a11d600ce6593c555",
+      "started_at": "2026-10-16T13:44:22.059581+00:00",
+      "statistics": {
+        "area_method": "absolute affine determinant times projected linear-unit conversion squared; map-grid area",
+        "case_id": "lake_mead",
+        "class_area_m2": {
+          "gained": 232000.0,
+          "lost": 722000.0,
+          "stable_nonwater": 4159600.0,
+          "stable_water": 15637200.0,
+          "unknown": 4249200.0
+        },
+        "class_counts": {
+          "gained": 580,
+          "lost": 1805,
+          "stable_nonwater": 10399,
+          "stable_water": 39093,
+          "unknown": 10623
+        },
+        "gained_area_m2": 232000.0,
+        "gained_pixels": 580,
+        "lost_area_m2": 722000.0,
+        "lost_pixels": 1805,
+        "method": "MNDWI",
+        "net_change_area_m2": -490000.0,
+        "pixel_area_m2": 400.0,
+        "threshold": 0.0,
+        "tile_count": 1,
+        "total_pixels": 62500,
+        "unknown_area_m2": 4249200.0,
+        "unknown_pixels": 10623,
+        "valid_common_pixels": 51877,
+        "valid_coverage_fraction": 0.830032,
+        "valid_pixels": 51877
+      },
+      "status": "PASS",
+      "step_count": 2,
+      "tile_size": 250,
+      "transfer_count": 4
+    },
+    {
+      "acceptance_sha256": "ac55a8120ce407e8e07116c693a4d38cfcbaba9e16911a305dc45d8c91ac8fa3",
+      "code_revision": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+      "configuration_sha256": "a9fefdf0d3bc32f239a2fc449f217596e3a0cd69f65415f83f36f8fcc414b5d6",
+      "elapsed_wall_s": 5.14373352199982,
+      "events": [
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_000",
+          "timestamp": 0.19624603899956128
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134427Z-E1-278b50b9:water_tile_000:58f7b5ba67",
+          "step_id": "water_tile_000",
+          "timestamp": 0.19683318599982158
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_merge",
+          "timestamp": 2.5258789669996986
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134427Z-E1-278b50b9:water_merge:9ef3b17dad",
+          "step_id": "water_merge",
+          "timestamp": 2.5263967819992104
+        },
+        {
+          "event": "delivered",
+          "timestamp": 5.062266784999338
+        }
+      ],
+      "execution_nodes": {
+        "water_merge": "B",
+        "water_tile_000": "B"
+      },
+      "experiment": "E1",
+      "finished_at": "2026-10-16T13:44:32.711949+00:00",
+      "forecast_id": "forecast-5a9e8055198c4bbd9bfe1edcf8bcebb1",
+      "forecast_source": "analytical_reference",
+      "grain": "whole",
+      "independent_check_counts": {
+        "PASS": 1327
+      },
+      "payload_bytes": 5640439,
+      "plan_id": "plan-b02b2803bf1f4fb9b05ccd9fbb3a834c",
+      "product_manifest_sha256": "1ff9d56d82851f6f94217ed5ed7a1824e52d8d53a4e0d98a9b3427ba6896bfec",
+      "products": [
+        {
+          "path": "after_mndwi.tif",
+          "sha256": "b8dba73d1b1fcf1fa66ebcc73e49450169c3fa8c99749b8f3e0bca167231b475",
+          "size_bytes": 187222
+        },
+        {
+          "path": "after_ndvi.tif",
+          "sha256": "2e9ab50b65c52b6fc05a56c2a881102648d248694b499d2d0ce563b26466b551",
+          "size_bytes": 191992
+        },
+        {
+          "path": "after_ndwi.tif",
+          "sha256": "0e8e3e9de5c0f5e069636259f0d47b55b775afbf54901746ad7d8443ee3376bd",
+          "size_bytes": 187162
+        },
+        {
+          "path": "after_water.tif",
+          "sha256": "d4b24ac6d59f2e2e5d286e758172fb34bbee53bfe94827816a8d04c4eaaa60fa",
+          "size_bytes": 2757
+        },
+        {
+          "path": "before_mndwi.tif",
+          "sha256": "ae19f3b474837a04f640cf951702ab7ad68dad74005622b937d2c2b4d2dee02b",
+          "size_bytes": 193168
+        },
+        {
+          "path": "before_ndvi.tif",
+          "sha256": "3c2ea0346632c77b271629009fe218716ab98238286a64298f4dc421bab3a819",
+          "size_bytes": 201072
+        },
+        {
+          "path": "before_ndwi.tif",
+          "sha256": "5e1991204ba86621e252964d31255bdfe9e926490311ddef5fea662ee7c1ddb5",
+          "size_bytes": 190572
+        },
+        {
+          "path": "before_water.tif",
+          "sha256": "7259867972bb36db39a228ce88f0b7d8e3762ee5f6eb46b184a06187911e4feb",
+          "size_bytes": 2937
+        },
+        {
+          "path": "change.tif",
+          "sha256": "71065d882c9284cb7b9245b572a1029957bb32c73663f17d957c2444aea14303",
+          "size_bytes": 4183
+        },
+        {
+          "path": "changes.geojson",
+          "sha256": "5e455c4d50be797a6a3e33ae11243391cd6272eabcce10be19bcabcf344dd060",
+          "size_bytes": 309303
+        },
+        {
+          "path": "map.png",
+          "sha256": "46e3c80d0408fb032eb788706c22172e35547f2be19b64f815328105c3795815",
+          "size_bytes": 27887
+        },
+        {
+          "path": "stats.json",
+          "sha256": "9c4374f5b7f820ae0e0265e35bb887585d36a1515e3744fad84840c425bbaaf6",
+          "size_bytes": 26664
+        },
+        {
+          "path": "valid_after.tif",
+          "sha256": "13cc3c00b20faecad6e395a3c5081e948b409e4c53afcff9977ba044112e96bf",
+          "size_bytes": 2255
+        },
+        {
+          "path": "valid_before.tif",
+          "sha256": "32efc18e73f3eb23e5130ea8cf4def9f8252304f111fd22cc83c23d3272d0775",
+          "size_bytes": 1839
+        },
+        {
+          "path": "valid_common.tif",
+          "sha256": "1777ee3c84300dff1b76990e3d9aad2127949d94eb8a63ea67bc3a2b58d61a63",
+          "size_bytes": 2425
+        }
+      ],
+      "run_id": "20261016T134427Z-E1-278b50b9",
+      "run_manifest_sha256": "c15d2b52181a24f1169150ec62878b34dbac08e2585044caf4bff554bb9bc81f",
+      "scenario": "normal",
+      "source_sha256": "3a2b64b37ae77b8f8f4245f35f278ca970aabc4db622414a11d600ce6593c555",
+      "started_at": "2026-10-16T13:44:27.232660+00:00",
+      "statistics": {
+        "area_method": "absolute affine determinant times projected linear-unit conversion squared; map-grid area",
+        "case_id": "lake_powell",
+        "class_area_m2": {
+          "gained": 66000.0,
+          "lost": 2073600.0,
+          "stable_nonwater": 18758800.0,
+          "stable_water": 3638000.0,
+          "unknown": 463600.0
+        },
+        "class_counts": {
+          "gained": 165,
+          "lost": 5184,
+          "stable_nonwater": 46897,
+          "stable_water": 9095,
+          "unknown": 1159
+        },
+        "gained_area_m2": 66000.0,
+        "gained_pixels": 165,
+        "lost_area_m2": 2073600.0,
+        "lost_pixels": 5184,
+        "method": "MNDWI",
+        "net_change_area_m2": -2007600.0,
+        "pixel_area_m2": 400.0,
+        "threshold": 0.0,
+        "tile_count": 1,
+        "total_pixels": 62500,
+        "unknown_area_m2": 463600.0,
+        "unknown_pixels": 1159,
+        "valid_common_pixels": 61341,
+        "valid_coverage_fraction": 0.981456,
+        "valid_pixels": 61341
+      },
+      "status": "PASS",
+      "step_count": 2,
+      "tile_size": 250,
+      "transfer_count": 4
+    },
+    {
+      "acceptance_sha256": "c93d11d9bcc529e41a4eec2047ab9e5d9c06309fab9a590192e68ea54d572235",
+      "code_revision": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+      "configuration_sha256": "a9fefdf0d3bc32f239a2fc449f217596e3a0cd69f65415f83f36f8fcc414b5d6",
+      "elapsed_wall_s": 4.963177109000753,
+      "events": [
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_000",
+          "timestamp": 0.1870506170007502
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134432Z-E1-b634a664:water_tile_000:71b4997d00",
+          "step_id": "water_tile_000",
+          "timestamp": 0.18811354800072877
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_merge",
+          "timestamp": 2.4368306590004067
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134432Z-E1-b634a664:water_merge:a50e11d4d7",
+          "step_id": "water_merge",
+          "timestamp": 2.4377882470007535
+        },
+        {
+          "event": "delivered",
+          "timestamp": 4.886814546000096
+        }
+      ],
+      "execution_nodes": {
+        "water_merge": "B",
+        "water_tile_000": "B"
+      },
+      "experiment": "E1",
+      "finished_at": "2026-10-16T13:44:37.965545+00:00",
+      "forecast_id": "forecast-f8c3d29802384a7c82c6077e52c7d290",
+      "forecast_source": "analytical_reference",
+      "grain": "whole",
+      "independent_check_counts": {
+        "PASS": 1317
+      },
+      "payload_bytes": 5622582,
+      "plan_id": "plan-30ede02aba0846d0b152ee81f992fbce",
+      "product_manifest_sha256": "829b08fd584ca5c3ca2536c1b4c43655df103f01689c9353a52ec220a12c4a23",
+      "products": [
+        {
+          "path": "after_mndwi.tif",
+          "sha256": "8f099a9b5e6f9247389e0dc0e90beae13783b4e03f9b7d489af4004d7342a25b",
+          "size_bytes": 193014
+        },
+        {
+          "path": "after_ndvi.tif",
+          "sha256": "77c5c678446dd41f7bc001acd7eb22f79b0eab2a977c37bb6da072a0f80f5fd2",
+          "size_bytes": 194848
+        },
+        {
+          "path": "after_ndwi.tif",
+          "sha256": "b8faa09c030d474e33c1dd66897644ddc972df5a5ce4ef994911189a45cd0d44",
+          "size_bytes": 184380
+        },
+        {
+          "path": "after_water.tif",
+          "sha256": "4805d52d90a17bdb8524e215453bdbb9ec89a0f1a9e6a71c814a4f9302b6725b",
+          "size_bytes": 3005
+        },
+        {
+          "path": "before_mndwi.tif",
+          "sha256": "5f0b04c01eb494fe4511656e4868cffd656810b00fbac1348fc4c7c0d8d54019",
+          "size_bytes": 199318
+        },
+        {
+          "path": "before_ndvi.tif",
+          "sha256": "22e5b1af21813354e4378495e771071cbe0df1636011cd01df5b0a7ef9a39f78",
+          "size_bytes": 202248
+        },
+        {
+          "path": "before_ndwi.tif",
+          "sha256": "efa5bdec70775fe1bfddd038a167d8e3958b5683c576f88622676ff25f9ac036",
+          "size_bytes": 197486
+        },
+        {
+          "path": "before_water.tif",
+          "sha256": "ab6433c0347ab396ac3997f40cd90df6b5ff89948e60722709f7ddfa85d03c64",
+          "size_bytes": 3307
+        },
+        {
+          "path": "change.tif",
+          "sha256": "a61cabe758a2956b8096e522250f27b60419531ec7a077613d4d0fc050695d0a",
+          "size_bytes": 4445
+        },
+        {
+          "path": "changes.geojson",
+          "sha256": "a5bdd04847ddc614a90e8865a7fcfa0e1535231f183d0a7f640d2bd985777e2d",
+          "size_bytes": 257471
+        },
+        {
+          "path": "map.png",
+          "sha256": "2f726e9588837f910811173340c1dcaa2629e38b54ddf51d71e4c4d04a6d45d2",
+          "size_bytes": 27129
+        },
+        {
+          "path": "stats.json",
+          "sha256": "34852b27f471e292217a1a068df6c6dbb70110a657b006ab37456a0af45baff7",
+          "size_bytes": 26615
+        },
+        {
+          "path": "valid_after.tif",
+          "sha256": "54c46f8231625d755dda3f3afce993a0e619846ee5666528a03b92e96892c1eb",
+          "size_bytes": 1613
+        },
+        {
+          "path": "valid_before.tif",
+          "sha256": "7ce849bdc0f18baab1c390889ddde2cf61e4df5046a7c0c4e7c5a7d435ddf285",
+          "size_bytes": 1855
+        },
+        {
+          "path": "valid_common.tif",
+          "sha256": "78a0fa89c541c0a5b2bac24eb8ae26e4eb49f87bf1e6734dcd3183fab58704d4",
+          "size_bytes": 1901
+        }
+      ],
+      "run_id": "20261016T134432Z-E1-b634a664",
+      "run_manifest_sha256": "6e0375c6adcccb6c2117a6b25882514aaeae6b6defdfe62899ddada3bd42a22f",
+      "scenario": "normal",
+      "source_sha256": "3a2b64b37ae77b8f8f4245f35f278ca970aabc4db622414a11d600ce6593c555",
+      "started_at": "2026-10-16T13:44:32.722184+00:00",
+      "statistics": {
+        "area_method": "absolute affine determinant times projected linear-unit conversion squared; map-grid area",
+        "case_id": "lake_shasta",
+        "class_area_m2": {
+          "gained": 44000.0,
+          "lost": 2013200.0,
+          "stable_nonwater": 16388400.0,
+          "stable_water": 6445600.0,
+          "unknown": 108800.0
+        },
+        "class_counts": {
+          "gained": 110,
+          "lost": 5033,
+          "stable_nonwater": 40971,
+          "stable_water": 16114,
+          "unknown": 272
+        },
+        "gained_area_m2": 44000.0,
+        "gained_pixels": 110,
+        "lost_area_m2": 2013200.0,
+        "lost_pixels": 5033,
+        "method": "MNDWI",
+        "net_change_area_m2": -1969200.0,
+        "pixel_area_m2": 400.0,
+        "threshold": 0.0,
+        "tile_count": 1,
+        "total_pixels": 62500,
+        "unknown_area_m2": 108800.0,
+        "unknown_pixels": 272,
+        "valid_common_pixels": 62228,
+        "valid_coverage_fraction": 0.995648,
+        "valid_pixels": 62228
+      },
+      "status": "PASS",
+      "step_count": 2,
+      "tile_size": 250,
+      "transfer_count": 4
+    },
+    {
+      "acceptance_sha256": "8d1a5e8057d53bce4ec38fd3ea9bb0c4a210e2ef8a008ea3591ebbbe673c6e07",
+      "code_revision": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+      "configuration_sha256": "a9fefdf0d3bc32f239a2fc449f217596e3a0cd69f65415f83f36f8fcc414b5d6",
+      "elapsed_wall_s": 4.640463812999769,
+      "events": [
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_000",
+          "timestamp": 0.1879010329994344
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134437Z-E2-whole-00d21884:water_tile_000:1922bf55d2",
+          "step_id": "water_tile_000",
+          "timestamp": 0.18864813699929073
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_merge",
+          "timestamp": 2.134888611999486
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134437Z-E2-whole-00d21884:water_merge:56db15813b",
+          "step_id": "water_merge",
+          "timestamp": 2.135664949999409
+        },
+        {
+          "event": "delivered",
+          "timestamp": 4.563978403999499
+        }
+      ],
+      "execution_nodes": {
+        "water_merge": "B",
+        "water_tile_000": "B"
+      },
+      "experiment": "E2-whole",
+      "finished_at": "2026-10-16T13:44:42.934206+00:00",
+      "forecast_id": "fixture-5d1103835fe242a38d3f0fa7d22141e7",
+      "forecast_source": "test_fixture",
+      "grain": "whole",
+      "independent_check_counts": {
+        "PASS": 1263
+      },
+      "payload_bytes": 5305390,
+      "plan_id": "plan-fcde6e3b4c504e5f966f57a877949a95",
+      "product_manifest_sha256": "2332795d6010dc8a71a8532f107c5e1ef4c4ecf3d0feb5da84f687e2d22eb86e",
+      "run_id": "20261016T134437Z-E2-whole-00d21884",
+      "run_manifest_sha256": "ed602231084eeb86923d994fd9bbe9afe558cb33bd93c8744622f38e36ed95e7",
+      "scenario": "normal",
+      "source_sha256": "3a2b64b37ae77b8f8f4245f35f278ca970aabc4db622414a11d600ce6593c555",
+      "started_at": "2026-10-16T13:44:37.978327+00:00",
+      "statistics": {
+        "area_method": "absolute affine determinant times projected linear-unit conversion squared; map-grid area",
+        "case_id": "lake_mead",
+        "class_area_m2": {
+          "gained": 232000.0,
+          "lost": 722000.0,
+          "stable_nonwater": 4159600.0,
+          "stable_water": 15637200.0,
+          "unknown": 4249200.0
+        },
+        "class_counts": {
+          "gained": 580,
+          "lost": 1805,
+          "stable_nonwater": 10399,
+          "stable_water": 39093,
+          "unknown": 10623
+        },
+        "gained_area_m2": 232000.0,
+        "gained_pixels": 580,
+        "lost_area_m2": 722000.0,
+        "lost_pixels": 1805,
+        "method": "MNDWI",
+        "net_change_area_m2": -490000.0,
+        "pixel_area_m2": 400.0,
+        "threshold": 0.0,
+        "tile_count": 1,
+        "total_pixels": 62500,
+        "unknown_area_m2": 4249200.0,
+        "unknown_pixels": 10623,
+        "valid_common_pixels": 51877,
+        "valid_coverage_fraction": 0.830032,
+        "valid_pixels": 51877
+      },
+      "status": "PASS",
+      "step_count": 2,
+      "tile_size": 250,
+      "transfer_count": 4
+    },
+    {
+      "acceptance_sha256": "fe0f7e521b568c3052bdd60430d9b1b81cf0e56a965ba19e2f303aae57b70a36",
+      "code_revision": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+      "configuration_sha256": "a9fefdf0d3bc32f239a2fc449f217596e3a0cd69f65415f83f36f8fcc414b5d6",
+      "elapsed_wall_s": 5.203245676999359,
+      "events": [
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_000",
+          "timestamp": 0.1818030379999982
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134442Z-E2-tiled-7e69305c:water_tile_000:4cdb199ec9",
+          "step_id": "water_tile_000",
+          "timestamp": 0.18232589099989127
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_001",
+          "timestamp": 0.20126976399933483
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134442Z-E2-tiled-7e69305c:water_tile_001:dd7034a9f3",
+          "step_id": "water_tile_001",
+          "timestamp": 0.20179529999950319
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_001",
+          "timestamp": 0.45443543500005035
+        },
+        {
+          "destination": "C",
+          "event": "dispatch",
+          "job_id": "20261016T134442Z-E2-tiled-7e69305c:water_tile_001:e9cab90e14",
+          "step_id": "water_tile_001",
+          "timestamp": 0.4555901419998918
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_002",
+          "timestamp": 1.6896323519995349
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134442Z-E2-tiled-7e69305c:water_tile_002:56622490be",
+          "step_id": "water_tile_002",
+          "timestamp": 1.6901626059998307
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_003",
+          "timestamp": 1.8607553510000798
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134442Z-E2-tiled-7e69305c:water_tile_003:5097ed3fd9",
+          "step_id": "water_tile_003",
+          "timestamp": 1.8614933019998716
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_merge",
+          "timestamp": 2.223332541999298
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134442Z-E2-tiled-7e69305c:water_merge:a3277fa4b6",
+          "step_id": "water_merge",
+          "timestamp": 2.224219582999467
+        },
+        {
+          "event": "delivered",
+          "timestamp": 5.0759839899992585
+        }
+      ],
+      "execution_nodes": {
+        "water_merge": "B",
+        "water_tile_000": "B",
+        "water_tile_001": "C",
+        "water_tile_002": "B",
+        "water_tile_003": "B"
+      },
+      "experiment": "E2-tiled",
+      "finished_at": "2026-10-16T13:44:48.641069+00:00",
+      "forecast_id": "fixture-90e7797602324a9bb1d90c47031d4832",
+      "forecast_source": "test_fixture",
+      "grain": "tiled",
+      "independent_check_counts": {
+        "PASS": 1984
+      },
+      "payload_bytes": 7136052,
+      "plan_id": "plan-2d72634cc13d45c59e32723b6aa0c153",
+      "product_manifest_sha256": "e2c1a6ad1f8cd8a4ec296c8718f0dbf6be2995bc39b0ec0033639304151f0a97",
+      "run_id": "20261016T134442Z-E2-tiled-7e69305c",
+      "run_manifest_sha256": "82460c652b0e2727a212458d1f3029d704345b1af0f0db8013de55343f35b33b",
+      "scenario": "normal",
+      "source_sha256": "3a2b64b37ae77b8f8f4245f35f278ca970aabc4db622414a11d600ce6593c555",
+      "started_at": "2026-10-16T13:44:42.943842+00:00",
+      "statistics": {
+        "area_method": "absolute affine determinant times projected linear-unit conversion squared; map-grid area",
+        "case_id": "lake_mead",
+        "class_area_m2": {
+          "gained": 232000.0,
+          "lost": 722000.0,
+          "stable_nonwater": 4159600.0,
+          "stable_water": 15637200.0,
+          "unknown": 4249200.0
+        },
+        "class_counts": {
+          "gained": 580,
+          "lost": 1805,
+          "stable_nonwater": 10399,
+          "stable_water": 39093,
+          "unknown": 10623
+        },
+        "gained_area_m2": 232000.0,
+        "gained_pixels": 580,
+        "lost_area_m2": 722000.0,
+        "lost_pixels": 1805,
+        "method": "MNDWI",
+        "net_change_area_m2": -490000.0,
+        "pixel_area_m2": 400.0,
+        "threshold": 0.0,
+        "tile_count": 4,
+        "total_pixels": 62500,
+        "unknown_area_m2": 4249200.0,
+        "unknown_pixels": 10623,
+        "valid_common_pixels": 51877,
+        "valid_coverage_fraction": 0.830032,
+        "valid_pixels": 51877
+      },
+      "status": "PASS",
+      "step_count": 5,
+      "tile_size": 128,
+      "transfer_count": 9
+    },
+    {
+      "acceptance_sha256": "44c5e1b346075680e144a52fd91c05f2610b561d4b7547d27fcefcd9154fc97f",
+      "code_revision": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+      "configuration_sha256": "a9fefdf0d3bc32f239a2fc449f217596e3a0cd69f65415f83f36f8fcc414b5d6",
+      "elapsed_wall_s": 4.726090832999944,
+      "events": [
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_000",
+          "timestamp": 0.19447707800009084
+        },
+        {
+          "destination": "C",
+          "event": "dispatch",
+          "job_id": "20261016T134448Z-E3-d40e9947:water_tile_000:846d22c3b4",
+          "step_id": "water_tile_000",
+          "timestamp": 0.19531192199974612
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_merge",
+          "timestamp": 2.1726080460002777
+        },
+        {
+          "destination": "C",
+          "event": "dispatch",
+          "job_id": "20261016T134448Z-E3-d40e9947:water_merge:a152b751c4",
+          "step_id": "water_merge",
+          "timestamp": 2.1732323380001617
+        },
+        {
+          "event": "delivered",
+          "timestamp": 4.643001762000495
+        }
+      ],
+      "execution_nodes": {
+        "water_merge": "C",
+        "water_tile_000": "C"
+      },
+      "experiment": "E3",
+      "finished_at": "2026-10-16T13:44:53.730324+00:00",
+      "forecast_id": "fixture-5d1103835fe242a38d3f0fa7d22141e7",
+      "forecast_source": "test_fixture",
+      "grain": "whole",
+      "independent_check_counts": {
+        "PASS": 1263
+      },
+      "payload_bytes": 5305390,
+      "plan_id": "plan-fcde6e3b4c504e5f966f57a877949a95",
+      "product_manifest_sha256": "2332795d6010dc8a71a8532f107c5e1ef4c4ecf3d0feb5da84f687e2d22eb86e",
+      "run_id": "20261016T134448Z-E3-d40e9947",
+      "run_manifest_sha256": "e11920eff5a6704d5fa78aaf327391a6a41d820f91d681b79f50728d7dcef465",
+      "scenario": "busy_b",
+      "source_sha256": "3a2b64b37ae77b8f8f4245f35f278ca970aabc4db622414a11d600ce6593c555",
+      "started_at": "2026-10-16T13:44:48.651448+00:00",
+      "statistics": {
+        "area_method": "absolute affine determinant times projected linear-unit conversion squared; map-grid area",
+        "case_id": "lake_mead",
+        "class_area_m2": {
+          "gained": 232000.0,
+          "lost": 722000.0,
+          "stable_nonwater": 4159600.0,
+          "stable_water": 15637200.0,
+          "unknown": 4249200.0
+        },
+        "class_counts": {
+          "gained": 580,
+          "lost": 1805,
+          "stable_nonwater": 10399,
+          "stable_water": 39093,
+          "unknown": 10623
+        },
+        "gained_area_m2": 232000.0,
+        "gained_pixels": 580,
+        "lost_area_m2": 722000.0,
+        "lost_pixels": 1805,
+        "method": "MNDWI",
+        "net_change_area_m2": -490000.0,
+        "pixel_area_m2": 400.0,
+        "threshold": 0.0,
+        "tile_count": 1,
+        "total_pixels": 62500,
+        "unknown_area_m2": 4249200.0,
+        "unknown_pixels": 10623,
+        "valid_common_pixels": 51877,
+        "valid_coverage_fraction": 0.830032,
+        "valid_pixels": 51877
+      },
+      "status": "PASS",
+      "step_count": 2,
+      "tile_size": 250,
+      "transfer_count": 4
+    },
+    {
+      "acceptance_sha256": "a3198229fa031c956aa8353f784748666fac2d52de507c0788756266e9dfca55",
+      "code_revision": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+      "configuration_sha256": "a9fefdf0d3bc32f239a2fc449f217596e3a0cd69f65415f83f36f8fcc414b5d6",
+      "elapsed_wall_s": 13.601682633000564,
+      "events": [
+        {
+          "end_s": 12.199085315000048,
+          "event": "ground_link_closed",
+          "start_s": 0.19908531500004756,
+          "timestamp": 0.19908531500004756
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_000",
+          "timestamp": 0.19552292700063845
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134453Z-E4-6ba40314:water_tile_000:466cc9bf30",
+          "step_id": "water_tile_000",
+          "timestamp": 0.19601963100012654
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_001",
+          "timestamp": 0.21363147100055357
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134453Z-E4-6ba40314:water_tile_001:e631b7f12f",
+          "step_id": "water_tile_001",
+          "timestamp": 0.21416935500019463
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_001",
+          "timestamp": 0.4649222040006862
+        },
+        {
+          "destination": "C",
+          "event": "dispatch",
+          "job_id": "20261016T134453Z-E4-6ba40314:water_tile_001:f72a6330e5",
+          "step_id": "water_tile_001",
+          "timestamp": 0.46599503900051786
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_002",
+          "timestamp": 1.8232217700006004
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134453Z-E4-6ba40314:water_tile_002:10260eef65",
+          "step_id": "water_tile_002",
+          "timestamp": 1.8237823780000326
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_003",
+          "timestamp": 2.0605631390008057
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134453Z-E4-6ba40314:water_tile_003:6a4d8dfb32",
+          "step_id": "water_tile_003",
+          "timestamp": 2.061362100000224
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_merge",
+          "timestamp": 2.3899649530003444
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134453Z-E4-6ba40314:water_merge:e4dccb0a07",
+          "step_id": "water_merge",
+          "timestamp": 2.392251822000617
+        },
+        {
+          "event": "ground_link_opened",
+          "start_s": 12.199085315000048,
+          "timestamp": 12.203942968000774
+        },
+        {
+          "event": "delivered",
+          "timestamp": 13.470600218000072
+        }
+      ],
+      "execution_nodes": {
+        "water_merge": "B",
+        "water_tile_000": "B",
+        "water_tile_001": "C",
+        "water_tile_002": "B",
+        "water_tile_003": "B"
+      },
+      "experiment": "E4",
+      "finished_at": "2026-10-16T13:45:07.876239+00:00",
+      "forecast_id": "fixture-90e7797602324a9bb1d90c47031d4832",
+      "forecast_source": "test_fixture",
+      "grain": "tiled",
+      "independent_check_counts": {
+        "PASS": 2246
+      },
+      "payload_bytes": 7136052,
+      "plan_id": "plan-2d72634cc13d45c59e32723b6aa0c153",
+      "product_manifest_sha256": "e2c1a6ad1f8cd8a4ec296c8718f0dbf6be2995bc39b0ec0033639304151f0a97",
+      "run_id": "20261016T134453Z-E4-6ba40314",
+      "run_manifest_sha256": "562079269983ebae811cd548394b111c96d1cc2cf5ff8510f80380afcc16b469",
+      "scenario": "ground_outage",
+      "source_sha256": "3a2b64b37ae77b8f8f4245f35f278ca970aabc4db622414a11d600ce6593c555",
+      "started_at": "2026-10-16T13:44:53.746078+00:00",
+      "statistics": {
+        "area_method": "absolute affine determinant times projected linear-unit conversion squared; map-grid area",
+        "case_id": "lake_mead",
+        "class_area_m2": {
+          "gained": 232000.0,
+          "lost": 722000.0,
+          "stable_nonwater": 4159600.0,
+          "stable_water": 15637200.0,
+          "unknown": 4249200.0
+        },
+        "class_counts": {
+          "gained": 580,
+          "lost": 1805,
+          "stable_nonwater": 10399,
+          "stable_water": 39093,
+          "unknown": 10623
+        },
+        "gained_area_m2": 232000.0,
+        "gained_pixels": 580,
+        "lost_area_m2": 722000.0,
+        "lost_pixels": 1805,
+        "method": "MNDWI",
+        "net_change_area_m2": -490000.0,
+        "pixel_area_m2": 400.0,
+        "threshold": 0.0,
+        "tile_count": 4,
+        "total_pixels": 62500,
+        "unknown_area_m2": 4249200.0,
+        "unknown_pixels": 10623,
+        "valid_common_pixels": 51877,
+        "valid_coverage_fraction": 0.830032,
+        "valid_pixels": 51877
+      },
+      "status": "PASS",
+      "step_count": 5,
+      "tile_size": 128,
+      "transfer_count": 9
+    },
+    {
+      "acceptance_sha256": "d01c2b08446687370b1b5d735a48d2d9bcff4a911e9b09a811751c1e25c9fe17",
+      "code_revision": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+      "configuration_sha256": "a9fefdf0d3bc32f239a2fc449f217596e3a0cd69f65415f83f36f8fcc414b5d6",
+      "elapsed_wall_s": 6.309001022999837,
+      "events": [
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_000",
+          "timestamp": 0.1847100649993081
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134507Z-E5-5970f5b6:water_tile_000:7fa3734069",
+          "step_id": "water_tile_000",
+          "timestamp": 0.18529533899982198
+        },
+        {
+          "destination": "B",
+          "end_s": 1.9148927569995067,
+          "event": "data_link_closed",
+          "offset": 196608,
+          "source": "A",
+          "start_s": 0.4148927569995067,
+          "timestamp": 0.4148927569995067
+        },
+        {
+          "destination": "B",
+          "event": "data_link_opened",
+          "source": "A",
+          "start_s": 1.9148927569995067,
+          "timestamp": 1.9241622429999552
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_merge",
+          "timestamp": 3.7701645509996524
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134507Z-E5-5970f5b6:water_merge:d96c3def9d",
+          "step_id": "water_merge",
+          "timestamp": 3.770723796999846
+        },
+        {
+          "event": "delivered",
+          "timestamp": 6.229838333999396
+        }
+      ],
+      "execution_nodes": {
+        "water_merge": "B",
+        "water_tile_000": "B"
+      },
+      "experiment": "E5",
+      "finished_at": "2026-10-16T13:45:14.540576+00:00",
+      "forecast_id": "fixture-5d1103835fe242a38d3f0fa7d22141e7",
+      "forecast_source": "test_fixture",
+      "grain": "whole",
+      "independent_check_counts": {
+        "PASS": 1329
+      },
+      "payload_bytes": 5305390,
+      "plan_id": "plan-fcde6e3b4c504e5f966f57a877949a95",
+      "product_manifest_sha256": "2332795d6010dc8a71a8532f107c5e1ef4c4ecf3d0feb5da84f687e2d22eb86e",
+      "run_id": "20261016T134507Z-E5-5970f5b6",
+      "run_manifest_sha256": "c94648ed528da31163d2a4e1b3b7e1aadc418ed9037d3df1a58acc89bd43340f",
+      "scenario": "transfer_outage",
+      "source_sha256": "3a2b64b37ae77b8f8f4245f35f278ca970aabc4db622414a11d600ce6593c555",
+      "started_at": "2026-10-16T13:45:07.887072+00:00",
+      "statistics": {
+        "area_method": "absolute affine determinant times projected linear-unit conversion squared; map-grid area",
+        "case_id": "lake_mead",
+        "class_area_m2": {
+          "gained": 232000.0,
+          "lost": 722000.0,
+          "stable_nonwater": 4159600.0,
+          "stable_water": 15637200.0,
+          "unknown": 4249200.0
+        },
+        "class_counts": {
+          "gained": 580,
+          "lost": 1805,
+          "stable_nonwater": 10399,
+          "stable_water": 39093,
+          "unknown": 10623
+        },
+        "gained_area_m2": 232000.0,
+        "gained_pixels": 580,
+        "lost_area_m2": 722000.0,
+        "lost_pixels": 1805,
+        "method": "MNDWI",
+        "net_change_area_m2": -490000.0,
+        "pixel_area_m2": 400.0,
+        "threshold": 0.0,
+        "tile_count": 1,
+        "total_pixels": 62500,
+        "unknown_area_m2": 4249200.0,
+        "unknown_pixels": 10623,
+        "valid_common_pixels": 51877,
+        "valid_coverage_fraction": 0.830032,
+        "valid_pixels": 51877
+      },
+      "status": "PASS",
+      "step_count": 2,
+      "tile_size": 250,
+      "transfer_count": 4
+    },
+    {
+      "acceptance_sha256": "0d0f7e7d889c50e1ec18187ea73ff0960bae2a8302ea468cc28a5228d2c042f8",
+      "code_revision": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+      "configuration_sha256": "a9fefdf0d3bc32f239a2fc449f217596e3a0cd69f65415f83f36f8fcc414b5d6",
+      "elapsed_wall_s": 4.648138310999457,
+      "events": [
+        {
+          "event": "step_ready",
+          "step_id": "water_tile_000",
+          "timestamp": 0.18116956599988043
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134514Z-E6-1bf2f3ab:water_tile_000:c3a5088029",
+          "step_id": "water_tile_000",
+          "timestamp": 0.1816926390001754
+        },
+        {
+          "event": "step_ready",
+          "step_id": "water_merge",
+          "timestamp": 2.1328893350000726
+        },
+        {
+          "destination": "B",
+          "event": "dispatch",
+          "job_id": "20261016T134514Z-E6-1bf2f3ab:water_merge:592a35ea08",
+          "step_id": "water_merge",
+          "timestamp": 2.133472867999444
+        },
+        {
+          "event": "delivered",
+          "timestamp": 4.565567980999731
+        }
+      ],
+      "execution_nodes": {
+        "water_merge": "B",
+        "water_tile_000": "B"
+      },
+      "experiment": "E6",
+      "finished_at": "2026-10-16T13:45:19.770026+00:00",
+      "forecast_id": "fixture-5d1103835fe242a38d3f0fa7d22141e7",
+      "forecast_source": "test_fixture",
+      "grain": "whole",
+      "independent_check_counts": {
+        "PASS": 1263
+      },
+      "payload_bytes": 5305390,
+      "plan_id": "plan-fcde6e3b4c504e5f966f57a877949a95",
+      "product_manifest_sha256": "2332795d6010dc8a71a8532f107c5e1ef4c4ecf3d0feb5da84f687e2d22eb86e",
+      "run_id": "20261016T134514Z-E6-1bf2f3ab",
+      "run_manifest_sha256": "cab2b44d9e50b2a93b3f51597c5e31c2ec409ebb5af356cd80b5d97ecfd4cf57",
+      "scenario": "normal",
+      "source_sha256": "3a2b64b37ae77b8f8f4245f35f278ca970aabc4db622414a11d600ce6593c555",
+      "started_at": "2026-10-16T13:45:14.744920+00:00",
+      "statistics": {
+        "area_method": "absolute affine determinant times projected linear-unit conversion squared; map-grid area",
+        "case_id": "lake_mead",
+        "class_area_m2": {
+          "gained": 232000.0,
+          "lost": 722000.0,
+          "stable_nonwater": 4159600.0,
+          "stable_water": 15637200.0,
+          "unknown": 4249200.0
+        },
+        "class_counts": {
+          "gained": 580,
+          "lost": 1805,
+          "stable_nonwater": 10399,
+          "stable_water": 39093,
+          "unknown": 10623
+        },
+        "gained_area_m2": 232000.0,
+        "gained_pixels": 580,
+        "lost_area_m2": 722000.0,
+        "lost_pixels": 1805,
+        "method": "MNDWI",
+        "net_change_area_m2": -490000.0,
+        "pixel_area_m2": 400.0,
+        "threshold": 0.0,
+        "tile_count": 1,
+        "total_pixels": 62500,
+        "unknown_area_m2": 4249200.0,
+        "unknown_pixels": 10623,
+        "valid_common_pixels": 51877,
+        "valid_coverage_fraction": 0.830032,
+        "valid_pixels": 51877
+      },
+      "status": "PASS",
+      "step_count": 2,
+      "tile_size": 250,
+      "transfer_count": 4
+    }
+  ],
+  "status": "PASS",
+  "suite_acceptance_sha256": "7f5db82293ba9f2be5512deadfe7b80ce55627e2b042d4d64da25a1c34142c60",
+  "suite_id": "20261016T134417Z-acceptance-493707f7",
+  "suite_manifest_sha256": "733624b9e5c9663ec4908fb235b383daf2a8bd7331f6abdaae201bd40cc820b1"
+}

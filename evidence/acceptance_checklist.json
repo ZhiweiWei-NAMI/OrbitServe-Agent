@@ -1,0 +1,403 @@
+{
+  "scope": "V0 prediction-interface-driven rule prototype; local acceptance, publication is a separate delivery action",
+  "status": "PASS",
+  "rule": "All A00-A17 PASS with executed evidence",
+  "tested_compute_commit": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
+  "lead_suite_id": "20261016T134417Z-acceptance-493707f7",
+  "independent_suite_id": "20261016T134508Z-acceptance-0a1a15b6",
+  "independent_top_level_check_count": 168,
+  "root_requested_rerun_id": "20261016T134554Z-E1-1c4e8ac1",
+  "checks": [
+    {
+      "check_id": "A00",
+      "title": "环境与真实派工",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134417Z-E0-0e9e8f75"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A01",
+      "title": "数据与溯源",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134417Z-E0-0e9e8f75"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A02",
+      "title": "参考隔离",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134417Z-E0-0e9e8f75",
+        "20261016T134422Z-E1-f964c21a",
+        "20261016T134427Z-E1-278b50b9",
+        "20261016T134432Z-E1-b634a664"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A03",
+      "title": "真实遥感计算",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134417Z-E0-0e9e8f75"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A04",
+      "title": "独立科学一致性",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134417Z-E0-0e9e8f75",
+        "20261016T134422Z-E1-f964c21a",
+        "20261016T134427Z-E1-278b50b9",
+        "20261016T134432Z-E1-b634a664",
+        "20261016T134437Z-E2-whole-00d21884",
+        "20261016T134442Z-E2-tiled-7e69305c"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A05",
+      "title": "Harness与产物追踪",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134417Z-E0-0e9e8f75",
+        "20261016T134422Z-E1-f964c21a",
+        "20261016T134427Z-E1-278b50b9",
+        "20261016T134432Z-E1-b634a664"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A06",
+      "title": "预测与跨任务观测反馈",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134422Z-E1-f964c21a",
+        "20261016T134427Z-E1-278b50b9",
+        "20261016T134432Z-E1-b634a664"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A07",
+      "title": "预测改变规划粒度",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134437Z-E2-whole-00d21884",
+        "20261016T134442Z-E2-tiled-7e69305c"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A08",
+      "title": "无数据或信息旁路",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134422Z-E1-f964c21a",
+        "20261016T134427Z-E1-278b50b9",
+        "20261016T134432Z-E1-b634a664",
+        "20261016T134453Z-E4-6ba40314",
+        "20261016T134507Z-E5-5970f5b6"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A09",
+      "title": "四节点隔离与约束",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134422Z-E1-f964c21a",
+        "20261016T134427Z-E1-278b50b9",
+        "20261016T134432Z-E1-b634a664",
+        "20261016T134453Z-E4-6ba40314",
+        "20261016T134507Z-E5-5970f5b6"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A10",
+      "title": "节点本地分布式策略",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134422Z-E1-f964c21a",
+        "20261016T134427Z-E1-278b50b9",
+        "20261016T134432Z-E1-b634a664",
+        "20261016T134437Z-E2-whole-00d21884",
+        "20261016T134448Z-E3-d40e9947"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A11",
+      "title": "正常端到端交付",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134422Z-E1-f964c21a",
+        "20261016T134427Z-E1-278b50b9",
+        "20261016T134432Z-E1-b634a664"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A12",
+      "title": "同一DAG动态卸载",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134437Z-E2-whole-00d21884",
+        "20261016T134448Z-E3-d40e9947"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A13",
+      "title": "断地面后新步骤推进",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134453Z-E4-6ba40314"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A14",
+      "title": "中断传输与恢复",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134507Z-E5-5970f5b6"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A15",
+      "title": "独立干净目录复跑",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134514Z-E6-1bf2f3ab"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A16",
+      "title": "未实现模型显式报错",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134417Z-E0-0e9e8f75"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    },
+    {
+      "check_id": "A17",
+      "title": "证据报告与复现说明",
+      "status": "PASS",
+      "run_ids": [
+        "20261016T134417Z-E0-0e9e8f75",
+        "20261016T134422Z-E1-f964c21a",
+        "20261016T134427Z-E1-278b50b9",
+        "20261016T134432Z-E1-b634a664",
+        "20261016T134437Z-E2-whole-00d21884",
+        "20261016T134442Z-E2-tiled-7e69305c",
+        "20261016T134448Z-E3-d40e9947",
+        "20261016T134453Z-E4-6ba40314",
+        "20261016T134507Z-E5-5970f5b6",
+        "20261016T134514Z-E6-1bf2f3ab"
+      ],
+      "evidence": [
+        "evidence/acceptance_summary.json",
+        "docs/independent_review.md",
+        "docs/acceptance_report.md"
+      ],
+      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "failure_reason": null
+    }
+  ],
+  "capability_status": {
+    "rule_planning": {
+      "implemented": true,
+      "validated": true
+    },
+    "analytical_reference_forecast": {
+      "implemented": true,
+      "validated": true
+    },
+    "real_remote_sensing_operators": {
+      "implemented": true,
+      "validated": true
+    },
+    "distributed_rule_execution": {
+      "implemented": true,
+      "validated": true
+    },
+    "actual_byte_transfer": {
+      "implemented": true,
+      "validated": true
+    },
+    "learned_world_model": {
+      "implemented": false,
+      "validated": false,
+      "required_for_v0": false
+    },
+    "LLM_planner": {
+      "implemented": false,
+      "validated": false,
+      "required_for_v0": false
+    },
+    "MARL_policy": {
+      "implemented": false,
+      "validated": false,
+      "required_for_v0": false
+    }
+  },
+  "work_items": [
+    {
+      "work_id": "W00",
+      "status": "PASS"
+    },
+    {
+      "work_id": "W01",
+      "status": "PASS"
+    },
+    {
+      "work_id": "W02",
+      "status": "PASS"
+    },
+    {
+      "work_id": "W03",
+      "status": "PASS"
+    },
+    {
+      "work_id": "W04",
+      "status": "PASS"
+    },
+    {
+      "work_id": "W05",
+      "status": "PASS"
+    },
+    {
+      "work_id": "W06",
+      "status": "PASS"
+    },
+    {
+      "work_id": "W07",
+      "status": "PASS"
+    },
+    {
+      "work_id": "W08",
+      "status": "PASS"
+    },
+    {
+      "work_id": "W09",
+      "status": "PASS"
+    },
+    {
+      "work_id": "W10",
+      "status": "PASS"
+    }
+  ]
+}

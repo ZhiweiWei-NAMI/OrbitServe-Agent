@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "earthbench_revision": "49ce6b784c038b63b0817cbfa8211eb053b47e37",
+  "earth_agent_revision": "ca1dfaef750654331308a434966d307f1728fd90",
+  "bands": [
+    "B02",
+    "B03",
+    "B04",
+    "B08",
+    "B11",
+    "SCL"
+  ],
+  "grid": {
+    "width": 250,
+    "height": 250,
+    "pixel_size_m": 20
+  },
+  "cases": [
+    {
+      "case_id": "lake_mead",
+      "name": "Lake Mead, Boulder Basin shoreline",
+      "center_lonlat": [
+        -114.78,
+        36.09
+      ],
+      "crs": "EPSG:32611",
+      "before_year": 2020,
+      "after_year": 2021,
+      "items": {
+        "before": "S2B_11SPA_20200609_1_L2A",
+        "after": "S2B_11SPA_20210614_1_L2A"
+      }
+    },
+    {
+      "case_id": "lake_powell",
+      "name": "Lake Powell, Wahweap Bay shoreline",
+      "center_lonlat": [
+        -111.49,
+        36.98
+      ],
+      "crs": "EPSG:32612",
+      "before_year": 2020,
+      "after_year": 2021,
+      "items": {
+        "before": "S2A_12SVF_20200611_1_L2A",
+        "after": "S2B_12SVF_20210621_1_L2A"
+      }
+    },
+    {
+      "case_id": "lake_shasta",
+      "name": "Shasta Lake central arms",
+      "center_lonlat": [
+        -122.31,
+        40.77
+      ],
+      "crs": "EPSG:32610",
+      "before_year": 2020,
+      "after_year": 2021,
+      "items": {
+        "before": "S2A_10TEL_20200626_1_L2A",
+        "after": "S2A_10TEL_20210618_1_L2A"
+      }
+    }
+  ]
+}

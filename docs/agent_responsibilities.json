@@ -1,0 +1,33 @@
+{
+  "A00": {
+    "task_id": "/root/build_orbitserve_rule_prototype",
+    "scope": "contracts, integration, harness, CLI, manifests, final evidence",
+    "status": "PASS"
+  },
+  "A01": {
+    "task_id": "/root/build_orbitserve_rule_prototype/acquire_real_satellite_data",
+    "scope": "data acquisition and provenance",
+    "status": "PASS"
+  },
+  "A02": {
+    "task_id": "/root/build_orbitserve_rule_prototype/implement_remote_sensing_operators",
+    "scope": "real science operators",
+    "status": "PASS"
+  },
+  "A03_A05": {
+    "task_id": "/root/build_orbitserve_rule_prototype/implement_isolated_node_runtime",
+    "scope": "four-process runtime, admission, constrained transport",
+    "status": "PASS"
+  },
+  "A04_A05": {
+    "task_id": "/root/build_orbitserve_rule_prototype/implement_forecast_planning_policy",
+    "scope": "analytical forecast, DAG planner, node-local rule policy",
+    "status": "PASS",
+    "notes": "Module checks and formal executed E2 acceptance passed."
+  },
+  "A06": {
+    "task_id": "/root/build_orbitserve_rule_prototype/verify_orbitserve_acceptance",
+    "scope": "independent scientific and runtime verification",
+    "status": "PASS"
+  }
+}

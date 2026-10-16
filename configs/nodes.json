@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "contact_source": "synthetic_contact_trace",
+  "clock_mode": "monotonic_wall_clock_1x",
+  "bandwidth_bytes_s": 1500000,
+  "control_latency_s": 0.005,
+  "chunk_bytes": 32768,
+  "timeout_s": 90,
+  "ground_outage_duration_s": 12,
+  "transfer_outage_duration_s": 1.5,
+  "nodes": [
+    {
+      "node_id": "A",
+      "role": "source",
+      "capabilities": [
+        "water_tile"
+      ],
+      "compute_pixels_s": 100000,
+      "memory_bytes": 4194304,
+      "storage_bytes": 268435456,
+      "energy_j": 10000,
+      "queue_work_pixels": 0,
+      "available_after_s": 0,
+      "max_concurrency": 1,
+      "max_queued_jobs": 1,
+      "max_owned_inflight": 2
+    },
+    {
+      "node_id": "B",
+      "role": "primary_compute",
+      "capabilities": [
+        "water_tile",
+        "water_merge"
+      ],
+      "compute_pixels_s": 1000000,
+      "memory_bytes": 67108864,
+      "storage_bytes": 268435456,
+      "energy_j": 10000,
+      "queue_work_pixels": 0,
+      "available_after_s": 0,
+      "max_concurrency": 1,
+      "max_queued_jobs": 1
+    },
+    {
+      "node_id": "C",
+      "role": "alternate_compute",
+      "capabilities": [
+        "water_tile",
+        "water_merge"
+      ],
+      "compute_pixels_s": 250000,
+      "memory_bytes": 33554432,
+      "storage_bytes": 268435456,
+      "energy_j": 10000,
+      "queue_work_pixels": 0,
+      "available_after_s": 0,
+      "max_concurrency": 1,
+      "max_queued_jobs": 1
+    },
+    {
+      "node_id": "G",
+      "role": "ground",
+      "capabilities": [
+        "receive_delivery"
+      ],
+      "compute_pixels_s": 100000,
+      "memory_bytes": 33554432,
+      "storage_bytes": 268435456,
+      "energy_j": 10000,
+      "queue_work_pixels": 0,
+      "available_after_s": 0,
+      "max_concurrency": 1,
+      "max_queued_jobs": 1
+    }
+  ]
+}

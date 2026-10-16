@@ -1,0 +1,69 @@
+{
+  "checkpoint": "source_implementation_in_progress",
+  "date": "2026-10-16T13:30:00Z",
+  "v0_acceptance": "NOT_RUN",
+  "completed": {
+    "W02": {
+      "status": "PASS",
+      "run_id": "20261016T132824Z-W02-a8d94755",
+      "command": "python calling Harness.submit_tool(earthbench_tvdi) followed by independent verify_science for question2 and question4",
+      "exit_code": 0,
+      "cases": [
+        {
+          "case_id": "question2",
+          "job_id": "job-24acdd0ba4de419d89dce1142cbf6e55",
+          "independent_status": "PASS",
+          "statistics_sha256": "142e6764ca753ed0aa8e131c593de41e1dd74cee6753009380cb548a8bd9052e",
+          "scientific_summary": {
+            "case_id": "question2",
+            "implementation_version": "orbitserve-science-1.0.0",
+            "valid_pixels": 1307762,
+            "threshold": 0.75
+          }
+        },
+        {
+          "case_id": "question4",
+          "job_id": "job-d04f68f1563842d99d50413569c63030",
+          "independent_status": "PASS",
+          "statistics_sha256": "aca2ef344de9c814d5b0d456e971968ebca039249d0d32c8e49878e78f021598",
+          "scientific_summary": {
+            "case_id": "question4",
+            "implementation_version": "orbitserve-science-1.0.0",
+            "valid_pixels": 4482532,
+            "threshold": 0.75
+          }
+        }
+      ]
+    },
+    "four_node_bootstrap": {
+      "status": "PASS",
+      "run_id": "lead-node-check-20261016T1330",
+      "command": "python -m orbitserve nodes --work-dir <fresh external directory>",
+      "exit_code": 0,
+      "process_count": 4,
+      "namespace_method": "unshare user+network then bubblewrap mount+PID+IPC+UTS",
+      "process_exit_codes": {
+        "A": 0,
+        "B": 0,
+        "C": 0,
+        "G": 0
+      }
+    }
+  },
+  "not_yet_accepted": [
+    "three-AOI E0",
+    "distributed E1",
+    "executed forecast-pair E2",
+    "same-DAG offload E3",
+    "ground-outage E4",
+    "interrupted-transfer E5",
+    "independent clean rerun E6"
+  ],
+  "data_boundary": "Raw imagery and generated binary products are external and absent from git",
+  "capability_limits": [
+    "No trained or validated learned WM",
+    "No LLM planner",
+    "No MARL policy",
+    "Synthetic contacts and resource/energy models"
+  ]
+}

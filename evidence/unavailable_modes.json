@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "mode": "learned_wm",
+      "status": "PASS",
+      "exception": "NotImplementedError",
+      "message": "learned_wm unavailable: no trained weights or adapter is configured; no automatic fallback"
+    },
+    {
+      "mode": "llm_planner",
+      "status": "PASS",
+      "exception": "NotImplementedError",
+      "message": "llm planner unavailable: no LLM planner adapter configured; no automatic fallback"
+    },
+    {
+      "mode": "marl_policy",
+      "status": "PASS",
+      "exception": "NotImplementedError",
+      "message": "marl execution policy unavailable; MARL weights/adapter are not configured"
+    }
+  ]
+}
