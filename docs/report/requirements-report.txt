@@ -1,0 +1,5 @@
+python-docx
+# Optional scientific figure rebuild:
+numpy
+matplotlib
+# prepare_display_rgb.py additionally uses the installed OrbitServe package.

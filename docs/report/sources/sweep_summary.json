@@ -1,0 +1,519 @@
+{
+  "actual_scientific_reruns": 0,
+  "interpretation": [
+    "Synthetic uncalibrated sensitivity distributions, not estimated satellite operating distributions. CI describes Monte Carlo uncertainty under these declared distributions only.",
+    "Fixed real executable DAGs and measured produced-artifact sizes are reused identically across controls. No new host performance sample or real-agent inference is created.",
+    "Current-only decisions receive actual observable link state and already-active reservation release times, and can wait for an observed event. Future unstarted reservations/windows are visible only to forecast controls.",
+    "Forecast is perfect mock information. The offloading-only contrast is distinct from the incremental forecast contrast.",
+    "Completion means requested outputs back at A. Independent ground downlink, global link contention and packet loss are outside this model.",
+    "Fixture agent-only and competent recipe use identical graphs, so no semantic-planning advantage is claimed.",
+    "No resampling or parameter-range revision based on favorable outcomes is allowed."
+  ],
+  "pooled_effects": [
+    {
+      "alternative": "dynamic_current",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "offloading_without_forecast",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "normal",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.7999999999999998,
+        "ci95_low": 0.6599999999999998,
+        "mean": 0.7333333333333333,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": 44.00087293624823,
+        "ci95_low": 31.453882198344694,
+        "mean": 37.53389697100005,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "local_current",
+      "seconds_saved": {
+        "ci95_high": 1.3710236282715937,
+        "ci95_low": 0.8943640334449177,
+        "mean": 1.121477490244167,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "dynamic_forecast",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "incremental_forecast",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "normal",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "dynamic_current",
+      "seconds_saved": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "dynamic_forecast",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "forecast_plus_offloading",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "normal",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.7999999999999998,
+        "ci95_low": 0.6599999999999998,
+        "mean": 0.7333333333333333,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": 44.00087293624823,
+        "ci95_low": 31.453882198344694,
+        "mean": 37.53389697100005,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "local_current",
+      "seconds_saved": {
+        "ci95_high": 1.3710236282715937,
+        "ci95_low": 0.8943640334449177,
+        "mean": 1.121477490244167,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "local_forecast",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "forecast_without_offloading",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "normal",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "local_current",
+      "seconds_saved": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "dynamic_current",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "offloading_without_forecast",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.03333333333333333,
+        "ci95_low": 0.0,
+        "mean": 0.013333333333333332,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "busy_local",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.5333333333333333,
+        "ci95_low": 0.2998333333333334,
+        "mean": 0.4133333333333333,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": 51.11776535853443,
+        "ci95_low": 29.60532982259946,
+        "mean": 40.28635408752123,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "local_current",
+      "seconds_saved": {
+        "ci95_high": 17.75605314815637,
+        "ci95_low": 9.800707920479578,
+        "mean": 13.627570532606324,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "dynamic_forecast",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "incremental_forecast",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.02,
+        "ci95_low": 0.0,
+        "mean": 0.006666666666666666,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "busy_local",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.7199999999999999,
+        "ci95_low": 0.4933333333333333,
+        "mean": 0.6066666666666667,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": 67.37065783472245,
+        "ci95_low": 46.34757176276338,
+        "mean": 57.050943064755465,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "dynamic_current",
+      "seconds_saved": {
+        "ci95_high": 26.08267644222308,
+        "ci95_low": 16.610191433104568,
+        "mean": 21.281335411970957,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "dynamic_forecast",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "forecast_plus_offloading",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.05333333333333333,
+        "ci95_low": 0.0,
+        "mean": 0.02,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "busy_local",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 1.0,
+        "ci95_low": 1.0,
+        "mean": 1.0,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": 96.45911295656045,
+        "ci95_low": 94.81543218820123,
+        "mean": 95.67585123483242,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "local_current",
+      "seconds_saved": {
+        "ci95_high": 38.40407755245118,
+        "ci95_low": 31.547888145032086,
+        "mean": 34.908905944577285,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "local_forecast",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "forecast_without_offloading",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "busy_local",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "local_current",
+      "seconds_saved": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "dynamic_current",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "offloading_without_forecast",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.8066666666666665,
+        "ci95_low": 0.62,
+        "mean": 0.7133333333333333,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "future_contact",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.02,
+        "ci95_low": 0.0,
+        "mean": 0.006666666666666666,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": -835.3441436431516,
+        "ci95_low": -1417.2998053878894,
+        "mean": -1111.4616659119054,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "local_current",
+      "seconds_saved": {
+        "ci95_high": -15.83500005159902,
+        "ci95_low": -24.65321503732182,
+        "mean": -20.09057238514897,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "dynamic_forecast",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "incremental_forecast",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "future_contact",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.45333333333333337,
+        "ci95_low": 0.23999999999999996,
+        "mean": 0.3466666666666666,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": 40.12331834412476,
+        "ci95_low": 20.537833894859702,
+        "mean": 30.19920211447936,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "dynamic_current",
+      "seconds_saved": {
+        "ci95_high": 15.939246165030326,
+        "ci95_low": 6.719993012261382,
+        "mean": 11.1945229617934,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "dynamic_forecast",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "forecast_plus_offloading",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.5,
+        "ci95_low": 0.2533333333333333,
+        "mean": 0.37333333333333335,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "future_contact",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.02,
+        "ci95_low": 0.0,
+        "mean": 0.006666666666666666,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": -343.70897269876946,
+        "ci95_low": -905.6266172884198,
+        "mean": -602.876376353549,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "local_current",
+      "seconds_saved": {
+        "ci95_high": -5.399207881647985,
+        "ci95_low": -12.723856615964857,
+        "mean": -8.896049423355565,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    },
+    {
+      "alternative": "local_forecast",
+      "case_id": "ALL_PRODUCTS_EQUAL_WEIGHT",
+      "comparison": "forecast_without_offloading",
+      "deadline_success_rate_difference": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "degradation_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "excluded_incomplete_timing_worlds": 0,
+      "family": "future_contact",
+      "improvement_over_10pct_fraction_all_attempts": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "incomplete_timing_pairs": 0,
+      "percentage_saved": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "product_pair_count": 150,
+      "reference": "local_current",
+      "seconds_saved": {
+        "ci95_high": 0.0,
+        "ci95_low": 0.0,
+        "mean": 0.0,
+        "n_worlds": 50
+      },
+      "world_count": 50
+    }
+  ],
+  "protocol_sha256": "a2304db4e5ed437eb4f28f4d3ffe64eac0d4d68e276b27a263bbf951c60990eb",
+  "real_model_calls": 0,
+  "simulations": 1800,
+  "source_inventory": {
+    "configs/semantic_cases.json": "5c70e4f19fb0b9b7156d856be8bbc121d4b1ffff6236569294c4a1d018264d7d",
+    "scripts/run_semantic_world_sweep.py": "8fbc689cf2ebc24e2d49bf4048667615d085ea1dc822d563c237021aa6ab455d",
+    "src/orbitserve/semantic_model.py": "61f22370e3773d6d469d833570e08b2c3b4951f71cf21e1ff7d99586f35cb6e8"
+  },
+  "status": "COMPLETE",
+  "status_counts": {
+    "COMPLETE": 1800
+  },
+  "worlds": 150
+}

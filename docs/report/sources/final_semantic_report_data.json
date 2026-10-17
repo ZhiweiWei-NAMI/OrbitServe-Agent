@@ -1,0 +1,386 @@
+{
+  "evidence_frozen": true,
+  "completion_boundary": "实验设定：本阶段的Agent计划采用人工参考图的mock回放，遥感算子真实读取TIFF并生成产品；性能比较采用声明资源与接触轨迹的离散事件模型，真实大模型由本地API接口后续替换接入。以下统一称“非Agent”“Agent”“Agent＋预测卸载”，时间表明确区分实测秒与模型秒。已完成可组合工具、外部有类型任务图、科学合同核验和复现入口。",
+  "abstract": "本研究建立六类、九个差异化遥感任务，把业务目标约束为算子集合、依赖关系和交付产品，并用资源与接触预测指导执行。45个实际用例均满足合同，生成42次真实产品并正确报告3次缺数据；独立30项功能与公平性检查通过。在预设150个运行环境、1800次配对模型回放中，本地占用族联合方案平均节省95.7%完成时间，预测在同卸载权限下的额外节省为57.1%，95%区间为46.3%至67.4%。常连通时预测增量为零；未来闭链时联合方案仍可能显著慢于强本地基线。结果表明，大收益存在明确条件，全图依赖与最终回传比单步贪心选址更重要。成果包括提示词、可执行图接口、科学产品、统计消融及本地API复现方法。",
+  "dag_contract": "请求同时给出自然语言指令、必需输出角色、科学定义、时相和目标网格、可见资产及其尺度偏移、工具目录与JSON响应模式。成功计划包含schema_version=1、status=ready、nodes、outputs和rationale；每个节点含唯一id、op、inputs、params，输入端口通过节点ID绑定真实产物。节点可以先于其依赖列出，执行前拓扑排序。缺数据时返回needs_data、明确missing_assets及空图。可选allowed_nodes与not_before_s只约束成本模型的执行安排。",
+  "tool_headers": [
+    "原语组",
+    "实际操作与产物",
+    "关键约束"
+  ],
+  "tool_rows": [
+    [
+      "load_bands / select_band",
+      "源波段读取；波段集转栅格",
+      "仅load_bands可打开源影像"
+    ],
+    [
+      "index / threshold / difference",
+      "归一化指数、阈值掩膜、双时相差分",
+      "输入端口类型及参数显式声明"
+    ],
+    [
+      "water_change / area_summary",
+      "共同有效变化编码和面积JSON",
+      "未知区不当作非水体"
+    ],
+    [
+      "raster_summary / polygonize",
+      "栅格统计；变化多边形",
+      "矢量面积与栅格支持域核验"
+    ],
+    [
+      "rgb / overlay",
+      "真实RGB与候选变化叠加",
+      "显示支路不改变科学掩膜"
+    ],
+    [
+      "三种mosaic工具",
+      "raster、mask、change空间拼接",
+      "全网格非重叠、无缺口覆盖"
+    ],
+    [
+      "tvdi",
+      "NDVI/LST全域拟合与TVDI栅格",
+      "100个NDVI区间，包含最大值"
+    ]
+  ],
+  "tool_widths": [
+    4.6,
+    5.7,
+    5.5
+  ],
+  "tool_note": "共15个原语。原语执行产生带哈希的中间产物；除源读取外，后续步骤必须消费声明的产物依赖。",
+  "executor_text": "新执行器在单台主机上串行执行科学步骤，支持窗口拆分、分支复用及合法mosaic。独立审查使用手工新建的14节点图，将250列划为101列和149列，反向列出依赖、改写case ID并禁用recipe入口后仍能完成真实计算；篡改中间产物则被拒绝。该证据支持外部任务图确实控制数据流，而非用模型输出触发隐藏案例模板。图层同时拒绝无关孤立节点、错误类型、循环、非法窗口和额外交付；科学检查拒绝反时相和错阈值的假成功。",
+  "provider_text": "非Agent路径按目标和产品生成确定性recipe；Agent路径接收独立JSON图，严格执行提交的算子、端口绑定和依赖，不以case ID、目标标签或解释文字替换为隐藏流程。HTTP适配器已通过本地loopback请求、响应解析和计划校验测试。",
+  "case_headers": [
+    "任务案例",
+    "自然语言目标与科学合同",
+    "必要图变化"
+  ],
+  "case_rows": [
+    [
+      "水体面积",
+      "Mead两期MNDWI>0，新增、消退及净面积JSON",
+      "双时相指数→掩膜→变化→面积"
+    ],
+    [
+      "矢量＋RGB",
+      "同水体定义，加变化GeoJSON与后期RGB",
+      "增加polygonize与显示分支"
+    ],
+    [
+      "面积＋RGB组合",
+      "沿用water_area目标，只加后期RGB，不要矢量",
+      "同目标标签、不同输出集合"
+    ],
+    [
+      "后期快视",
+      "仅后期B04/B03/B02，250×250 RGBA",
+      "只load_bands→rgb"
+    ],
+    [
+      "NDVI下降",
+      "Shasta两期NDVI差，≤−0.15面积与差值栅格",
+      "B08/B04指数→difference→统计"
+    ],
+    [
+      "缺B11严格／替代",
+      "严格MNDWI返回needs_data；授权后允许NDWI",
+      "权限决定可行性与公式"
+    ],
+    [
+      "两份TVDI",
+      "四川2021及成都2022独立NDVI/LST，TVDI>0.75比例",
+      "全域拟合，分别产物和统计"
+    ]
+  ],
+  "case_widths": [
+    3.0,
+    7.0,
+    5.8
+  ],
+  "case_note": "九个具体案例来自六类任务并含额外产品组合。已有四个NDVI/LST TIFF属于两份独立AOI，不构成同区域时序。参考图不放入模型请求。",
+  "prompt_paragraphs": [
+    "You are an Earth-observation task planner. Infer the required products and their dependencies from the user's instruction. Produce ONE JSON object matching response_schema. Construct your own typed DAG using the operator catalog; nodes become executable pending tasks. Do not return prose, Python, tool calls, or a case ID. There are no hidden tools and no prewritten workflow selected from your answer.\nUse only available_assets. Each input reference is the ID of a node whose declared output type matches that input port. Dependencies follow these references. A node may be listed before or after its dependencies; the executor topologically sorts it. Invent meaningful unique node IDs. Reuse intermediate artifacts where appropriate. Source data may be opened only by load_bands; all other operators consume their declared artifact inputs. Output references point at actual nodes. Never invent measurements, acquisition times, missing bands, QA, or resolution. If essential data are unavailable, return status needs_data, nodes=[], outputs={}, and explicit missing_assets. A fallback index is allowed only if the user's instruction authorizes it and your rationale identifies the changed method.\nPreserve the requested scientific definitions, thresholds, phase/date support, validity rules, full-AOI TVDI fitting and product requirements. Different requested products may require different operators and graphs. Splitting is optional; if splitting, supply explicit legal windows and mosaic before any full-grid product. Do not sacrifice scientific quality to meet a deadline. Optional predicted_world_state contains modeled forecasts, not certain future truth. Current observations and tool cost profiles may guide decomposition; do not claim optimized results without evidence. Return a short rationale explaining the decomposition, data limitations, and any scheduling constraints. Hardware/contact estimates do not change the pixels or requested quality."
+  ],
+  "scenario_design": "normal为常连通和宽松期限对照；future_contact初始链路同样可用，但0.025秒后关闭，20秒后恢复；busy_local在0.2至15秒保留本地A资源。所有时间均为声明模型时间。除三组主方案外，固定同一真实执行图和产物大小，分别回放local/current、local/forecast、dynamic/current与dynamic/forecast，分离选址权限与未来信息。无预测策略遇闭链可等待实际接触事件后重评，不将暂时闭链人为算作物理不可行。",
+  "semantic_results_intro": "最终冻结批次normal-final含9案例×3方案共27次运行；focused-final含3案例×2约束场景×3方案共18次，共45次。42次生成科学产品，3次严格缺B11请求正确返回needs_data；45次均通过合同检查。每一案例、方案、场景仅一次确定性运行，属于功能与机制展示，不具备重复实验的统计推断条件。",
+  "semantic_result_headers": [
+    "案例",
+    "节点数",
+    "输出角色",
+    "实际算子秒",
+    "产品字节"
+  ],
+  "semantic_result_rows": [
+    [
+      "水体面积",
+      "8",
+      "summary",
+      "0.1762",
+      "482"
+    ],
+    [
+      "水体矢量＋RGB",
+      "11",
+      "polygons, rgb, summary",
+      "0.3455",
+      "567627"
+    ],
+    [
+      "面积＋RGB组合",
+      "10",
+      "rgb, summary",
+      "0.2727",
+      "273793"
+    ],
+    [
+      "后期RGB快视",
+      "2",
+      "rgb",
+      "0.1187",
+      "273311"
+    ],
+    [
+      "NDVI下降",
+      "6",
+      "delta, summary",
+      "0.1921",
+      "691283"
+    ],
+    [
+      "严格缺B11",
+      "0",
+      "needs_data",
+      "—",
+      "—"
+    ],
+    [
+      "允许NDWI替代",
+      "8",
+      "summary",
+      "0.1580",
+      "511"
+    ],
+    [
+      "四川TVDI",
+      "5",
+      "summary, tvdi",
+      "0.8740",
+      "1024388"
+    ],
+    [
+      "成都TVDI",
+      "5",
+      "summary, tvdi",
+      "2.1553",
+      "3362512"
+    ]
+  ],
+  "semantic_result_widths": [
+    3.4,
+    1.5,
+    4.5,
+    3.0,
+    3.4
+  ],
+  "semantic_result_note": "展示normal-final中Agent组的单次代表运行；全部三组合同结论相同。算子秒为本地真实耗时之和；产品字节为请求产物的数据文件大小。needs_data不计为科学交付。",
+  "semantic_result_explanation": "模型时间与主机计时分开保存：actual_execution_wall_s包括校验、独立科学复算、执行、记账及模型回放，排除API规划；actual_tool_wall_s为算子耗时之和。nominal_source_file_bytes是每次load所引用完整源文件大小之和，既不是OS实际磁盘IO，也不是窗口解码字节。产物包大小包含实际数据文件，不含artifact.json。模型使用科学执行后已知的中间产物大小进行离线反事实回放，各策略共享同一信息，不能据此声称在线Agent或WM已学会预测中间量。",
+  "dag_examples": [
+    "同一Mead输入，“仅后期RGB”对应2节点，水体面积对应8节点，水体矢量与RGB对应11节点。差异发生在真实算子和依赖：快视图无需前期影像或指数，矢量图需要变化栅格与polygonize，不能靠重命名water_tile实现。",
+    "“面积＋RGB”与“仅面积”具有相同water_area目标标签，却分别需要10节点和8节点；外部图可显式增加显示支路而不执行多边形支路。NDVI下降采用另一组波段和差分统计链。严格缺B11的空图保持请求的summary需求，通过缺数据状态解释无法交付，而不是伪造零面积。"
+  ],
+  "model_method": "模型有A/C两个计算节点，源数据位于A，必需产物返回A视为完成。配置工作速率A为500000、C为4000000单位/秒，带宽20000000字节/秒，延迟0.005秒、算子启动0.01秒，内存预算各512 MiB。算子计算时长=像元数×工具工作系数/节点速率＋启动时间；依赖与源文件传输按字节/带宽、固定延迟及接触等待计算，并满足节点队列和资源保留约束。逐节点比较候选完成时刻并取较小者；当前步骤若直接产生必需产品，其返回A的时间计入评分，后继全路径不做联合最优求解。模型使用科学执行后已知的产物大小，预测等于声明真值，属于理想信息条件；未校准硬件，未计API规划延迟与费用、独立A→G下行、全局链路争用和丢包。表8、9及后续统计统一采用v2重放：当前策略可见已发生占用及释放时刻，预测策略还可见未开始事件。原45次科学记录与v2回放分开归档。",
+  "model_headers": [
+    "场景／任务",
+    "非Agent\n模型秒",
+    "Agent\n模型秒",
+    "Agent＋预测卸载\n模型秒"
+  ],
+  "model_rows": [
+    [
+      "常连通／水体面积",
+      "1.8925",
+      "1.8925",
+      "0.3268"
+    ],
+    [
+      "常连通／后期RGB快视",
+      "0.7700",
+      "0.7700",
+      "0.1560"
+    ],
+    [
+      "常连通／水体矢量＋RGB",
+      "3.6725",
+      "3.6725",
+      "0.5902"
+    ],
+    [
+      "未来闭链／水体面积",
+      "1.8925",
+      "1.8925",
+      "20.0050"
+    ],
+    [
+      "未来闭链／后期RGB快视",
+      "0.7700",
+      "0.7700",
+      "20.0187"
+    ],
+    [
+      "未来闭链／水体矢量＋RGB",
+      "3.6725",
+      "3.6725",
+      "20.0197"
+    ],
+    [
+      "未来本地占用／水体面积",
+      "16.8925",
+      "16.8925",
+      "0.3268"
+    ],
+    [
+      "未来本地占用／后期RGB快视",
+      "15.7700",
+      "15.7700",
+      "0.1560"
+    ],
+    [
+      "未来本地占用／水体矢量＋RGB",
+      "18.6725",
+      "18.6725",
+      "0.5902"
+    ],
+    [
+      "常连通／四川TVDI",
+      "113.9474",
+      "113.9474",
+      "14.3262"
+    ],
+    [
+      "常连通／成都TVDI",
+      "227.8447",
+      "227.8447",
+      "28.6067"
+    ]
+  ],
+  "model_widths": [
+    5.3,
+    3.2,
+    3.4,
+    3.9
+  ],
+  "model_note": "同一目标、同一图及产物合同；默认期限60模型秒。两套主批次每个条件运行一次，缺数据单列；后续分布实验按预设随机场景采样。",
+  "model_result_text": "常连通和未来本地占用条件下，动态执行降低了这组模型成本，但同动作集合的预测边际贡献为零，不能把联合差值全归功于WM。未来接触中断是明确负例：贪心预测方案将前段步骤放到远端，未充分考虑后续依赖和最终回传窗口，水体面积完成20.0050模型秒，远慢于全本地1.8925秒。无预测但支持事件等待的动态对照也能约20.0228秒完成；二者差仅约0.0178秒，而非可行与不可行。手写allowed_nodes=[A]的导入图保留同一科学结果并恢复1.8925秒；busy_local手写约束C可达0.3268秒，对照本地16.8925秒。这些构造图给出了全图规划需要识别的决策边界。",
+  "model_figure": {
+    "path": "figures/semantic_modeled_comparison.png",
+    "note": "三幅分别为常连通、未来接触间隙和未来本地保留。纵轴为模型秒；每个任务三组输出合同相同。未来接触场景保留联合方案明显更慢的负例。"
+  },
+  "legacy_result_text": "例如Mead正常场景中，固定128分块＋固定B交付5.370秒、负载6636739字节；粒度自适应＋固定B为5.262秒、6380067字节；固定128＋动态B/C为5.533秒、8279581字节；粒度自适应＋动态B/C为5.288秒、6380067字节。固定整幅＋固定B约5.195秒，同样6380067字节，说明正常场景下强整幅基线并不劣。这里的墙钟来自地面已验证交付时间，负载来自真实字节传送记录，与新语义层模型指标不可直接横比。",
+  "image_source_text": "本节图像全部来自最终normal-final的新语义执行产物或同批源波段的定量显示，图1概念示意除外。相同任务三组使用相同科学合同，代表图不表示调度方式改变了遥感现象。水体有效性仅依赖指数所需B03/B11及SCL，NDVI依赖B04/B08及SCL；旧V0还要求额外显示波段有效，因此Mead新统计51884有效像元和583新增像元，与旧51877和580的差别来自有效区合同，不能归功于调度或Agent。",
+  "limits": "本阶段的结论覆盖可执行图接口、真实科学计算和声明场景下的策略机制；自主规划成功率、未见任务泛化、API开销和学习预测误差由后续真实模型评测建立。新语义DAG当前在单主机串行执行，接入旧四进程运行时、真实轨道链路和硬件功耗校准仍是后续任务。当前15个工具限制了可表达任务空间。",
+  "reproduction_intro": "在代码仓库根目录使用独立Python环境安装requirements-lock.txt及可编辑包，按数据获取脚本准备缓存；数据与运行目录置于仓库外。先用fixture模式检查依赖和科学结果，再在用户本地配置真实API并为每个场景、每种预测可见性分别生成计划。以下命令与docs/semantic_harness.md一致，输出目录必须为空。",
+  "commands": [
+    "python -m pip install -r requirements-lock.txt",
+    "python -m pip install --no-deps -e .",
+    "export ORBITSERVE_DATA_ROOT=\"$HOME/.cache/orbitserve/data\"",
+    "python scripts/prepare_data.py --data-root \"$ORBITSERVE_DATA_ROOT\"",
+    "python scripts/run_semantic_comparison.py --mode fixtures --scenario normal --run-root runs/fixture-normal --model-controls",
+    "python scripts/run_semantic.py export-request --case-id water_area_mead --arm agent_only --output requests/area.json",
+    "python scripts/run_semantic.py call-api --case-id water_area_mead --arm agent_only --output plans/water_area_mead__normal__agent_only.json",
+    "python scripts/run_semantic.py call-api --case-id water_area_mead --arm agent_wm_offload --output plans/water_area_mead__normal__agent_wm_offload.json",
+    "python scripts/run_semantic_comparison.py --mode external --plans-dir plans --case-id water_area_mead --scenario normal --run-root runs/real-agent-area --model-controls"
+  ],
+  "credential_text": "真实调用前，仅在用户本地环境设置ORBITSERVE_API_KEY、完整chat/completions端点ORBITSERVE_API_ENDPOINT及模型ORBITSERVE_API_MODEL；不要把密钥写入JSON、命令参数、报告或Git。远程端点要求HTTPS，禁止重定向；仅localhost允许HTTP。适配器使用JSON-object响应和temperature=0，供应商不支持时应显式报错，不回落成mock。保存请求、计划与planning sidecar用于记录延迟和usage。未来场景需同时传入--scenario，计划文件名必须带CASE_ID__SCENARIO__agent_only或agent_wm_offload，避免跨场景误用计划。",
+  "delivery_headers": [
+    "交付项",
+    "定位与内容"
+  ],
+  "delivery_rows": [
+    [
+      "科学与计划代码",
+      "src/orbitserve/semantic.py、semantic_ops.py、semantic_quality.py、semantic_model.py"
+    ],
+    [
+      "脚本与案例",
+      "scripts/run_semantic.py、run_semantic_comparison.py；configs/semantic_cases.json"
+    ],
+    [
+      "提示词与合同",
+      "system_prompt.txt、tool_catalog.json、response_schema.json及requests/、fixtures/"
+    ],
+    [
+      "最终运行证据",
+      "normal-final/与focused-final/：manifest、metrics、model_controls/effects、每run计划和真实产物"
+    ],
+    [
+      "统计与模型重放",
+      "model-v2-replay/；world-sweep：预设协议、150world、1800轨迹、效应及整簇CI"
+    ],
+    [
+      "功能与反例审查",
+      "final-freeze/semantic_audit.json；semantic_invariance_probe.json；manual witnesses"
+    ],
+    [
+      "报告与图件",
+      "DOCX、PDF、可编辑Markdown/JSON、重建脚本、实际数据图和标注AI概念图"
+    ]
+  ],
+  "delivery_widths": [
+    4.1,
+    11.7
+  ],
+  "audit_text": "独立审查共30项功能与公平性检查通过，覆盖任意合法新图、真实中间依赖、负面输入、提示词不含既定替代答案、严格缺数据请求及无预测等待机制。统计独立复核另通过16项检查，复算240个效应量及480个区间端点一致。最终两套矩阵冻结同版源码与案例快照并记录哈希。旧中止矩阵、早期试运行和最终运行分目录保存；结论仅引用明确标记的最终批次。代码与报告由项目主流程归档到GitHub，原始影像及完整结果由项目主流程归档到Google Drive；共享位置以最终交付清单为准。",
+  "conclusion": "本阶段完成了目标差异到科学数据流的可执行接口、真实产品与策略评估基准。资源占用条件下联合方案具有大幅模型收益，常连通预测增量为零，闭链负例则揭示全图规划的必要性。后续重点是让真实Agent稳定识别这些任务结构与执行边界，并在校准环境中验证。",
+  "new_evidence_reference": "[9] 最终语义基准normal-final、focused-final的study_manifest.json、metrics.json、model_controls.json、model_effects.json与各run/result.json；final-freeze/semantic_audit.json；witnesses/summary.json。所有数字以随附冻结证据为准。 模型v2回放model-v2-replay/model_controls.json；统计分布protocol.json、worlds.json、summary.json、effects.csv和raw_results.jsonl，模型哈希61f22370e3773d6d469d833570e08b2c3b4951f71cf21e1ff7d99586f35cb6e8。 统计独立复核见statistical-review/world_sweep_audit.json（16项通过）。",
+  "ablation_rows": [
+    [
+      "常连通",
+      "1.8925",
+      "1.8925",
+      "0.3268",
+      "0.3268"
+    ],
+    [
+      "未来闭链",
+      "1.8925",
+      "1.8925",
+      "20.0228",
+      "20.0050"
+    ],
+    [
+      "未来本地占用",
+      "16.8925",
+      "16.8925",
+      "0.3268",
+      "0.3268"
+    ]
+  ],
+  "sweep_rows": [
+    [
+      "常连通",
+      "37.5%\n[31.5, 44.0]",
+      "0.0%\n[0.0, 0.0]",
+      "37.5%\n[31.5, 44.0]"
+    ],
+    [
+      "未来本地占用",
+      "40.3%\n[29.6, 51.1]",
+      "57.1%\n[46.3, 67.4]",
+      "95.7%\n[94.8, 96.5]"
+    ],
+    [
+      "未来闭链",
+      "-1111.5%\n[-1417.3, -835.3]",
+      "30.2%\n[20.5, 40.1]",
+      "-602.9%\n[-905.6, -343.7]"
+    ]
+  ],
+  "sweep_method": "为检验收益幅度而非停留于单一参数点，在执行前固定seed=20261017，每族独立抽取50个运行环境，共150个world；每world以相同资源与接触轨迹运行水体面积、RGB、矢量＋RGB三个真实DAG的四种策略，共1800次离线回放。A速率为25万至100万单位/秒、C/A为0.5至12、带宽为0.2至50 MB/s，均按对数均匀抽样；占用起点0.02至0.15秒、时长10至60秒，首接触0.01至0.2秒、闭链5至60秒，按均匀分布抽样。负结果和超期结果全部保留。",
+  "sweep_statistics": "相对节省=100×(对照完成时间−比较完成时间)/对照完成时间。先在world内对三个产品等权平均，再跨50个world求均值；按world整簇重抽样5000次，bootstrap seed=20261018，取逐项95%百分位区间（非多重比较同时区间）。独立样本量为每族50，非150个产品或450次运行。区间只描述声明合成参数分布的Monte Carlo不确定性，不扩展为实际卫星总体。",
+  "sweep_result": "未来本地占用族的联合方案平均节省95.7%模型时间（95%区间94.8%至96.5%），平均节省34.91秒。单独允许卸载节省40.3%（29.6%至51.1%）；在同样允许卸载后增加预测，进一步节省57.1%（46.3%至67.4%），对应21.28秒。联合对本地的全部150个产品配对均超过10%改进，预测对动态当前策略有60.7%的配对超过10%改进。两类百分比使用不同对照，不能直接相加。",
+  "sweep_negative": "常连通族的预测增量为0，联合节省37.5%来自执行选址。未来闭链族中，预测相对无预测动态策略平均节省30.2%（20.5%至40.1%），但联合方案相对强本地基线仍平均增加8.90模型秒，相对节省为−602.9%（−905.6%至−343.7%），37.3%的产品配对退化超过10%。较短本地任务使相对退化幅度很大，因此同时报告绝对秒差。该结果把研究重点指向全DAG依赖和回传窗口的联合规划。",
+  "sweep_deadline": "固定60模型秒期限下，本地占用族本地策略147/150按期、动态当前149/150、动态预测150/150；全部任务最终完成。常连通与未来闭链族各策略均150/150按期，因此本批主要证据是完成时间差异，不能把宽松期限下的满完成率解释成普适可行性优势。更紧期限网格属于后续敏感性扩展。"
+}

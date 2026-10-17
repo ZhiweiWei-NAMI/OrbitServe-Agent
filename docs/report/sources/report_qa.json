@@ -1,0 +1,24 @@
+{
+  "docx_format_status": "PASS",
+  "body_line_spacing": "exact 22 pt",
+  "figure_paragraphs": 6,
+  "figure_line_spacing": "single",
+  "requested_chinese_font": "宋体",
+  "requested_latin_font": "Times New Roman",
+  "pdf_actual_fonts": [
+    "Noto Serif CJK SC",
+    "Liberation Serif"
+  ],
+  "font_substitution_disclosed": true,
+  "tables": 12,
+  "review": "All rendered pages visually inspected; blank-page issue corrected before delivery.",
+  "pages": 22,
+  "all_pages_reviewed": true,
+  "reviewed_changed_pages": [
+    5,
+    11,
+    12,
+    15
+  ],
+  "display_rgb_reconstruction": "PASS: independently rebuilt from declared assets; exact equality with plotted RGB and validity arrays"
+}

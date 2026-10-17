@@ -103,3 +103,16 @@ identify the exact bundle. Inside it, replace `/workspace/shared/` in original
 records with the archive-relative `shared/` prefix; the included manifest maps
 and hashes every retained file. Raw source imagery is intentionally reacquired
 through `prepare-data` rather than included in the delivery.
+
+
+## Final research report
+
+The Chinese [research report](docs/report/report_source.md) includes the scientific
+motivation, executable task decomposition, complete evaluation protocol, paired
+performance results, remote-sensing products and local API reproduction steps.
+Download the [editable Word report](docs/report/OrbitServe_Agent_研究总结与实验报告.docx)
+or [22-page PDF](docs/report/OrbitServe_Agent_研究总结与实验报告.pdf).
+The [report package](docs/report/README.md) contains portable build scripts, source
+JSON/Markdown, six report figures, reviewed page previews and SHA-256 metadata.
+Report illustrations are included with the document; raw imagery and full run
+products remain in the linked project data and results folder.

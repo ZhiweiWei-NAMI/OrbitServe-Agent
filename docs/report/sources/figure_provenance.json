@@ -1,0 +1,37 @@
+{
+  "science_study": "normal-final",
+  "model_replay": "model-v2-replay",
+  "world_sweep": "150 worlds, 1800 replays; protocol seed 20261017; bootstrap seed 20261018",
+  "science_runs": {
+    "water_vector_rgb_mead": "normal-final/runs/004-water_vector_rgb_mead-normal-fixture_agent_only",
+    "ndvi_decline_shasta": "normal-final/runs/013-ndvi_decline_shasta-normal-fixture_agent_only",
+    "tvdi_sichuan_2021": "normal-final/runs/022-tvdi_sichuan_2021-normal-fixture_agent_only",
+    "tvdi_chengdu_2022": "normal-final/runs/027-tvdi_chengdu_2022-normal-fixture_agent_only"
+  },
+  "figures": [
+    {
+      "path": "figures/semantic_harness_imagegen_final.png",
+      "sha256": "400e1f557675a797bdc5231d29c72b604a55fc2fd07d3a32e552a3c1d2fe9918"
+    },
+    {
+      "path": "figures/semantic_modeled_comparison.png",
+      "sha256": "ccd06a7ae0262892ffe0c7bf2a5aef1581384a13449dd52aaebb53ea110ed265"
+    },
+    {
+      "path": "figures/semantic_world_sweep.png",
+      "sha256": "78433585d8c6e7eaa03d7a78055f9d26ae44e416b383d2b65a195c137b5be5de"
+    },
+    {
+      "path": "figures/semantic_mead_before_after_change.png",
+      "sha256": "09a5add346413f5fb2acb693e4c4a441c4a3b8f9662d8dd8f56e00d303b03d32"
+    },
+    {
+      "path": "figures/semantic_shasta_ndvi.png",
+      "sha256": "8fa194946e015c54072454fb9282e15c6603177c687300c16d0a35403a8913d9"
+    },
+    {
+      "path": "figures/semantic_tvdi_independent_aois.png",
+      "sha256": "b053de2ddbe9466395fef521fc502f702d5bf54aa1a41bca272dbb3d067ebf0c"
+    }
+  ]
+}
