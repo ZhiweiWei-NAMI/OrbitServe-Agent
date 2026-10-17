@@ -4,7 +4,7 @@ An explicitly bounded **prediction-interface-driven rule prototype** for remote-
 
 **Original-checklist V0 acceptance passed after re-audit on 2026-10-17.** The lead and independent reviewer each ran the full E0–E6 suite, exited 0, and passed 248 top-level checks. The re-audit added real imagery overlays, pending energy/storage reservations, baseline process-resource records and acquisition timestamps. See the [acceptance report](docs/acceptance_report.md) and [per-requirement evidence](evidence/acceptance_checklist.json). No learned model capability is implied.
 
-## Architecture
+## V0 architecture
 
 1. Observed resource/data state and a declared contact plan enter ForecastProvider.
 2. ForecastGraph describes future resource budgets and directed contact intervals.
@@ -13,7 +13,7 @@ An explicitly bounded **prediction-interface-driven rule prototype** for remote-
 5. A link broker routes control messages and file bytes. It enforces synthetic contacts and aggregate per-edge capacity; it does not choose execution destinations.
 6. The ground validates delivered products. Actual completion observations produce a new forecast consumed by a subsequent mission plan. This feedback experiment imports measured observations across fresh worker runs; it does not claim persistent constellation state. Ground-outage continuation is validated separately within one running mission.
 
-Learning-based WM, LLM planning and MARL are **not implemented or validated**. Unavailable modes must fail explicitly. Node hardware, resource budgets, contacts and energy use are modeled; this is not an in-orbit deployment or a calibrated orbital simulation.
+V0 uses no learned WM, LLM planner or MARL. The semantic harness below adds an optional external-model API interface; real-model planning quality remains unvalidated. Unavailable V0 modes fail explicitly. Node hardware, resource budgets, contacts and energy use are modeled; this is not an in-orbit deployment or a calibrated orbital simulation.
 
 ## Install
 
@@ -63,6 +63,32 @@ Public Earth-Bench question2 and question4 supply NDVI and LST products used for
 Three projected 5 km × 5 km Sentinel-2 L2A shoreline AOIs each contain two observation dates and B02/B03/B04/B08/B11/SCL. Continuous reflectance and categorical quality information have explicit resampling semantics. Water-change candidates use a fixed MNDWI threshold on the common valid observation mask. Unknown pixels remain unknown. Projected areas are reported in square metres.
 
 Results are GeoTIFF masks/indices, GeoJSON change candidates, a real RGB-plus-mask PNG overlay, and JSON statistics. Two georeferenced RGBA display products travel with tile outputs; the merge does not reopen original imagery. They demonstrate computational consistency, not externally validated flood-classification accuracy. See [acquisition](docs/data_acquisition.md), [science](docs/science_methods.md), [runtime](docs/runtime.md), and [planning](docs/planning.md).
+
+## Semantic task harness and comparative studies
+
+The [semantic harness](docs/semantic_harness.md) accepts a natural-language product
+request and an arbitrary typed DAG from an external agent, validates its dataflow,
+and executes real-pixel operators. [Nine case contracts](configs/semantic_cases.json)
+cover water statistics, vectors plus RGB, RGB-only, NDVI decline, strict missing
+data versus authorized fallback, TVDI, and composed products. Requests include a
+tool catalog and scientific contracts, without supplying the reference DAG.
+Use `scripts/run_semantic.py` for request export/API/import and
+`scripts/run_semantic_comparison.py` for non-agent, agent-only and
+agent+forecast+offloading comparisons. Local API setup is in the harness guide.
+
+The delivered fixture demonstration passed 45/45 contracts: 42 produced scientific
+results and 3 correct missing-data responses. The semantic scientific executor is
+currently serial; its two-node resource/contact schedules are a separate model.
+A [prespecified world-sensitivity study](docs/semantic_world_sweep.md), reproduced
+by `scripts/run_semantic_world_sweep.py`, evaluated 1,800 same-DAG schedules over
+150 sampled worlds. Busy-world combined modeled time savings averaged 95.68%
+(world-cluster 95% CI 94.82–96.46%); contact-closure worlds also retained substantial
+regressions. These intervals describe the declared synthetic distribution.
+See the [sanitized result summary](evidence/semantic_study_summary.json) and
+[stopped V0 comparison scope](docs/comparison_protocol.md). Complete datasets,
+products, prompts, plans and run evidence belong in the
+[project data and results folder](https://drive.google.com/drive/folders/1zqRXwZfPgHyBZBihPtFXalKdsulICg8T),
+not in this repository.
 
 ## Repository boundary
 

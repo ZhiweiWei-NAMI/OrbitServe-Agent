@@ -109,11 +109,14 @@ class Node:
     def decide(self,task,neighbors=None):
         obs=self.observation()
         ads=list(self.neighbors.values()) if neighbors is None else neighbors
+        policy_wall_start=time.perf_counter();policy_cpu_start=time.process_time()
         action=self.policy(obs,task,ads,self.forecast_view)
+        policy_wall_s=time.perf_counter()-policy_wall_start
+        policy_cpu_s=time.process_time()-policy_cpu_start
         self.emit('decisions',event='policy_decision',step_id=task.get('step_id'),job_id=task.get('job_id'),
                   local_observation=obs,received_neighbors=ads,task=task,decision=action,
                   action=action.get('action'),destination=action.get('destination'),
-                  observation_timestamp=obs['timestamp'])
+                  observation_timestamp=obs['timestamp'],policy_wall_s=policy_wall_s,policy_cpu_s=policy_cpu_s)
         return action
     def manifest(self,path):
         return [{'path':str(p.relative_to(path)),'size_bytes':p.stat().st_size,'sha256':digest(p)}

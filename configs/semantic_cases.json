@@ -1,0 +1,275 @@
+{
+  "schema_version": 1,
+  "benchmark_name": "OrbitServe prompt-driven semantic workflow cases",
+  "cases": [
+    {
+      "id": "water_area_mead",
+      "input_case": "cases/lake_mead",
+      "instruction": "请比较所提供米德湖同一AOI的前后两期水体，只交付一份JSON，给出新增水体、消失水体、净变化和共同有效观测面积，单位m²。水体定义固定为MNDWI=(B03-B11)/(B03+B11)>0；只在两期所需反射率有效、分母非零且SCL为4、5、6、7的共同有效像元上比较。保持原始20m网格与完整AOI；按资产元数据将DN转换为反射率且只应用一次。不要生成RGB、矢量或不需要的指数图，也不要将阈值候选变化宣称为已验证洪水。",
+      "goal": "water_area",
+      "required_outputs": [
+        "summary"
+      ],
+      "parameters": {
+        "threshold": 0.0,
+        "water_method": "MNDWI",
+        "valid_scl_classes": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "comparison_domain": "common_valid_original_grid",
+        "area_unit": "m2"
+      }
+    },
+    {
+      "id": "water_vector_rgb_mead",
+      "input_case": "cases/lake_mead",
+      "instruction": "请在所提供米德湖两期影像的完整AOI内交付水体变化成果包：新增与消失水体多边形GeoJSON、后期真彩色RGB PNG，以及JSON面积汇总。MNDWI水体定义为(B03-B11)/(B03+B11)>0，变化仅统计两期所需波段有效、分母非零且SCL属于4、5、6、7的共同有效域；保留20m原始计算网格。GeoJSON使用经纬度，面积属性使用投影网格计算的m²。RGB采用后期B04/B03/B02固定0到0.3反射率线性伸展，无效像元透明。需要真实矢量和RGB产品，不能用只有统计数字的成果替代。结果标为候选水体变化。",
+      "goal": "water_map",
+      "required_outputs": [
+        "summary",
+        "polygons",
+        "rgb"
+      ],
+      "parameters": {
+        "threshold": 0.0,
+        "water_method": "MNDWI",
+        "valid_scl_classes": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "comparison_domain": "common_valid_original_grid",
+        "rgb_phase": "after",
+        "rgb_reflectance_max": 0.3,
+        "vector_crs": "EPSG:4326",
+        "area_unit": "m2"
+      }
+    },
+    {
+      "id": "water_area_rgb_composition_mead",
+      "input_case": "cases/lake_mead",
+      "instruction": "这次请同时交付米德湖两期水体变化的JSON面积汇总和后期真彩色RGB PNG，但明确不需要任何多边形或GeoJSON。面积采用MNDWI=(B03-B11)/(B03+B11)>0，只在两期所需反射率有效、分母非零且SCL为4、5、6、7的共同有效域比较，报告新增、消失、净变化与有效面积m²；保持完整AOI原始20m网格。RGB仅用后期B04/B03/B02，固定0到0.3反射率线性伸展，无效像元透明，原始250×250显示。所有DN比例和偏移按资产元数据只应用一次。两个输出都必须真实生成，禁止用水体矢量包或单独统计替代。",
+      "goal": "water_area",
+      "required_outputs": [
+        "summary",
+        "rgb"
+      ],
+      "parameters": {
+        "threshold": 0.0,
+        "water_method": "MNDWI",
+        "valid_scl_classes": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "comparison_domain": "common_valid_original_grid",
+        "area_unit": "m2",
+        "rgb_phase": "after",
+        "rgb_reflectance_max": 0.3,
+        "output_grid": "original"
+      }
+    },
+    {
+      "id": "rgb_quicklook_mead",
+      "input_case": "cases/lake_mead",
+      "instruction": "我只需要所提供米德湖后期影像的真彩色快速浏览图，交付一张原始250×250像元PNG。用后期B04、B03、B02作为红绿蓝，按资产元数据解码后采用0到0.3反射率固定线性伸展，无效像元透明。不要读取或处理前期影像，不做水体分类、变化检测、NDVI、TVDI、矢量化或云分类。此图只是显示产品，不宣称提高空间分辨率。",
+      "goal": "rgb",
+      "required_outputs": [
+        "rgb"
+      ],
+      "parameters": {
+        "rgb_phase": "after",
+        "rgb_reflectance_max": 0.3,
+        "output_grid": "original",
+        "cloud_mask_requested": false
+      }
+    },
+    {
+      "id": "ndvi_decline_shasta",
+      "input_case": "cases/lake_shasta",
+      "instruction": "请评估所提供沙斯塔湖AOI两期影像的植被指数下降，交付after-before的NDVI差值GeoTIFF和一份JSON，报告共同有效像元的平均差值、差值<=-0.15的面积以及有效观测面积。NDVI=(B08-B04)/(B08+B04)，两期必须使用同一共同有效域：B04/B08反射率有效、分母非零且SCL属于4、5、6、7；无效处保留nodata。保持完整AOI和原始20m网格，DN比例和偏移仅按元数据应用一次。不要用不同有效范围的两期均值相减，也不要计算水体指标或将指数下降直接解释为植被损失事实。",
+      "goal": "ndvi_decline",
+      "required_outputs": [
+        "summary",
+        "delta"
+      ],
+      "parameters": {
+        "decline_threshold": -0.15,
+        "decline_comparison": "less_than_or_equal",
+        "valid_scl_classes": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "comparison_domain": "common_valid_original_grid",
+        "area_unit": "m2"
+      }
+    },
+    {
+      "id": "missing_b11_strict_mead",
+      "input_case": "cases/lake_mead",
+      "instruction": "请按MNDWI=(B03-B11)/(B03+B11)>0比较米德湖两期水体面积变化，单位m²，保持完整AOI和共同有效域。但只能使用本次提供的资产清单；若必需数据缺失，明确返回needs_data，指出缺少哪个波段和时相，不得虚构影像、数值或成功产品。本任务不允许改用NDWI或其他指数，不允许偷偷读取清单外文件，也不假设能够完成远程采集。",
+      "goal": "missing_mndwi",
+      "required_outputs": [],
+      "parameters": {
+        "threshold": 0.0,
+        "water_method": "MNDWI",
+        "valid_scl_classes": [
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "withheld_bands": [
+        "B11"
+      ],
+      "allow_fallback": false
+    },
+    {
+      "id": "missing_b11_ndwi_mead",
+      "input_case": "cases/lake_mead",
+      "instruction": "请比较米德湖两期水体候选面积变化，只交付JSON。优先使用MNDWI>0；如果提供清单缺少B11，我明确允许改用NDWI=(B03-B08)/(B03+B08)>0。替代时必须在JSON中声明实际方法、替代原因和阈值，不能把NDWI结果写成MNDWI，也不声称两种方法等价。按实际采用指数所需波段及SCL为4、5、6、7计算共同有效域，报告新增、消失、净变化、有效观测面积m²，保持完整20m原网格。只能使用清单内真实资产，不要采集或虚构缺失波段。",
+      "goal": "water_area_ndwi",
+      "required_outputs": [
+        "summary"
+      ],
+      "parameters": {
+        "threshold": 0.0,
+        "water_method": "NDWI",
+        "preferred_method": "MNDWI",
+        "fallback_reason": "B11 absent from visible asset manifest",
+        "valid_scl_classes": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "comparison_domain": "common_valid_original_grid",
+        "area_unit": "m2"
+      },
+      "withheld_bands": [
+        "B11"
+      ],
+      "allow_fallback": true
+    },
+    {
+      "id": "tvdi_sichuan_2021",
+      "input_case": "earthbench/question2",
+      "instruction": "请使用所提供四川平原2021-07-12的NDVI和LST产品，交付TVDI GeoTIFF与JSON，给出有效像元中TVDI>0.75的比例。按各资产比例和偏移解码且只应用一次；在完整AOI的有效NDVI∈[0,1]、LST>0配对样本上，将NDVI范围等分100箱，包含右端最大值，采用非空箱温度最小值和最大值拟合全域湿边与干边，TVDI裁剪到[0,1]，非正干湿温差无效。不能各tile独立重拟合边界。输入NDVI是已有产品，不要虚构红光/近红外反演；30m是重采样网格，源MODIS NDVI/LST的空间分辨率是250m/1km，不得宣称30m物理监测精度。不要与另一不同AOI的数据直接作逐像元时间差分。",
+      "goal": "tvdi",
+      "required_outputs": [
+        "summary",
+        "tvdi"
+      ],
+      "parameters": {
+        "threshold": 0.75,
+        "n_bins": 100,
+        "fit_scope": "full_original_aoi",
+        "include_ndvi_maximum": true,
+        "source_resolution_note": "NDVI250m_LST1000m_resampled_grid30m"
+      }
+    },
+    {
+      "id": "tvdi_chengdu_2022",
+      "input_case": "earthbench/question4",
+      "instruction": "请使用所提供成都及周边2022-08-13的NDVI和LST产品，交付TVDI GeoTIFF与JSON，报告有效像元中TVDI>0.75的比例。按资产元数据一次性解码，在完整AOI有效NDVI∈[0,1]、LST>0配对样本上等分100个NDVI箱并包含最大值，由非空箱温度极值拟合全域干边与湿边，TVDI裁剪[0,1]，非正干湿温差和输入无效像元排除。全域拟合范围不能因切片改变。本任务独立计算当前AOI，不能将其与四川2021不同网格/AOI的结果直接逐像元相减。说明源NDVI/LST分辨率250m/1km与30m重采样网格的区别；不把阈值比例称为地面验证的旱灾准确率。",
+      "goal": "tvdi",
+      "required_outputs": [
+        "summary",
+        "tvdi"
+      ],
+      "parameters": {
+        "threshold": 0.75,
+        "n_bins": 100,
+        "fit_scope": "full_original_aoi",
+        "include_ndvi_maximum": true,
+        "source_resolution_note": "NDVI250m_LST1000m_resampled_grid30m"
+      }
+    }
+  ],
+  "benchmark_notes": {
+    "scope": "Nine cases across six task families plus an additional composed-product requirement; two missing-band variants and two scientifically independent TVDI inputs.",
+    "mock_boundary": "Fixture plans exercise the adapter, typed DAG executor and validators. They are not evidence of intelligent model planning or inference quality.",
+    "baseline": "A competent goal-specific fixed recipe is a correctness baseline. It is not forced to perform unrelated products or use an incapable node.",
+    "scientific_parameters": "Thresholds, stretch and fitting rules are fixed benchmark contracts, not universally validated geoscientific defaults.",
+    "no_reference_answers": "Instructions contain requirements and method contracts, but no expected numerical answers or prescribed operator DAG.",
+    "prompt_export_boundary": "Only instructions, required outputs, task parameters, permitted fallback and actually visible assets/capabilities are planner inputs. Exclude evaluation_contracts and causal_hypotheses from prompt exports.",
+    "source_timing_boundary": "Actual local file/tool wall time must be reported separately from discrete-event modeled placement/contact completion time.",
+    "composition_boundary": "The water_area + RGB/no-vector case tests requirement composition with existing operators, not unseen-LLM generalization; fixture replay is not a held-out intelligent planner evaluation."
+  },
+  "evaluation_contracts": {
+    "water_area_mead": [
+      "Correct common-valid mask",
+      "MNDWI method identity",
+      "JSON areas derived from full original grid",
+      "No required output omitted"
+    ],
+    "water_vector_rgb_mead": [
+      "Same water semantics as area-only case",
+      "Real gained/lost polygons with geometric area checks",
+      "Geographic GeoJSON coordinates",
+      "Real after RGB image",
+      "All three requested roles delivered"
+    ],
+    "rgb_quicklook_mead": [
+      "Only after RGB band dependencies",
+      "Fixed stretch and nodata transparency",
+      "Original dimensions",
+      "No fabricated spectral or time-series products"
+    ],
+    "ndvi_decline_shasta": [
+      "Per-pixel after-minus-before on common-valid intersection",
+      "Inclusive decline threshold",
+      "Nodata preserved in delta raster",
+      "Projected area units"
+    ],
+    "missing_b11_strict_mead": [
+      "Correct needs_data response is valid",
+      "No fabricated image or summary",
+      "No out-of-manifest B11 read",
+      "No unauthorized method fallback"
+    ],
+    "missing_b11_ndwi_mead": [
+      "Only authorized NDWI fallback",
+      "Actual method and fallback reason explicit",
+      "No out-of-manifest B11 read",
+      "Correct NDWI-specific common-valid domain"
+    ],
+    "tvdi_sichuan_2021": [
+      "Scale and offset exactly once",
+      "Global fit invariant to execution partitioning",
+      "Valid percentage denominator",
+      "No physical30m resolution claim"
+    ],
+    "tvdi_chengdu_2022": [
+      "Scale and offset exactly once",
+      "Global fit invariant to execution partitioning",
+      "Valid percentage denominator",
+      "No mismatched-AOI temporal difference"
+    ],
+    "water_area_rgb_composition_mead": [
+      "Same goal as scalar-only case but additional RGB output required",
+      "Both summary and after RGB delivered",
+      "No polygon requirement silently substituted",
+      "All original-grid and method contracts retained"
+    ]
+  },
+  "causal_hypotheses": {
+    "water_area_mead": "A scalar-only request permits local reductions and small delivered summaries; gain requires suitable data locality and constrained links, not semantic renaming.",
+    "water_vector_rgb_mead": "Vector and RGB requirements force multiple meaningful output branches and larger results; a statistics-only shortcut is invalid.",
+    "rgb_quicklook_mead": "Only the requested phase and bands are scientifically needed. A competent fixed RGB recipe may equal a semantic planner; no guaranteed advantage.",
+    "ndvi_decline_shasta": "The requested operation changes spectral dependencies and comparison semantics; reusing a water template cannot satisfy it.",
+    "missing_b11_strict_mead": "Correct refusal to invent a result distinguishes feasibility reasoning from automatic execution success.",
+    "missing_b11_ndwi_mead": "Explicit permission changes the feasible method set and therefore the executable graph; the output must retain method identity.",
+    "tvdi_sichuan_2021": "Large supplied grids make intermediate placement potentially relevant, while global fitting is a scientific dependency that cannot be sacrificed for speed.",
+    "tvdi_chengdu_2022": "The larger independent AOI can expose modelled compute/transfer trade-offs without inventing a matched time series.",
+    "water_area_rgb_composition_mead": "The same goal label with a different output set requires a different graph; a goal-only case router cannot satisfy both contracts. A valid fixed generic composition recipe may tie the semantic planner."
+  }
+}

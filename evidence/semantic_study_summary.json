@@ -1,0 +1,220 @@
+{
+  "data_and_full_results_url": "https://drive.google.com/drive/folders/1zqRXwZfPgHyBZBihPtFXalKdsulICg8T",
+  "date_utc": "2026-10-17",
+  "evidence_kind": "fixture_science_and_synthetic_world_sensitivity",
+  "independent_review": {
+    "protocol_sha256": "a2304db4e5ed437eb4f28f4d3ffe64eac0d4d68e276b27a263bbf951c60990eb",
+    "raw_results_sha256": "bc9b0ffc6d276c8a6d9e5aaa2c3821c4f3976f01aafc9b07d65904f54939dfd2",
+    "semantic_checks": 30,
+    "semantic_status": "PASS",
+    "statistical_checks_passed": 16,
+    "statistical_checks_total": 16,
+    "statistical_status": "PASS"
+  },
+  "limitations": [
+    "Perfect mock forecast and uncalibrated compute/network assumptions.",
+    "Required products available at source A define modeled completion; no independent ground downlink.",
+    "Global link contention and packet loss are not represented.",
+    "Strong goal-aware recipes and fixture agent-only use the same graphs.",
+    "Host execution time is distinct from modeled completion time."
+  ],
+  "model_replay": {
+    "control_schedules": 180,
+    "model_version": "explicit-event-model-2-current-busy-observation",
+    "new_scientific_runs": 0,
+    "source_scientific_results": 45,
+    "source_sha256": "61f22370e3773d6d469d833570e08b2c3b4951f71cf21e1ff7d99586f35cb6e8"
+  },
+  "original_v0_comparison": {
+    "actual_delivered": 48,
+    "canceled_planned_outcomes": 111,
+    "executed_repetitions": "first repetition only",
+    "outcomes": 51,
+    "preflight_infeasible": 3,
+    "supplementary_runs_executed": 0
+  },
+  "real_model_calls": 0,
+  "schema_version": 1,
+  "science": {
+    "attempts": 45,
+    "contract_passes": 45,
+    "correct_needs_data": 3,
+    "fixture_meaning": "Explicit deterministic recipe replay; arbitrary external DAG interface exists but real-agent planning quality is unmeasured",
+    "focused_attempts": 18,
+    "normal_attempts": 27,
+    "produced_results": 42,
+    "quality_meaning": "Independent implementation and product-contract consistency, not field-label accuracy",
+    "repetitions": 1,
+    "source_inventory_sha256": "f12ba9baebac58f49c84405982ebc5714350ddbf4f831f44c7d4c3e2d8f6921e"
+  },
+  "world_sweep": {
+    "CI": "95% percentile world-cluster bootstrap over prespecified synthetic draws; no empirical satellite generalization",
+    "aggregation": "Three product paired effects equally weighted within each world, then averaged over 50 worlds per family",
+    "bootstrap_resamples": 5000,
+    "bootstrap_seed": 20261018,
+    "completed": 1800,
+    "controls_per_world_product": 4,
+    "forecast_without_offloading": "Zero difference in all three scenario families",
+    "missed_60s_deadlines": 7,
+    "pooled_effects": [
+      {
+        "comparison": "offloading_without_forecast",
+        "degraded_over_10pct_fraction": 0.0,
+        "family": "normal",
+        "improved_over_10pct_fraction": 0.7333333333333333,
+        "mean_percentage_saved": 37.53389697100005,
+        "mean_seconds_saved": 1.121477490244167,
+        "percentage_saved_CI95": [
+          31.453882198344694,
+          44.00087293624823
+        ],
+        "seconds_saved_CI95": [
+          0.8943640334449177,
+          1.3710236282715937
+        ],
+        "worlds": 50
+      },
+      {
+        "comparison": "incremental_forecast",
+        "degraded_over_10pct_fraction": 0.0,
+        "family": "normal",
+        "improved_over_10pct_fraction": 0.0,
+        "mean_percentage_saved": 0.0,
+        "mean_seconds_saved": 0.0,
+        "percentage_saved_CI95": [
+          0.0,
+          0.0
+        ],
+        "seconds_saved_CI95": [
+          0.0,
+          0.0
+        ],
+        "worlds": 50
+      },
+      {
+        "comparison": "forecast_plus_offloading",
+        "degraded_over_10pct_fraction": 0.0,
+        "family": "normal",
+        "improved_over_10pct_fraction": 0.7333333333333333,
+        "mean_percentage_saved": 37.53389697100005,
+        "mean_seconds_saved": 1.121477490244167,
+        "percentage_saved_CI95": [
+          31.453882198344694,
+          44.00087293624823
+        ],
+        "seconds_saved_CI95": [
+          0.8943640334449177,
+          1.3710236282715937
+        ],
+        "worlds": 50
+      },
+      {
+        "comparison": "offloading_without_forecast",
+        "degraded_over_10pct_fraction": 0.0,
+        "family": "busy_local",
+        "improved_over_10pct_fraction": 0.4133333333333333,
+        "mean_percentage_saved": 40.28635408752123,
+        "mean_seconds_saved": 13.627570532606324,
+        "percentage_saved_CI95": [
+          29.60532982259946,
+          51.11776535853443
+        ],
+        "seconds_saved_CI95": [
+          9.800707920479578,
+          17.75605314815637
+        ],
+        "worlds": 50
+      },
+      {
+        "comparison": "incremental_forecast",
+        "degraded_over_10pct_fraction": 0.0,
+        "family": "busy_local",
+        "improved_over_10pct_fraction": 0.6066666666666667,
+        "mean_percentage_saved": 57.050943064755465,
+        "mean_seconds_saved": 21.281335411970957,
+        "percentage_saved_CI95": [
+          46.34757176276338,
+          67.37065783472245
+        ],
+        "seconds_saved_CI95": [
+          16.610191433104568,
+          26.08267644222308
+        ],
+        "worlds": 50
+      },
+      {
+        "comparison": "forecast_plus_offloading",
+        "degraded_over_10pct_fraction": 0.0,
+        "family": "busy_local",
+        "improved_over_10pct_fraction": 1.0,
+        "mean_percentage_saved": 95.67585123483242,
+        "mean_seconds_saved": 34.908905944577285,
+        "percentage_saved_CI95": [
+          94.81543218820123,
+          96.45911295656045
+        ],
+        "seconds_saved_CI95": [
+          31.547888145032086,
+          38.40407755245118
+        ],
+        "worlds": 50
+      },
+      {
+        "comparison": "offloading_without_forecast",
+        "degraded_over_10pct_fraction": 0.7133333333333333,
+        "family": "future_contact",
+        "improved_over_10pct_fraction": 0.006666666666666666,
+        "mean_percentage_saved": -1111.4616659119054,
+        "mean_seconds_saved": -20.09057238514897,
+        "percentage_saved_CI95": [
+          -1417.2998053878894,
+          -835.3441436431516
+        ],
+        "seconds_saved_CI95": [
+          -24.65321503732182,
+          -15.83500005159902
+        ],
+        "worlds": 50
+      },
+      {
+        "comparison": "incremental_forecast",
+        "degraded_over_10pct_fraction": 0.0,
+        "family": "future_contact",
+        "improved_over_10pct_fraction": 0.3466666666666666,
+        "mean_percentage_saved": 30.19920211447936,
+        "mean_seconds_saved": 11.1945229617934,
+        "percentage_saved_CI95": [
+          20.537833894859702,
+          40.12331834412476
+        ],
+        "seconds_saved_CI95": [
+          6.719993012261382,
+          15.939246165030326
+        ],
+        "worlds": 50
+      },
+      {
+        "comparison": "forecast_plus_offloading",
+        "degraded_over_10pct_fraction": 0.37333333333333335,
+        "family": "future_contact",
+        "improved_over_10pct_fraction": 0.006666666666666666,
+        "mean_percentage_saved": -602.876376353549,
+        "mean_seconds_saved": -8.896049423355565,
+        "percentage_saved_CI95": [
+          -905.6266172884198,
+          -343.70897269876946
+        ],
+        "seconds_saved_CI95": [
+          -12.723856615964857,
+          -5.399207881647985
+        ],
+        "worlds": 50
+      }
+    ],
+    "products_per_world": 3,
+    "seed": 20261017,
+    "simulations": 1800,
+    "worlds_per_family": 50,
+    "worlds_total": 150
+  }
+}
