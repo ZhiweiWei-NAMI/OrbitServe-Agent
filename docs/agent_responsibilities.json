@@ -1,33 +1,40 @@
 {
+  "reopened_original_acceptance": "2026-10-17",
   "A00": {
     "task_id": "/root/build_orbitserve_rule_prototype",
-    "scope": "contracts, integration, harness, CLI, manifests, final evidence",
+    "scope": "contracts, runtime reservation fix, harness, CLI, integration, formal acceptance, final report",
     "status": "PASS"
   },
   "A01": {
-    "task_id": "/root/build_orbitserve_rule_prototype/acquire_real_satellite_data",
-    "scope": "data acquisition and provenance",
+    "task_id": "/root/build_orbitserve_rule_prototype/restore_orbitserve_public_inputs",
+    "scope": "cold public inputs, timestamp provenance, historical encoding comparison",
+    "worktree": "OrbitServe-Agent-data-provenance",
     "status": "PASS"
   },
   "A02": {
-    "task_id": "/root/build_orbitserve_rule_prototype/implement_remote_sensing_operators",
-    "scope": "real science operators",
+    "task_id": "/root/build_orbitserve_rule_prototype/add_real_imagery_overlays",
+    "scope": "true RGB display products, full/tile scientific preservation and visual review",
+    "worktree": "OrbitServe-Agent-overlay",
     "status": "PASS"
   },
   "A03_A05": {
-    "task_id": "/root/build_orbitserve_rule_prototype/implement_isolated_node_runtime",
-    "scope": "four-process runtime, admission, constrained transport",
+    "task_id": "/root/build_orbitserve_rule_prototype",
+    "scope": "pending energy/storage reservations and actual resource-boundary run",
     "status": "PASS"
   },
-  "A04_A05": {
+  "A04": {
     "task_id": "/root/build_orbitserve_rule_prototype/implement_forecast_planning_policy",
-    "scope": "analytical forecast, DAG planner, node-local rule policy",
-    "status": "PASS",
-    "notes": "Module checks and formal executed E2 acceptance passed."
+    "scope": "original forecast/planning/policy implementation; lead updated explicit overlay data estimates",
+    "status": "PASS"
   },
   "A06": {
-    "task_id": "/root/build_orbitserve_rule_prototype/verify_orbitserve_acceptance",
-    "scope": "independent scientific and runtime verification",
+    "task_id": "/root/audit_original_orbitserve_checklist",
+    "scope": "original clause audit, independent pixel/resource verification, four README commands and fresh full suite",
+    "worktree": "OrbitServe-Agent-audit",
     "status": "PASS"
+  },
+  "root_review": {
+    "task_id": "/root",
+    "scope": "read complete code diffs, inspect actual manifests/logs and delivered PNG, authorize publication after review"
   }
 }

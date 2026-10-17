@@ -49,7 +49,7 @@ def code_inventory():
     root=Path(__file__).resolve().parents[2]
     rows=[]
     for d in ['src','configs','scripts','contracts']:
-        rows += [{'path':str(p.relative_to(root)), 'sha256':sha256(p)} for p in sorted((root/d).rglob('*')) if p.is_file() and '__pycache__' not in p.parts]
+        rows += [{'path':str(p.relative_to(root)), 'sha256':sha256(p)} for p in sorted((root/d).rglob('*')) if p.is_file() and '__pycache__' not in p.parts and not any(part.endswith('.egg-info') for part in p.parts)]
     try: revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,stderr=subprocess.DEVNULL,text=True).strip()
     except (subprocess.CalledProcessError,FileNotFoundError): revision='uncommitted'
     return {'git_revision':revision,'source_sha256':canonical_hash(rows),'source_files':rows}
@@ -69,4 +69,12 @@ def finish_manifest(run_dir, status, **kwargs):
     m=json.loads(p.read_text())
     m.update(status=status,finished_at=datetime.now(timezone.utc).isoformat(),**kwargs)
     write_json(p,m)
+    summary=[f'# {m["run_id"]}',f'Status: {status}',f'Experiment: {m["experiment"]}',
+             'Command: '+json.dumps(m['command']), 'Code: '+m['code']['git_revision'],
+             'Source inventory SHA-256: '+m['code']['source_sha256'],
+             'Configuration SHA-256: '+m['configuration_sha256'],
+             'Details: run_manifest.json; acceptance.json; tool_calls.jsonl; transfers.jsonl; node_events.jsonl']
+    if kwargs.get('outputs_dir'): summary.append('Delivered products: '+str(kwargs['outputs_dir']))
+    if kwargs.get('failure_reason'): summary.append('Failure: '+str(kwargs['failure_reason']))
+    (Path(run_dir)/'summary.md').write_text('\n\n'.join(summary)+'\n')
     return m

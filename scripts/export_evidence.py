@@ -53,10 +53,10 @@ def summarize(suite_dir,output_dir):
     data=Path(read(suite/'run_manifest.json')['configuration']['data_root']);acq=read(data/'acquisition_manifest.json')
     inputs=[]
     for c in acq['earthbench']+acq['cases']:
-        inputs.append({'case_id':c['case_id'],'assets':[{k:a[k] for k in ('path','phase','band','sha256','bytes','source','item_id','observation_time','scale','offset','reported_offset','earthsearch_boa_offset_applied','scaling_authority_url') if k in a} for a in c['assets']]})
+        inputs.append({'case_id':c['case_id'],'assets':[{k:a[k] for k in ('path','phase','band','sha256','bytes','source','item_id','observation_time','observation_time_precision','acquired_at','acquisition_time_basis','scale','offset','reported_offset','earthsearch_boa_offset_applied','scaling_authority_url') if k in a} for a in c['assets']]})
     ledger=log(data/'acquisition.jsonl')
     network_bytes=sum(e.get('network_body_bytes',0) for e in ledger if e.get('event')=='http_range')
-    write(out/'data_manifest_summary.json',{'input_raster_bytes':acq['input_bytes'],'successful_cog_response_body_bytes_including_interrupted_attempt':network_bytes,'retained_asset_range_body_bytes':acq['cog_network_body_bytes'],'acquisition_run_id':acq['run_id'],'earthbench_revision':acq['earthbench_revision'],'earth_agent_revision':acq['earth_agent_revision'],'inputs':inputs,'reference_answers_in_repository':False})
+    write(out/'data_manifest_summary.json',{'input_raster_bytes':acq['input_bytes'],'successful_cog_response_body_bytes_including_interrupted_attempt':network_bytes,'latest_acquisition_cog_body_bytes':acq['cog_network_body_bytes'],'retained_asset_range_body_bytes':sum(a.get('original_acquisition_network_body_bytes',a.get('network_body_bytes',0)) for c in acq['cases'] for a in c['assets']),'acquisition_run_id':acq['run_id'],'earthbench_revision':acq['earthbench_revision'],'earth_agent_revision':acq['earth_agent_revision'],'inputs':inputs,'reference_answers_in_repository':False})
     print(json.dumps({'status':'PASS','suite_id':suite.name,'files':['acceptance_summary.json','data_manifest_summary.json']}))
 
 if __name__=='__main__':

@@ -1,0 +1,444 @@
+{
+  "status": "PASS",
+  "scope": "Original V0 rule-prototype acceptance; not learned-model completion or durable-publication certification",
+  "original_inputs": [
+    {
+      "name": "卫星遥感Agent原型_执行规约与验收清单(1).md",
+      "sha256": "37d5f386672775bc65c8315e7557f57303e26943b72415a8f522d2932f1a5168"
+    },
+    {
+      "name": "卫星遥感Agent原型_派工与验收模板(1).json",
+      "sha256": "29bdc4c725cb3188b86216bf76549444159ed347f2480dc5fe3439ada4a48d78"
+    },
+    {
+      "name": "粘贴的文本(2).md",
+      "sha256": "68cb6d029c6ea3a3ec6be5704546e5d26353d5696aeed73f126a0bdd1f0287af"
+    }
+  ],
+  "tested_compute_commit": "dc5fa469d08479c9d2a48cee850a542605e43aae",
+  "independent_suite_id": "20261017T002828Z-acceptance-cbb560f2",
+  "checks": [
+    {
+      "check_id": "A00",
+      "status": "PASS",
+      "original_clause": "§0,§3,W00",
+      "observed": "Native task/worktree identity, frozen source and current environment recorded",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/commands/prepare_nodes_proof.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002828Z-E0-84c45b68"
+      ],
+      "expected": "环境、独立目录、版本、原生子代理任务ID和责任表可检查。"
+    },
+    {
+      "check_id": "A01",
+      "status": "PASS",
+      "original_clause": "D01–D02",
+      "observed": "40 real input rasters, three dual-date AOIs, source hashes and actual acquisition times independently checked",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/commands/prepare_nodes_proof.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002828Z-E0-84c45b68"
+      ],
+      "expected": "两个Earth-Bench案例及三个双时相AOI数据包存在；来源、元数据和SHA-256可核验。"
+    },
+    {
+      "check_id": "A02",
+      "status": "PASS",
+      "original_clause": "D01,A02",
+      "observed": "Runtime input whitelists isolate reference material; question100 excluded",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002833Z-E1-68e4b67c/acceptance.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002828Z-E0-84c45b68",
+        "20261017T002833Z-E1-68e4b67c",
+        "20261017T002838Z-E1-0e67cf81",
+        "20261017T002844Z-E1-31004f32"
+      ],
+      "expected": "参考答案与运行环境隔离，question100未被未经说明地纳入通过案例，无查表科学结果。"
+    },
+    {
+      "check_id": "A03",
+      "status": "PASS",
+      "original_clause": "D03,E0",
+      "observed": "Both Earth-Bench cases and all 3 AOIs independently recomputed from actual source pixels",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002828Z-E0-84c45b68/acceptance.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002828Z-E0-84c45b68"
+      ],
+      "expected": "两个小案例和三个AOI均真实计算并输出对应产品。"
+    },
+    {
+      "check_id": "A04",
+      "status": "PASS",
+      "original_clause": "D04,E0",
+      "observed": "Scaling/grid/validity/areas, vector back-rasterization and genuine RGB overlays checked",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/visual_delivery_evidence.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002828Z-E0-84c45b68",
+        "20261017T002833Z-E1-68e4b67c",
+        "20261017T002838Z-E1-0e67cf81",
+        "20261017T002844Z-E1-31004f32",
+        "20261017T002851Z-E2-whole-26d296e1",
+        "20261017T002856Z-E2-tiled-938d00ce"
+      ],
+      "expected": "缩放、配准、共同有效区、未知区域、分类守恒和面积通过独立重算。"
+    },
+    {
+      "check_id": "A05",
+      "status": "PASS",
+      "original_clause": "§4.4",
+      "observed": "Input/output hashes, lifecycle/error handling and measured E0 resource observations checked",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002828Z-E0-84c45b68/tool_calls.jsonl"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002828Z-E0-84c45b68",
+        "20261017T002833Z-E1-68e4b67c",
+        "20261017T002838Z-E1-0e67cf81",
+        "20261017T002844Z-E1-31004f32"
+      ],
+      "expected": "调用参数、执行节点、状态、产物引用与失败原因可以追踪；无伪成功。"
+    },
+    {
+      "check_id": "A06",
+      "status": "PASS",
+      "original_clause": "§4.1",
+      "observed": "Actual completion feedback creates fresh consumed forecasts; cross-mission boundary disclosed",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002828Z-acceptance-cbb560f2/suite_manifest.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002833Z-E1-68e4b67c",
+        "20261017T002838Z-E1-0e67cf81",
+        "20261017T002844Z-E1-31004f32"
+      ],
+      "expected": "预测时域和来源明确；至少一次实际反馈生成新预测并被后续规划消费；未把参考预测冒充学习WM。"
+    },
+    {
+      "check_id": "A07",
+      "status": "PASS",
+      "original_clause": "§4.2,E2",
+      "observed": "Identical current observations; future-only fixtures change2-step whole vs5-step tiled actual DAGs with equal products",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002828Z-acceptance-cbb560f2/acceptance.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002851Z-E2-whole-26d296e1",
+        "20261017T002856Z-E2-tiled-938d00ce"
+      ],
+      "expected": "E2只变更未来预测即改变实际DAG粒度，两套计划实际执行且科学结果等价。"
+    },
+    {
+      "check_id": "A08",
+      "status": "PASS",
+      "original_clause": "§1,§4.3,S02",
+      "observed": "Negative isolation probes, source boundaries and received-message provenance checked",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002833Z-E1-68e4b67c/acceptance.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002833Z-E1-68e4b67c",
+        "20261017T002838Z-E1-0e67cf81",
+        "20261017T002844Z-E1-31004f32",
+        "20261017T002908Z-E4-4361e1e6",
+        "20261017T002922Z-E5-3de0b42f"
+      ],
+      "expected": "决策侧未读取隐藏未来、参考答案、其他节点私有文件或未收到的全局状态。"
+    },
+    {
+      "check_id": "A09",
+      "status": "PASS",
+      "original_clause": "S01–S02",
+      "observed": "Four isolated workers, shared directed capacity and true memory/capability constraints; pending energy/storage reservations recomputed",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002833Z-E1-68e4b67c/acceptance.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002833Z-E1-68e4b67c",
+        "20261017T002838Z-E1-0e67cf81",
+        "20261017T002844Z-E1-31004f32",
+        "20261017T002908Z-E4-4361e1e6",
+        "20261017T002922Z-E5-3de0b42f"
+      ],
+      "expected": "独立节点存储，实际传输和控制消息受链路约束，资源与能力约束至少各一项真实影响动作。"
+    },
+    {
+      "check_id": "A10",
+      "status": "PASS",
+      "original_clause": "§4.3",
+      "observed": "Actor PIDs/local snapshots/received ads correspond to actual node policy calls",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002833Z-E1-68e4b67c/decisions.jsonl"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002833Z-E1-68e4b67c",
+        "20261017T002838Z-E1-0e67cf81",
+        "20261017T002844Z-E1-31004f32",
+        "20261017T002851Z-E2-whole-26d296e1",
+        "20261017T002856Z-E2-tiled-938d00ce",
+        "20261017T002902Z-E3-e25a4a22"
+      ],
+      "expected": "各节点进程独立调用策略，依据本地与收到的邻居信息决策；不是中心预计算分发。"
+    },
+    {
+      "check_id": "A11",
+      "status": "PASS",
+      "original_clause": "E1",
+      "observed": "All3 AOIs delivered to ground, verified before delivery, and equal E0",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/visual_delivery_evidence.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002833Z-E1-68e4b67c",
+        "20261017T002838Z-E1-0e67cf81",
+        "20261017T002844Z-E1-31004f32"
+      ],
+      "expected": "E1真实跨节点计算且地面已接收、校验产品；与E0科学基线一致。"
+    },
+    {
+      "check_id": "A12",
+      "status": "PASS",
+      "original_clause": "E3",
+      "observed": "Unchanged saved DAG/forecast/input executes on C instead of B after local runtime disturbance",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/independent_terminal_summary.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002851Z-E2-whole-26d296e1",
+        "20261017T002902Z-E3-e25a4a22"
+      ],
+      "expected": "E3同一计划在节点忙碌/临时不可达时实际调整执行位置，不只更新描述。"
+    },
+    {
+      "check_id": "A13",
+      "status": "PASS",
+      "original_clause": "E4",
+      "observed": "Merge ready/start/success occurs after ground closes and before reopening; no delivered ground traffic in closure",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/independent_terminal_summary.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002908Z-E4-4361e1e6"
+      ],
+      "expected": "E4断开后新就绪步骤由星上执行器推进，无隐藏地面调用；恢复后产品交付。"
+    },
+    {
+      "check_id": "A14",
+      "status": "PASS",
+      "original_clause": "E5",
+      "observed": "Partial transfer pauses at196,608 bytes, resumes same offset; no incomplete consumption; hash and byte accounting checked",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/independent_terminal_summary.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002922Z-E5-3de0b42f"
+      ],
+      "expected": "E5关闭时不传输、不使用不完整文件，恢复后哈希正确，续传/重传流量如实记录。"
+    },
+    {
+      "check_id": "A15",
+      "status": "PASS",
+      "original_clause": "E6",
+      "observed": "Previously absent rerun output root, new run/jobs/products, equivalent science and identical computational source",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002828Z-acceptance-cbb560f2/E6_command.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002930Z-E6-e1317fa9"
+      ],
+      "expected": "E6在无旧输出的新目录产生新run_id，命令可原样运行，科学结果一致。"
+    },
+    {
+      "check_id": "A16",
+      "status": "PASS",
+      "original_clause": "§2.2,§4.1,A16",
+      "observed": "Unavailable learned WM/LLM/MARL explicitly raise, with no fallback",
+      "commands": [
+        "python scripts/check_unavailable_modes.py"
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/commands/unavailable-modes.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "a06-unavailable-modes-20261017"
+      ],
+      "expected": "规划/预测/策略接口明确，未实现LLM/学习WM/MARL模式显式不可用，无静默替代。"
+    },
+    {
+      "check_id": "A17",
+      "status": "PASS",
+      "original_clause": "§10–11",
+      "observed": "Revised review maps current claims to actual commands/run IDs/material evidence; historical missing paths are not treated as recovered",
+      "commands": [
+        "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+        "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+        "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+        "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+      ],
+      "evidence_paths": [
+        "/workspace/shared/orbitserve-a06-readme-20261017/independent_terminal_summary.json",
+        "/workspace/shared/orbitserve-a06-readme-20261017/commands/prepare_nodes_proof.json"
+      ],
+      "reviewer": "/root/audit_original_orbitserve_checklist",
+      "failure_reason": null,
+      "run_ids": [
+        "20261017T002828Z-E0-84c45b68",
+        "20261017T002833Z-E1-68e4b67c",
+        "20261017T002838Z-E1-0e67cf81",
+        "20261017T002844Z-E1-31004f32",
+        "20261017T002851Z-E2-whole-26d296e1",
+        "20261017T002856Z-E2-tiled-938d00ce",
+        "20261017T002902Z-E3-e25a4a22",
+        "20261017T002908Z-E4-4361e1e6",
+        "20261017T002922Z-E5-3de0b42f",
+        "20261017T002930Z-E6-e1317fa9"
+      ],
+      "expected": "完成声明均映射run_id、命令、证据，失败/未接入/模拟边界单列。"
+    }
+  ],
+  "not_required_for_v0": [
+    "Training or validating a learned WM, LLM planner or MARL policy",
+    "Persistent constellation state across separate missions",
+    "Arbitrary operator fusion, true SAR branch, real orbital geometry or hardware",
+    "Externally labelled flood accuracy or claimed performance uplift"
+  ],
+  "evidence_availability": "New complete files inspected in this environment. This report does not claim that missing historical run directories were recovered or that a separate portable archive is already published."
+}

@@ -54,7 +54,28 @@ PIDs are separately measured and distinct.
 
 This is one-host process simulation, not physical heterogeneous satellites.
 Workset and energy budgets are modeled admission limits, not claimed hardware
-RSS or measured power. There is no artificial scientific-compute sleep. Actual
+RSS or measured power. Accepted, queued, waiting-for-input and running jobs reserve their declared memory,
+energy and storage estimates. Advertisements and admission subtract all pending
+reservations, rather than spending the same future budget twice. Memory and
+storage reservations are released at a terminal job state. Each attempted job
+charges its configured energy estimate once, including a failed attempt; this is
+an accounting model, not a power measurement. Observations expose reserved,
+remaining and physically used values separately.
+
+Storage admission is deliberately conservative: pending-work storage estimates
+are added to measured current node-file bytes, even when part of a job's input
+has arrived. Archive construction and incoming transfers separately check
+actual disk-byte headroom, including the temporary coexistence of ZIP and
+extracted members and other in-flight incoming reservations. Output files are
+checked before artifact registration. These are application budget checks, not
+filesystem quotas or a promise to bound transient OS allocation while an
+operator writes; an exceeded budget fails the job rather than delivering it.
+
+The E0 single-host harness records Linux process CPU times and peak RSS at every
+job state. Those measurements are explicitly baseline-host process observations,
+not fabricated satellite capacity or per-job peak-memory measurements.
+
+There is no artificial scientific-compute sleep. Actual
 operator duration and zero simulated extra compute delay are logged separately.
 
 ## Real bytes, resumability and control constraints

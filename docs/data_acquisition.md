@@ -42,6 +42,28 @@ workers require that directory. The runtime must copy only declared input files
 and deny access to evaluation and other nodes' roots; a separate folder name alone
 is not an isolation mechanism.
 
+## Acquisition and observation times
+
+Every runtime asset records timezone-aware `acquired_at`, `observation_time`,
+`observation_time_precision`, and `original_dtype`. These are source provenance,
+not the time a later acceptance run validated a cache.
+
+For the unchanged Earth-Bench originals, `acquired_at` is the earliest successful
+HTTP 200 `download` receipt in the retained acquisition ledger whose source URL
+and SHA-256 both match the local input. Cache reuse preserves this original time.
+An input without such a receipt is downloaded again to establish an actual
+receipt; a `cached_file_validated` event is never substituted. The available
+observation evidence identifies a date only: `observation_time` retains
+`YYYY-MM-DD`, `observation_time_precision` is `date`, and `observation_date` is
+preserved. No midnight instant or timezone is invented for these composite dates.
+
+For Sentinel, `observation_time` is the selected STAC item's exact timestamp and
+its precision is `instant`. `acquired_at` is when the derived AOI raster was
+written and inspected after its bounded source-range reads. Verified crop reuse
+preserves this completion time from the matching `crop_complete` receipt.
+`acquisition_time_basis` makes these two acquisition meanings explicit. Adding
+these JSON provenance fields does not alter TIFF pixels, tags or source revisions.
+
 ## Earth-Bench scaling and errata
 
 Both question2 and question4 request **TVDI from supplied NDVI and LST products**,
@@ -153,24 +175,36 @@ Every runtime asset carries `reported_scale`, `reported_offset`,
 30 reflectance AOI rasters. The TIFF band tags agree. No scientific worker needs
 access to catalog or reference directories to know this provenance.
 
-The first provisional water run used the stale offset and was invalidated.
-Metadata was corrected and file hashes recomputed while verifying that raw pixel
-array bytes remained exactly unchanged. Fresh scientific runs are required.
+The historical provisional water run used the stale offset and was invalidated.
+The correction preserves raw pixels and records the harmonization authority.
+The fresh acquisition and scientific runs below use the corrected metadata.
 
-## Observed acquisition run
+## Fresh acquisition and cache verification, 2026-10-17
 
-Run `acquire-20261016T133003` completed with exit status 0. The first subprocess
-was interrupted by a cancelled automatic tool review; the identical authorized
-command was retried once. Completed crops were reused only after hash validation.
-The final input set contains **40 TIFFs, 5,945,034 bytes**: four original
-Earth-Bench TIFFs plus 36 aligned Sentinel AOI crops. Cumulative successfully
-received COG HTTP response bodies were **76,946,157 bytes**, including the
-interrupted attempt. This excludes HTTP/TLS overhead, metadata responses and
-initial exploratory access. The completed second invocation's COG responses were
-56,515,306 bytes; reused first-phase crops contribute no new network body bytes.
-No 200–300 MB budget estimate is presented as measured consumption.
+The previous environment's full input/run directories were unavailable when the
+original checklist was reopened. Public inputs were acquired again. Cold run
+`acquire-20261017T001751` exited 0; cache normalization run
+`acquire-20261017T002357` also exited 0 without changing any of the 40 TIFF hashes.
+An earlier interrupted acquisition is retained as a failed attempt, not counted
+as completion. Its successful COG responses remain included in cumulative traffic.
 
-After the offset correction, the acquisition quality screen found:
+The fresh input set contains **40 TIFFs, 5,907,906 bytes**: four original
+Earth-Bench TIFFs and 36 aligned Sentinel AOI crops. Cumulative successful COG
+HTTP response bodies total **87,956,205 bytes**, excluding HTTP/TLS overhead,
+metadata responses and exploratory access. Cache normalization used **0 new COG
+body bytes**. These are measured counts, not the provisional download budget.
+
+The 37,128-byte difference from the prior TIFF encoding is explained by its
+metadata-update layout. Replaying the old writer and offset-tag repair on the
+fresh arrays recreates every one of the 36 historical hashes and sizes. Fresh
+hashes and acquisition times remain distinct from historical ones. The current
+acquisition manifest SHA-256 is
+`5ca1a205fe4daf43b0604d8dff3103480e73c8a7fc1c77be3cfe15a09c580a84`.
+
+Restoration passed 393 checks, including all 40 timestamp provenance checks;
+five focused receipt regressions also passed. The independent reviewer then
+ran the exact README prepare-data command against a separate cache copy:
+`acquire-20261017T002659`, exit 0, unchanged hashes, 0 new COG body bytes.
 
 | AOI | Common-valid pixels | Common-valid fraction | Gained candidates | Lost candidates |
 |---|---:|---:|---:|---:|
@@ -179,4 +213,9 @@ After the offset correction, the acquisition quality screen found:
 | Shasta Lake | 62,228 | 0.995648 | 110 | 5,033 |
 
 These are screening counts from real inputs, not external ground-truth labels.
-See the independent scientific acceptance for final product verification.
+The [current acceptance report](acceptance_report.md) records fresh independent
+scientific verification. Full acquisition ledgers, catalog metadata, timestamp
+proofs and historical-encoding comparison are retained in the separate evidence
+archive under `shared/orbitserve-data/` and
+`shared/orbitserve-restoration-20261017/`; raw TIFFs are acquired using the
+command above and are excluded from both repository and delivery archive.

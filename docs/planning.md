@@ -63,8 +63,8 @@ and one `water_merge` depending on every tile. No overlap/halo is needed for
 this per-pixel MNDWI calculation. The sum of window areas equals the original
 AOI. No candidate changes pixel spacing, threshold, validity rules or coverage.
 
-Configured memory accounting is 8 MiB operator base + 96 bytes per analyzed
-pixel for a tile, and 8 MiB + 16 bytes per full-grid pixel for merge. These are
+Configured memory accounting is 8 MiB operator base + 104 bytes per analyzed
+pixel for a tile, and 8 MiB + 24 bytes per full-grid pixel for merge. The added 8 bytes per pixel account for two four-band display products. Final-product transfer/storage estimation uses 48 bytes per pixel to include the real overlay PNG, vectors and metadata as well as rasters. These are
 explicit working-set reservations, not claims about measured Python RSS.
 Compute work is the actual window area. Energy is work × configured J/pixel.
 Storage includes inputs and estimated products. The runtime must independently
@@ -111,8 +111,8 @@ The ample budget is bounded by observed physical capacity; the constrained
 budget is 11 MiB for analysis nodes initially having at least 16 MiB. A's
 4 MiB source budget is left unchanged.
 
-For a 250×250 grid, the full tile requires 14,388,608 bytes, a 128×128 tile
-requires 9,961,472 bytes, and merge requires 9,388,608 bytes. Thus the constrained
+For a 250×250 grid, the full tile requires 14,888,608 bytes, a 128×128 tile
+requires 10,092,544 bytes, and merge requires 9,888,608 bytes. Thus the constrained
 forecast makes whole processing infeasible while four edge-aware tiles and
 merge fit. The same general planner chooses the lowest-cost feasible grain;
 it never inspects `fixture_name` or a scenario flag. The two plans still need

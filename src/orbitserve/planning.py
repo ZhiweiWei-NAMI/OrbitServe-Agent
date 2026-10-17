@@ -17,9 +17,9 @@ from .policy import _edge_delay, _has_capability
 
 PLANNER_VERSION = "forecast-working-set-rule-v1"
 _DEFAULTS = {"candidate_tile_sizes": [0, 128, 64], "operator_base_memory_bytes": 8388608,
-             "water_tile_memory_bytes_per_pixel": 96, "water_merge_memory_bytes_per_pixel": 16,
+             "water_tile_memory_bytes_per_pixel": 104, "water_merge_memory_bytes_per_pixel": 24,
              "operator_startup_s": 0.25, "water_tile_energy_j_per_pixel": 0.00001,
-             "intermediate_bytes_per_pixel": 16, "final_bytes_per_pixel": 24}
+             "intermediate_bytes_per_pixel": 24, "final_bytes_per_pixel": 48}
 
 
 def _settings(task):
@@ -212,7 +212,7 @@ def plan(task, asset_catalog, skill_catalog, forecast_graph):
                                        "coverage_rule": "every original grid cell exactly once; no resampling or AOI reduction for scheduling",
                                        "tile_boundary_rule": "half_open_row_column_windows_no_overlap_no_halo_required"},
             "delivery": {"destination_node": task.get("ground_node", "G"), "formats": ["GeoTIFF", "GeoJSON", "PNG", "JSON"],
-                         "required_files": ["change.tif", "before_water.tif", "after_water.tif", "valid_common.tif", "stats.json", "changes.geojson", "map.png"],
+                         "required_files": ["change.tif", "before_water.tif", "after_water.tif", "valid_common.tif", "before_rgb.tif", "after_rgb.tif", "stats.json", "changes.geojson", "map.png"],
                          "completion_condition": "ground_received_all_required_files_and_verified_content_hashes"},
             "selection": {"reason": "minimum_feasible_forecast_cost", "estimated_completion_s": chosen["estimated_completion_s"],
                           "candidate_evaluations": [{k: v for k, v in c.items() if k != "steps"} for c in candidates]},

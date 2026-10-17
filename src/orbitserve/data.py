@@ -44,8 +44,10 @@ def dump(path,obj):
  path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
  path.write_text(json.dumps(obj,ensure_ascii=False,indent=2,allow_nan=False)+'\n')
 def log(root,event):
+ record={'timestamp':utcnow(),**event}
  with _LOCK:
-  with (Path(root)/'acquisition.jsonl').open('a') as f:f.write(json.dumps({'timestamp':utcnow(),**event},allow_nan=False)+'\n')
+  with (Path(root)/'acquisition.jsonl').open('a') as f:f.write(json.dumps(record,allow_nan=False)+'\n')
+ return record
 def get(url,**kwargs):
  for attempt in range(4):
   try:
@@ -54,15 +56,37 @@ def get(url,**kwargs):
    if attempt==3:raise
    time.sleep(2**attempt)
 
+def download_receipt(root,url,digest):
+ """Find the earliest actual successful receipt for these source bytes.
+
+ Cache validation cannot establish an acquisition time. Ignore incomplete or
+ malformed events from an interrupted run rather than fabricating a timestamp.
+ """
+ ledger=Path(root)/'acquisition.jsonl'
+ if not ledger.exists():return None
+ receipts=[]
+ for line in ledger.read_text().splitlines():
+  try:
+   event=json.loads(line)
+   if event.get('event')!='download' or event.get('url')!=url or event.get('sha256')!=digest or event.get('http_status')!=200:continue
+   observed=dt.datetime.fromisoformat(event['timestamp'].replace('Z','+00:00'))
+   if observed.tzinfo is None:continue
+   receipts.append((observed,event))
+  except (ValueError,TypeError,KeyError,AttributeError):continue
+ return min(receipts,key=lambda pair:pair[0])[1] if receipts else None
+
 def download(url,path,root,expected_size=None,expected_sha=None):
  path=Path(path);path.parent.mkdir(parents=True,exist_ok=True)
  if path.exists() and (expected_size is None or path.stat().st_size==expected_size) and (expected_sha is None or sha256(path)==expected_sha):
-  log(root,{'event':'cached_file_validated','url':url,'path':str(path),'bytes':path.stat().st_size,'sha256':sha256(path)});return
+  digest=sha256(path);receipt=download_receipt(root,url,digest)
+  if receipt is not None:
+   log(root,{'event':'cached_file_validated','url':url,'path':str(path),'bytes':path.stat().st_size,'sha256':digest,'acquired_at':receipt['timestamp']});return receipt
+  # A cache without a source receipt needs one real download, not a guessed time.
  r=get(url);b=r.content
  if expected_size is not None and len(b)!=expected_size:raise ValueError(f'size mismatch {url}')
  if expected_sha and hashlib.sha256(b).hexdigest()!=expected_sha:raise ValueError(f'hash mismatch {url}')
  temp=path.with_suffix(path.suffix+'.partial');temp.write_bytes(b);temp.replace(path)
- log(root,{'event':'download','url':url,'path':str(path),'network_body_bytes':len(b),'http_status':r.status_code,'sha256':sha256(path)})
+ return log(root,{'event':'download','url':url,'path':str(path),'network_body_bytes':len(b),'http_status':r.status_code,'sha256':sha256(path)})
 
 class RangeSource:
  """Count and hash HTTP response bodies; never issue an unbounded object GET."""
@@ -121,10 +145,10 @@ def acquire_earthbench(root):
   for f in tree:
    if f['type']!='file' or not f['path'].endswith('.tif'):continue
    url=f'https://huggingface.co/datasets/Sssunset/Earth-Bench/resolve/{HF_REVISION}/{f["path"]}'
-   path=root/'earthbench'/f['path'];download(url,path,root,f['size'],f.get('lfs',{}).get('oid'))
+   path=root/'earthbench'/f['path'];receipt=download(url,path,root,f['size'],f.get('lfs',{}).get('oid'))
    m=raster_metadata(path);tag=m['band_tags'];band='NDVI' if '_NDVI' in path.name else 'LST'
    if 'scale' not in tag:raise ValueError('Missing physical scale in Earth-Bench band tags')
-   assets.append({**m,'path':path.name,'phase':'single','band':band,'scale':float(tag['scale']),'offset':0.0,'source':url,'source_revision':HF_REVISION,'source_node':'A','initial_holder':'A','processing_level':'supplied MODIS derived product, upstream resampled 30m','native_source_resolution_m':float(tag['gsd']),'observation_date':'2021-07-12' if q=='question2' else '2022-08-13','units':'K' if band=='LST' else 'dimensionless','scaling_authority':'TIFF band metadata scale; raw integer samples verify unscaled DN'})
+   assets.append({**m,'path':path.name,'phase':'single','band':band,'scale':float(tag['scale']),'offset':0.0,'source':url,'source_revision':HF_REVISION,'acquired_at':receipt['timestamp'],'acquisition_time_basis':'successful_source_download_receipt','original_dtype':m['dtype'],'observation_time':'2021-07-12' if q=='question2' else '2022-08-13','observation_time_precision':'date','source_node':'A','initial_holder':'A','processing_level':'supplied MODIS derived product, upstream resampled 30m','native_source_resolution_m':float(tag['gsd']),'observation_date':'2021-07-12' if q=='question2' else '2022-08-13','units':'K' if band=='LST' else 'dimensionless','scaling_authority':'TIFF band metadata scale; raw integer samples verify unscaled DN'})
   date='2021-07-12' if q=='question2' else '2022-08-13';place='Sichuan Plain' if q=='question2' else 'Chengdu and surroundings'
   task={'case_id':q,'question':f'Using the supplied NDVI and LST products for {place} on {date}, compute TVDI and the percentage of valid pixels whose TVDI exceeds 0.75.','method':'TVDI','threshold':0.75,'source_node':'A','width':assets[0]['width'],'height':assets[0]['height'],'crs':assets[0]['crs'],'transform':assets[0]['transform'],'pixel_size_m':30,'caveat':'Input grid is 30m Web Mercator, but source MODIS NDVI and LST resolutions are 250m and 1000m. No 30m physical information or agricultural land-cover mask is supplied.'}
   if q=='question2':task['erratum']='Upstream evaluation prose says July12,2022 and EVI. Actual authoritative inputs and user task use July12,2021 and NDVI; this is a corrected derived task.'
@@ -218,6 +242,7 @@ def crop_band(root,case,phase,item,band,grid):
    except json.JSONDecodeError: continue
    if previous.get('event')=='crop_complete' and previous.get('case_id')==case['case_id'] and previous.get('phase')==phase and previous.get('band')==band and previous.get('source')==url and previous.get('transform')==list(grid)[:6] and sha256(path)==previous.get('sha256'):
     record={k:v for k,v in previous.items() if k not in ['event','timestamp','case_id']}
+    record['observation_time_precision']='instant';record['acquisition_time_basis']='derived_AOI_written_after_source_ranges'
     record['original_acquisition_network_body_bytes']=record.get('original_acquisition_network_body_bytes',record.get('network_body_bytes',0));record['network_body_bytes']=0;record['cached_verified']=True
     log(root,{'event':'cached_crop_validated','case_id':case['case_id'],'path':str(path),'sha256':record['sha256'],'source':url});return record
  source=RangeSource(url,root)
@@ -234,7 +259,7 @@ def crop_band(root,case,phase,item,band,grid):
   source_meta={'width':s.width,'height':s.height,'crs':s.crs.to_string(),'transform':list(s.transform)[:6],'resolution':list(s.res),'dtype':s.dtypes[0],'nodata':s.nodata,'window':[col,row,right-col,bottom-row],'file_size_bytes':source.n,'full_file_sha256':None,'full_file_sha256_reason':'No complete source-object hash computed; bounded received ranges and derived crop hashes are recorded.'}
  with rasterio.open(path,'w',driver='GTiff',width=250,height=250,count=1,dtype=dtype,crs=case['crs'],transform=grid,nodata=0,compress='deflate',predictor=1 if band=='SCL' else 3) as dst:
   dst.write(out,1);dst.update_tags(source_item=item['id'],source_url=url,processing='AOI window and reprojection only; preserved DN values');dst.update_tags(1,scale=str(scale),offset=str(offset),source_reported_offset=str(scaling['reported_offset']),boa_offset_applied=str(scaling['earthsearch_boa_offset_applied']),scaling_version=scaling['scaling_version'])
- m=raster_metadata(path);record={**m,'path':str(path.relative_to(directory)),'asset_id':f'{case["case_id"]}:{phase}:{band}','phase':phase,'band':band,'scale':scale,'offset':offset,'source':url,'item_id':item['id'],'source_item':item['id'],'observation_time':item['properties']['datetime'],'acquired_at':utcnow(),'processing_level':'Sentinel-2 L2A bottom-of-atmosphere; aligned AOI derivative','source_node':'A','initial_holder':'A','resampling':'nearest' if band=='SCL' else 'bilinear','source_metadata':source_meta,'source_raster_band':rb,'network_body_bytes':source.body_bytes,'range_requests':source.requests,'scaling_applied':False,'original_dtype':source_meta['dtype'],**scaling}
+ m=raster_metadata(path);record={**m,'path':str(path.relative_to(directory)),'asset_id':f'{case["case_id"]}:{phase}:{band}','phase':phase,'band':band,'scale':scale,'offset':offset,'source':url,'item_id':item['id'],'source_item':item['id'],'observation_time':item['properties']['datetime'],'observation_time_precision':'instant','acquired_at':utcnow(),'acquisition_time_basis':'derived_AOI_written_after_source_ranges','processing_level':'Sentinel-2 L2A bottom-of-atmosphere; aligned AOI derivative','source_node':'A','initial_holder':'A','resampling':'nearest' if band=='SCL' else 'bilinear','source_metadata':source_meta,'source_raster_band':rb,'network_body_bytes':source.body_bytes,'range_requests':source.requests,'scaling_applied':False,'original_dtype':source_meta['dtype'],**scaling}
  log(root,{'event':'crop_complete','case_id':case['case_id'],**record});return record
 
 def acquire_case(root,case):

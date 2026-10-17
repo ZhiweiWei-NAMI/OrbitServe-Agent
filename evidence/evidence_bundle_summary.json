@@ -1,0 +1,30 @@
+{
+  "schema": "orbitserve-evidence-bundle-v1",
+  "generated_at": "2026-10-17",
+  "computational_commit": "dc5fa469d08479c9d2a48cee850a542605e43aae",
+  "computational_source_sha256": "f2b7e0393e8670b1acd3cbbe91846ca4f779e31ad90680629d1f960851ffe1ce",
+  "lead_suite": "20261017T002642Z-acceptance-a649ed0d",
+  "reviewer_suite": "20261017T002828Z-acceptance-cbb560f2",
+  "source_path_mapping": {
+    "/workspace/shared/": "shared/"
+  },
+  "exclusions": [
+    "Raw input imagery and archives containing it",
+    "Reference-answer/evaluation files",
+    "Virtual environments and generated package metadata",
+    "Credentials, repositories and bytecode caches",
+    "Historical encoding replay raw TIFF copies"
+  ],
+  "omitted_file_counts": {
+    "raw_source_raster": 620,
+    "archive_containing_raw_source_raster": 20,
+    "environment_repo_cache_or_reference_answer": 7803
+  },
+  "included_file_count": 4010,
+  "included_uncompressed_bytes": 506382941,
+  "archive_bytes": 333888166,
+  "archive_sha256": "d5d0475d59046d55a162ba0e7581579a7e771063ab078ce3c6097f9eae3a0163",
+  "verified_all_entry_hashes": true,
+  "archive_filename": "OrbitServe-Agent-evidence-20261017.zip",
+  "delivery_status": "Created and all entry hashes verified; external publication is recorded by the delivery channel, not inferred here."
+}

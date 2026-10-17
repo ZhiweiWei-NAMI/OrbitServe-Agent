@@ -7,6 +7,7 @@ recomputed directly.  Tolerances were fixed before inspecting computed results.
 from __future__ import annotations
 
 from collections import defaultdict
+from datetime import date, datetime
 from pathlib import Path
 import hashlib
 import json
@@ -97,6 +98,19 @@ def _check_assets(report, case, assets):
         report.check("input_sha256:" + identity, bool(asset.get("sha256")) and _sha(path) == asset["sha256"], str(path))
         report.check("explicit_scaling:" + identity, all(k in asset for k in ("scale", "offset", "nodata")),
                      {k: asset.get(k) for k in ("scale", "offset", "nodata")})
+        acquired_ok = observed_ok = False
+        try:
+            acquired = datetime.fromisoformat(asset["acquired_at"].replace("Z", "+00:00"))
+            acquired_ok = acquired.tzinfo is not None
+            if asset.get("observation_time_precision") == "date":
+                observed_ok = date.fromisoformat(asset["observation_time"]).isoformat() == asset["observation_time"]
+            elif asset.get("observation_time_precision") == "instant":
+                observed_ok = datetime.fromisoformat(asset["observation_time"].replace("Z", "+00:00")).tzinfo is not None
+        except (KeyError, TypeError, ValueError, AttributeError):
+            pass
+        report.check("explicit_acquisition_timestamp:" + identity, acquired_ok, asset.get("acquired_at"))
+        report.check("explicit_observation_time_and_precision:" + identity, observed_ok,
+                     {k: asset.get(k) for k in ("observation_time", "observation_time_precision")})
         with rasterio.open(path) as ds:
             report.check("readable_input:" + identity, ds.count == 1 and ds.width > 0 and ds.height > 0 and ds.crs is not None)
             for key, observed in (("width", ds.width), ("height", ds.height), ("dtype", ds.dtypes[0])):
@@ -215,7 +229,7 @@ def _verify_water(report, case, output, task, assets):
         indices = {"ndvi": _index(data["B08"], data["B04"]),
                    "ndwi": _index(data["B03"], data["B08"]),
                    "mndwi": _index(data["B03"], data["B11"])}
-        values[phase] = {"data": data, "indices": indices}
+        values[phase] = {"data": data, "indices": indices, "assets": selected}
     _verify_water_products(report, output, task, grid, values)
 
 
@@ -288,7 +302,86 @@ def _verify_water_products(report, output, task, grid, values):
     rasterized = rasterize(geometries, out_shape=expected.shape, transform=grid[1], fill=0, dtype="uint8") if geometries else np.zeros(expected.shape, np.uint8)
     _same_class(report, "vector_geometry_matches_change_pixels", rasterized, np.where(np.isin(expected, (3,4)), expected, 0).astype(np.uint8))
     _check_png(report, output / "map.png")
+    _verify_rgb_overlays(report, output, grid, values, valid, water, common, expected, stats)
     report.value["independent_statistics"] = {**expected_stats, "class_counts": counts}
+
+
+def _verify_rgb_overlays(report, output, grid, values, valid, water, common, changes, stats):
+    """Recreate display pixels from independently decoded source reflectance.
+
+    Neither science helpers nor its encoded RGB/PNG values are used to produce
+    the expected panels. The fixed display mapping is a declared output contract,
+    not a new scientific threshold or a per-tile contrast estimate.
+    """
+    from PIL import Image
+    from rasterio.enums import ColorInterp
+    shape, transform, crs = grid
+    expected_rgb = {}
+    display = stats.get("rgb_display", {})
+    report.check("rgb_fixed_physical_display_contract",
+                 display.get("bands") == ["B04", "B03", "B02"]
+                 and display.get("reflectance_min") == 0.0
+                 and display.get("reflectance_max") == 0.30
+                 and display.get("gamma") == 1.0
+                 and display.get("water_overlay") == {"color": [35,108,177], "opacity": 0.35}
+                 and display.get("change_overlay") == {"gained_color": [20,169,145], "lost_color": [218,89,56], "opacity": 0.50}
+                 and display.get("unknown_color") == [165,165,165], display)
+    for phase in ("before", "after"):
+        expected = np.zeros((4, *shape), dtype=np.uint8)
+        for channel, band in enumerate(("B04", "B03", "B02")):
+            physical = values[phase]["data"][band]
+            display_value = np.rint(np.clip(physical[valid[phase]] / 0.30, 0, 1) * 255)
+            expected[channel, valid[phase]] = display_value.astype(np.uint8)
+        expected[3, valid[phase]] = 255
+        expected_rgb[phase] = expected
+        path = output / (phase + "_rgb.tif")
+        if not report.check("rgb_material_product:" + phase, path.is_file()):
+            continue
+        with rasterio.open(path) as ds:
+            report.check("rgb_georeferenced_rgba:" + phase,
+                         ds.count == 4 and ds.dtypes == ("uint8",) * 4 and ds.nodata is None
+                         and ds.shape == shape and ds.crs == crs and ds.transform == transform
+                         and ds.colorinterp == (ColorInterp.red, ColorInterp.green, ColorInterp.blue, ColorInterp.alpha)
+                         and ds.descriptions == ("B04", "B03", "B02", "phase-valid alpha"))
+            report.check("rgb_declared_mapping:" + phase, json.loads(ds.tags().get("rgb_display", "null")) == display)
+            _same_class(report, "rgb_from_source_physical_values:" + phase, ds.read(), expected)
+        # Source records must contain the exact source and scaling identity for
+        # each retained tile. There must be no source-free decorative backdrop.
+        provenance = stats.get("tile_provenance", [])
+        report.check("rgb_tile_provenance_present:" + phase, bool(provenance))
+        for index, tile in enumerate(provenance):
+            for band in ("B04", "B03", "B02"):
+                matching = [p for p in tile.get("input_scaling", []) if p.get("phase") == phase and p.get("band") == band]
+                source = values[phase]["assets"][band]
+                report.check("rgb_source_record:" + phase + ":" + band + ":" + str(index),
+                             len(matching) == 1 and matching[0].get("source") == source["source"]
+                             and matching[0].get("source_sha256") == source["sha256"]
+                             and matching[0].get("path") == source["path"]
+                             and matching[0].get("item_id") == source.get("item_id")
+                             and matching[0].get("scale_applied_once") == source["scale"]
+                             and matching[0].get("offset_applied_once") == source["offset"])
+    with Image.open(output / "map.png") as image:
+        report.check("overlay_png_canvas", image.mode == "RGB" and image.size == (1000,480))
+        pixels = np.asarray(image.convert("RGB"))
+    for index, phase in enumerate(("before", "after", "change")):
+        base_phase = "after" if phase == "change" else phase
+        panel = np.transpose(expected_rgb[base_phase][:3], (1,2,0)).copy()
+        if phase == "change":
+            panel_valid = common
+            layers = [(changes == 3, (20,169,145), 0.5), (changes == 4, (218,89,56), 0.5)]
+        else:
+            panel_valid = valid[phase]
+            layers = [(water[phase] == 1, (35,108,177), 0.35)]
+        for selected, color, alpha in layers:
+            mask = selected & panel_valid
+            for channel in range(3):
+                channel_pixels = panel[:,:,channel]
+                channel_pixels[mask] = np.rint(channel_pixels[mask] * (1-alpha) + color[channel] * alpha).astype(np.uint8)
+        panel[~panel_valid] = (165,165,165)
+        wanted = np.asarray(Image.fromarray(panel).resize((300,300), Image.Resampling.NEAREST))
+        x = 20 + index * 330
+        actual = pixels[70:370, x:x+300]
+        _same_class(report, "overlay_panel_from_source_pixels:" + phase, actual, wanted)
 
 
 def _ratio_independent(numerator, denominator):
@@ -432,6 +525,23 @@ def _verify_harness(report, run, calls, manifest):
     report.check("harness_has_jobs", bool(jobs))
     for job, rows in jobs.items():
         states = {r["status"]: r for r in rows}
+        previous_resources = None
+        for row in sorted(rows, key=lambda r: r["timestamp"]):
+            observed = row.get("resource_observation", {})
+            fields = ("max_rss_bytes", "user_cpu_s", "system_cpu_s")
+            numeric = all(isinstance(observed.get(k), (int, float))
+                          and math.isfinite(observed[k]) and observed[k] >= 0 for k in fields)
+            report.check("harness_real_resource_observation:" + job + ":" + row["status"],
+                         numeric and observed.get("scope") == "baseline_host_process_not_simulated_satellite"
+                         and observed.get("process_id") == row.get("process_id")
+                         and isinstance(observed.get("observed_at"), (int,float))
+                         and 0 <= observed["observed_at"] <= row["timestamp"]
+                         and observed.get("method") == "Linux getrusage(RUSAGE_SELF); RSS high-water mark")
+            if numeric and previous_resources:
+                report.check("harness_monotonic_resource_counters:" + job + ":" + row["status"],
+                             all(observed[k] >= previous_resources[k] for k in fields))
+            if numeric:
+                previous_resources = observed
         report.check("harness_lifecycle:" + job, {"accepted", "running", "succeeded"} <= states.keys() and "failed" not in states)
         if not {"accepted", "running", "succeeded"} <= states.keys():
             continue
@@ -468,7 +578,7 @@ def verify_run(run_dir):
         _verify_processes(report, run, result, config, events)
         verified = _verify_transfers(report, run, transfers, controls, events, config)
         _verify_jobs(report, run, calls, plan, verified)
-        _verify_worker_capacity(report, calls, config)
+        _verify_worker_capacity(report, calls, config, plan)
         _verify_decisions(report, decisions, controls, events, config)
         _verify_dag(report, plan, calls)
         delivered = [e for e in events if e.get("event") == "delivered" and e.get("node_id") == "G"]
@@ -648,6 +758,10 @@ def _verify_decisions(report, decisions, controls, events, config):
 
 def _verify_dag(report, plan, calls):
     steps = plan["steps"]
+    required_products={"change.tif","before_water.tif","after_water.tif","valid_common.tif",
+                       "before_rgb.tif","after_rgb.tif","stats.json","changes.geojson","map.png"}
+    report.check("DAG_delivery_includes_real_imagery_overlays",
+                 required_products.issubset(set(plan.get("delivery",{}).get("required_files",[]))))
     report.check("DAG_not_preassigned", all("assigned_node" not in s and len(s["allowed_nodes"]) >= 2 for s in steps))
     running = [c for c in calls if c.get("status") == "running"]
     success = {c["step_id"]:c for c in calls if c.get("status") == "succeeded"}
@@ -906,6 +1020,14 @@ def _verify_acquisition(report, data_root):
             source=item["assets"][mapping[asset["band"]]]
             report.check("asset_matches_pinned_STAC:"+case.name+":"+asset["phase"]+":"+asset["band"],
                          item["id"] == asset["item_id"] and source["href"] == asset["source"] and source.get("raster:bands",[{}])[0] == asset["source_raster_band"])
+            report.check("observation_time_matches_pinned_STAC:"+case.name+":"+asset["phase"]+":"+asset["band"],
+                         asset.get("observation_time") == item["properties"]["datetime"]
+                         and asset.get("observation_time_precision") == "instant")
+            crop_receipts = [e for e in receipts if e.get("event") == "crop_complete"
+                             and e.get("source") == asset["source"] and e.get("sha256") == asset["sha256"]
+                             and e.get("phase") == asset["phase"] and e.get("band") == asset["band"]]
+            report.check("acquisition_time_matches_crop_receipt:"+case.name+":"+asset["phase"]+":"+asset["band"],
+                         any(e.get("acquired_at") == asset.get("acquired_at") for e in crop_receipts))
             if asset["band"] != "SCL":
                 report.check("harmonization_flag_matches_original_item:"+case.name+":"+asset["phase"]+":"+asset["band"],
                              asset["earthsearch_boa_offset_applied"] == item["properties"].get("earthsearch:boa_offset_applied")
@@ -916,6 +1038,16 @@ def _verify_acquisition(report, data_root):
         entries={Path(v["path"]).name:v for v in catalog if v.get("type") == "file"}
         for asset in _assets(data_root/"earthbench"/q):
             remote=entries[Path(asset["path"]).name]
+            downloads = [e for e in receipts if e.get("event") == "download"
+                         and e.get("url") == asset["source"] and e.get("sha256") == asset["sha256"]
+                         and e.get("http_status") == 200]
+            first_download = min((e["timestamp"] for e in downloads), default=None)
+            report.check("EarthBench_actual_acquisition_timestamp:"+q+":"+asset["band"],
+                         first_download is not None and asset.get("acquired_at") == first_download,
+                         {"recorded": asset.get("acquired_at"), "first_successful_download": first_download})
+            report.check("EarthBench_observation_date_precision:"+q+":"+asset["band"],
+                         asset.get("observation_time_precision") == "date"
+                         and asset.get("observation_time") == asset.get("observation_date"))
             if "lfs" in remote:
                 matches = asset["sha256"] == remote["lfs"]["oid"]
                 algorithm = "LFS_SHA256"
@@ -926,9 +1058,45 @@ def _verify_acquisition(report, data_root):
             report.check("EarthBench_pinned_source_hash:"+q+":"+asset["band"], matches and asset["bytes"] == remote["size"], {"authority":algorithm})
 
 
-def _verify_worker_capacity(report, calls, config):
+def _verify_worker_capacity(report, calls, config, plan):
     nodes={n["node_id"]:n for n in config["nodes"]}
+    steps={s["step_id"]:s for s in plan["steps"]}
+    pending_states={"accepted","queued","waiting_link","running"}
     for node_id,node in nodes.items():
+        jobs={}
+        charged=set()
+        remaining_energy=float(node["energy_j"])
+        for row in sorted((r for r in calls if r["node_id"]==node_id),key=lambda r:r["timestamp"]):
+            job_id=row["job_id"]
+            jobs[job_id]=row
+            step=steps[row["step_id"]]
+            if row["status"] in ("succeeded","failed") and job_id not in charged:
+                remaining_energy-=float(step["estimated_energy_j"])
+                charged.add(job_id)
+            pending=[steps[r["step_id"]] for r in jobs.values() if r["status"] in pending_states]
+            memory=sum(s["estimated_memory_bytes"] for s in pending)
+            storage=sum(s["estimated_storage_bytes"] for s in pending)
+            energy=sum(s["estimated_energy_j"] for s in pending)
+            obs=row.get("resource_observation_after",{})
+            label=node_id+":"+job_id+":"+row["status"]
+            report.check("pending_work_reservations:"+label,
+                         obs.get("memory_reserved_bytes")==memory
+                         and obs.get("storage_reserved_bytes")==storage
+                         and abs(obs.get("energy_reserved_j",math.inf)-energy)<=1e-9
+                         and obs.get("pending_job_count")==len(pending))
+            actual_used=obs.get("storage_used_bytes")
+            bounds=(isinstance(actual_used,(int,float)) and 0<=actual_used<=node["storage_bytes"]
+                    and actual_used+storage<=node["storage_bytes"]
+                    and memory<=node["memory_bytes"] and energy<=remaining_energy+1e-9
+                    and remaining_energy>=-1e-9)
+            report.check("resource_capacity_not_oversubscribed:"+label,bounds)
+            report.check("reserved_resource_availability:"+label,
+                         bounds and obs.get("memory_bytes")==max(0,node["memory_bytes"]-memory)
+                         and obs.get("storage_bytes")==max(0,node["storage_bytes"]-actual_used-storage)
+                         and abs(obs.get("energy_j",math.inf)-max(0,remaining_energy-energy))<=1e-9
+                         and abs(obs.get("energy_remaining_j",math.inf)-remaining_energy)<=1e-9)
+            report.check("resource_snapshot_precedes_event:"+label,
+                         obs.get("node_id")==node_id and obs.get("timestamp",math.inf)<=row["timestamp"])
         timeline=[]
         for row in calls:
             if row["node_id"] != node_id:continue

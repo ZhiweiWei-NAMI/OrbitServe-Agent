@@ -126,7 +126,9 @@ def main(argv=None):
         print(json.dumps(acquire(args.data_root),indent=2))
     elif args.command=='nodes':
         from .runtime import check_nodes
-        print(json.dumps(check_nodes(args.work_dir),indent=2))
+        result=check_nodes(args.work_dir)
+        print(json.dumps(result,indent=2))
+        return 0 if result.get('status')=='checked' else 1
     elif args.command=='baseline': baseline(args.data_root,args.run_root,args.case,not args.no_benchmarks)
     elif args.command=='run': distributed(args.data_root/'cases'/args.case,args.run_root,args.scenario,_read(args.plan) if args.plan else None,_read(args.forecast) if args.forecast else None,args.experiment)
     elif args.command=='verify':

@@ -1,14 +1,82 @@
 {
-  "reviewer": "A06",
-  "independent_suite_id": "20261016T134508Z-acceptance-0a1a15b6",
+  "reviewer": "A06 native independent original-checklist auditor",
+  "reviewer_task_id": "/root/audit_original_orbitserve_checklist",
+  "independent_suite_id": "20261017T002828Z-acceptance-cbb560f2",
   "independent_suite_status": "PASS",
   "command_exit_code": 0,
-  "acceptance_sha256": "e7f47f78ef322d8a8dd9cb916e4769669702243abff3f5b9cd2ed1bc287ef4f2",
-  "check_count": 168,
-  "root_requested_rerun_id": "20261016T134554Z-E1-1c4e8ac1",
-  "root_requested_rerun_exit_code": 0,
-  "all_four_readme_commands_exit_code": 0,
-  "prepare_data_mode": "independently executed against a copy of validated input cache; 40 input TIFF hashes unchanged; zero new COG response bytes",
-  "source_inspection": "completed; author source not changed by reviewer",
-  "reference_method_discrepancy": "question4 maximum NDVI excluded from upstream last bin: 14.98184508219908%; corrected inclusive maximum: 14.936468942106828%; 2034 pixels; fixed method and tolerances unchanged"
+  "acceptance_sha256": "1dffc4c253997a4a20923a881ebf9214d01cb7e13a4d4eafd4cdb46ea87672be",
+  "check_count": 248,
+  "tested_compute_commit": "dc5fa469d08479c9d2a48cee850a542605e43aae",
+  "tested_source_sha256": "f2b7e0393e8670b1acd3cbbe91846ca4f779e31ad90680629d1f960851ffe1ce",
+  "readme_command_exit_codes": {
+    "prepare": 0,
+    "nodes": 0,
+    "run": 0,
+    "accept": 0
+  },
+  "readme_commands": {
+    "prepare": "orbitserve prepare-data --data-root \"$ORBITSERVE_DATA_ROOT\"",
+    "nodes": "orbitserve nodes --work-dir \"$ORBITSERVE_RUN_ROOT/node-check\"",
+    "run": "orbitserve run --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\" --case lake_mead",
+    "accept": "orbitserve accept --data-root \"$ORBITSERVE_DATA_ROOT\" --run-root \"$ORBITSERVE_RUN_ROOT\""
+  },
+  "reviewer_evidence_root": "/workspace/shared/orbitserve-a06-readme-20261017",
+  "representative_run_id": "20261017T002822Z-E1-dcfea0c7",
+  "representative_run_exit_code": 0,
+  "prepare_data_mode": "Separate copied cache; all40 TIFF hashes unchanged and match frozen source; zero new COG response body bytes",
+  "source_inspection": "All three original inputs read in full; source inspected; verifier does not import science/planning/forecast/policy/runtime implementations",
+  "original_omissions_closed": [
+    "Real RGB imagery overlays were missing from old categorical quicklooks",
+    "Earth-Bench acquisition timestamps and observation precision incomplete",
+    "Baseline tool events lacked measured process resource snapshots",
+    "Outstanding storage/energy work was not reserved before subsequent admission",
+    "Prior complete evidence directories absent; public inputs reacquired and fresh suites executed",
+    "README CLI install prerequisite verified and generated egg-info excluded from computational inventory"
+  ],
+  "negative_verifier_checks": [
+    "Changed RGB sample rejected",
+    "Changed PNG overlay sample rejected",
+    "Changed RGB source hash rejected"
+  ],
+  "ground_products": [
+    {
+      "case_id": "lake_mead",
+      "run_id": "20261017T002833Z-E1-68e4b67c",
+      "outputs_dir": "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002833Z-E1-68e4b67c/nodes/G/artifacts/427563f51d825e39d6ff3f17",
+      "map_sha256": "0d5df0d899df1e5fe64f14cfdf4cb606cc113f7e05c93c653361fad26e0d8ff1",
+      "visually_reviewed_same_png_bytes": true,
+      "tiff_count": 14,
+      "valid_common_pixels": 51877,
+      "gained_area_m2": 232000.0,
+      "lost_area_m2": 722000.0,
+      "unknown_area_m2": 4249200.0
+    },
+    {
+      "case_id": "lake_powell",
+      "run_id": "20261017T002838Z-E1-0e67cf81",
+      "outputs_dir": "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002838Z-E1-0e67cf81/nodes/G/artifacts/8f210d7347e0ecd4fdc00aaa",
+      "map_sha256": "ef2fbdd704dc200c7905bad7dc64024606438d06181cfc02a92bc97db8a892ef",
+      "visually_reviewed_same_png_bytes": true,
+      "tiff_count": 14,
+      "valid_common_pixels": 61341,
+      "gained_area_m2": 66000.0,
+      "lost_area_m2": 2073600.0,
+      "unknown_area_m2": 463600.0
+    },
+    {
+      "case_id": "lake_shasta",
+      "run_id": "20261017T002844Z-E1-31004f32",
+      "outputs_dir": "/workspace/shared/orbitserve-a06-readme-20261017/runs/20261017T002844Z-E1-31004f32/nodes/G/artifacts/102c1740515eb264556f6eca",
+      "map_sha256": "0de56d950018bbcbb62986068341737817866a6ede265adc60cfc41fae0cfc6f",
+      "visually_reviewed_same_png_bytes": true,
+      "tiff_count": 14,
+      "valid_common_pixels": 62228,
+      "gained_area_m2": 44000.0,
+      "lost_area_m2": 2013200.0,
+      "unknown_area_m2": 108800.0
+    }
+  ],
+  "model_scope": "Analytical reference forecast, rule planning/execution; learned WM/LLM/MARL not implemented or validated",
+  "evidence_availability": "New complete files inspected in this environment. This report does not claim that missing historical run directories were recovered or that a separate portable archive is already published.",
+  "reference_method_sensitivity_evidence": "/workspace/shared/orbitserve-a06-readme-20261017/reference_method_sensitivity.json"
 }

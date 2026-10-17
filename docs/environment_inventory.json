@@ -1,19 +1,17 @@
 {
-  "date": "2026-10-16",
+  "date": "2026-10-17",
   "independent_project": "OrbitServe-Agent",
-  "workspace_selection": "New independent directory, no unrelated repository modified",
+  "workspace": "/workspace/scratch/24ac65590986/OrbitServe-Agent",
   "python": "3.12.14",
   "platform": "Linux x86_64",
+  "dependencies": "requirements-lock.txt; exact install and pip check exit0",
   "existing_model_search": {
-    "scope": "Top-level and immediate child workspace entries, filenames matching world-model, wm or marl",
+    "scope": "accessible top-level and immediate workspace children; no unrelated machine access",
     "found_usable_model_or_adapter": false,
-    "limitations": "No claim to inventory unrelated machines or inaccessible project internals"
+    "forecast_source": "analytical_reference"
   },
-  "forecast_source": "analytical_reference",
-  "learned_wm": "not implemented or validated",
-  "llm_planner": "not implemented or validated",
-  "marl_policy": "not implemented or validated",
-  "execution": "Native agents and local shared workspace only",
-  "raw_data_location": "External to repository",
-  "dependencies": "requirements-lock.txt"
+  "native_only": true,
+  "isolation": "unshare user/network and bubblewrap mount/PID/IPC/UTS namespaces; negative probes passed",
+  "restoration": "Previous external data/runs/venv absent; reacquired public inputs and regenerated full evidence, never treated missing files as present",
+  "tested_compute_commit": "dc5fa469d08479c9d2a48cee850a542605e43aae"
 }

@@ -1,320 +1,1103 @@
 {
-  "scope": "V0 prediction-interface-driven rule prototype; local acceptance, publication is a separate delivery action",
+  "scope": "Original V0 checklist re-audited and gaps completed, 2026-10-17",
   "status": "PASS",
-  "rule": "All A00-A17 PASS with executed evidence",
-  "tested_compute_commit": "93fdaede4ccb73dcfb3dd229a4e892e160b11787",
-  "lead_suite_id": "20261016T134417Z-acceptance-493707f7",
-  "independent_suite_id": "20261016T134508Z-acceptance-0a1a15b6",
-  "independent_top_level_check_count": 168,
-  "root_requested_rerun_id": "20261016T134554Z-E1-1c4e8ac1",
+  "tested_compute_commit": "dc5fa469d08479c9d2a48cee850a542605e43aae",
+  "lead_suite_id": "20261017T002642Z-acceptance-a649ed0d",
+  "independent_suite_id": "20261017T002828Z-acceptance-cbb560f2",
+  "independent_top_level_check_count": 248,
+  "root_requested_rerun_id": "20261017T002822Z-E1-dcfea0c7",
   "checks": [
     {
       "check_id": "A00",
-      "title": "环境与真实派工",
+      "title": "工作区与真实派工",
+      "owner": "A00",
+      "required_for_v0": true,
+      "expected": "环境、独立目录、版本、原生子代理任务ID和责任表可检查。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134417Z-E0-0e9e8f75"
+        "20261017T002642Z-E0-f2b5500b"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "docs/environment_inventory.json",
+        "docs/agent_responsibilities.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "独立目录、固定依赖、真实原生代理任务ID和隔离worktree记录；未发现可直接接入的既有模型。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A01",
-      "title": "数据与溯源",
+      "title": "真实数据与溯源",
+      "owner": "A01",
+      "required_for_v0": true,
+      "expected": "两个Earth-Bench案例及三个双时相AOI数据包存在；来源、元数据和SHA-256可核验。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134417Z-E0-0e9e8f75"
+        "20261017T002642Z-E0-f2b5500b"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "evidence/data_manifest_summary.json",
+        "/workspace/shared/orbitserve-restoration-20261017/restoration-summary.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "40个真实TIFF；固定来源、获取/观测时间、有效缩放和哈希；冷获取及缓存复验均成功。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A02",
       "title": "参考隔离",
+      "owner": "A01",
+      "required_for_v0": true,
+      "expected": "参考答案与运行环境隔离，question100未被未经说明地纳入通过案例，无查表科学结果。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134417Z-E0-0e9e8f75",
-        "20261016T134422Z-E1-f964c21a",
-        "20261016T134427Z-E1-278b50b9",
-        "20261016T134432Z-E1-b634a664"
+        "20261017T002642Z-E0-f2b5500b",
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "evidence/data_manifest_summary.json",
+        "/workspace/shared/orbitserve-restoration-20261017/restoration-summary.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "参考仅在外部evaluation；运行预装白名单、命名空间及科学源码检查；未纳入question100。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A03",
       "title": "真实遥感计算",
+      "owner": "A02",
+      "required_for_v0": true,
+      "expected": "两个小案例和三个AOI均真实计算并输出对应产品。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134417Z-E0-0e9e8f75"
+        "20261017T002642Z-E0-f2b5500b"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "两个TVDI案例及三个水域AOI实际计算，生成14栅格/矢量/真实RGB叠加图/统计。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A04",
-      "title": "独立科学一致性",
+      "title": "科学一致性",
+      "owner": "A06",
+      "required_for_v0": true,
+      "expected": "缩放、配准、共同有效区、未知区域、分类守恒和面积通过独立重算。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134417Z-E0-0e9e8f75",
-        "20261016T134422Z-E1-f964c21a",
-        "20261016T134427Z-E1-278b50b9",
-        "20261016T134432Z-E1-b634a664",
-        "20261016T134437Z-E2-whole-00d21884",
-        "20261016T134442Z-E2-tiled-7e69305c"
+        "20261017T002642Z-E0-f2b5500b",
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002712Z-E2-tiled-39ad0dca"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "独立输入解码、掩膜/面积守恒、几何栅格化、RGBA和PNG重建；全块/分块逐像元一致。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A05",
       "title": "Harness与产物追踪",
+      "owner": "A02",
+      "required_for_v0": true,
+      "expected": "调用参数、执行节点、状态、产物引用与失败原因可以追踪；无伪成功。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134417Z-E0-0e9e8f75",
-        "20261016T134422Z-E1-f964c21a",
-        "20261016T134427Z-E1-278b50b9",
-        "20261016T134432Z-E1-b634a664"
+        "20261017T002642Z-E0-f2b5500b",
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "E0新增真实主机RSS/CPU快照，分布式状态/产物/资源可关联；隔离失败CLI实际退出1。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A06",
-      "title": "预测与跨任务观测反馈",
+      "title": "预测输入及反馈闭环",
+      "owner": "A04",
+      "required_for_v0": true,
+      "expected": "预测时域和来源明确；至少一次实际反馈生成新预测并被后续规划消费；未把参考预测冒充学习WM。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134422Z-E1-f964c21a",
-        "20261016T134427Z-E1-278b50b9",
-        "20261016T134432Z-E1-b634a664"
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "分析参考预测含未来时域；实际完成观测产生新forecast_id并被后续实际计划消费，明确跨任务边界。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A07",
       "title": "预测改变规划粒度",
+      "owner": "A04",
+      "required_for_v0": true,
+      "expected": "E2只变更未来预测即改变实际DAG粒度，两套计划实际执行且科学结果等价。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134437Z-E2-whole-00d21884",
-        "20261016T134442Z-E2-tiled-7e69305c"
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002712Z-E2-tiled-39ad0dca"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "仅未来内存预算改变2步整块DAG与5步分块DAG；两者均执行且科学/显示结果等价。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A08",
-      "title": "无数据或信息旁路",
+      "title": "无信息与数据旁路",
+      "owner": "A06",
+      "required_for_v0": true,
+      "expected": "决策侧未读取隐藏未来、参考答案、其他节点私有文件或未收到的全局状态。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134422Z-E1-f964c21a",
-        "20261016T134427Z-E1-278b50b9",
-        "20261016T134432Z-E1-b634a664",
-        "20261016T134453Z-E4-6ba40314",
-        "20261016T134507Z-E5-5970f5b6"
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002718Z-E3-4b04b937",
+        "20261017T002723Z-E4-fe2a673b",
+        "20261017T002738Z-E5-c0e1d203"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "worker代码白名单、实际隔离负向探针、收到消息来源和时间检查、无隐藏未来或参考读取。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A09",
       "title": "四节点隔离与约束",
+      "owner": "A03",
+      "required_for_v0": true,
+      "expected": "独立节点存储，实际传输和控制消息受链路约束，资源与能力约束至少各一项真实影响动作。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134422Z-E1-f964c21a",
-        "20261016T134427Z-E1-278b50b9",
-        "20261016T134432Z-E1-b634a664",
-        "20261016T134453Z-E4-6ba40314",
-        "20261016T134507Z-E5-5970f5b6"
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002723Z-E4-fe2a673b",
+        "20261017T002738Z-E5-c0e1d203"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "四进程真实字节与控制约束；A内存/G能力改变动作；新增能量/存储预约及独立资源守恒。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A10",
-      "title": "节点本地分布式策略",
+      "title": "分布式策略执行",
+      "owner": "A05",
+      "required_for_v0": true,
+      "expected": "各节点进程独立调用策略，依据本地与收到的邻居信息决策；不是中心预计算分发。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134422Z-E1-f964c21a",
-        "20261016T134427Z-E1-278b50b9",
-        "20261016T134432Z-E1-b634a664",
-        "20261016T134437Z-E2-whole-00d21884",
-        "20261016T134448Z-E3-d40e9947"
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002718Z-E3-4b04b937"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "每节点本地策略和目标接纳；代价、邻居消息来源、队列预约与实际节点执行可追踪。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A11",
-      "title": "正常端到端交付",
+      "title": "正常端到端业务",
+      "owner": "A00",
+      "required_for_v0": true,
+      "expected": "E1真实跨节点计算且地面已接收、校验产品；与E0科学基线一致。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134422Z-E1-f964c21a",
-        "20261016T134427Z-E1-278b50b9",
-        "20261016T134432Z-E1-b634a664"
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "三个AOI实际跨节点计算，G接收并校验全部产品，包括真实RGBA与PNG；与E0一致。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A12",
-      "title": "同一DAG动态卸载",
+      "title": "同DAG动态卸载",
+      "owner": "A05",
+      "required_for_v0": true,
+      "expected": "E3同一计划在节点忙碌/临时不可达时实际调整执行位置，不只更新描述。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134437Z-E2-whole-00d21884",
-        "20261016T134448Z-E3-d40e9947"
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002718Z-E3-4b04b937"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "同一计划、预测、输入；B运行时忙碌使实际tile/merge从B改为C。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A13",
-      "title": "断地面后新步骤推进",
+      "title": "断地面继续执行",
+      "owner": "A03",
+      "required_for_v0": true,
+      "expected": "E4断开后新就绪步骤由星上执行器推进，无隐藏地面调用；恢复后产品交付。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134453Z-E4-6ba40314"
+        "20261017T002723Z-E4-fe2a673b"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "地面断开后merge新就绪、启动并成功，恢复后交付；无断链期间地面通信。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A14",
       "title": "中断传输与恢复",
+      "owner": "A03",
+      "required_for_v0": true,
+      "expected": "E5关闭时不传输、不使用不完整文件，恢复后哈希正确，续传/重传流量如实记录。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134507Z-E5-5970f5b6"
+        "20261017T002738Z-E5-c0e1d203"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "输入ZIP偏移196608中断后原位置续传，关闭期间无推进/残缺输入计算，哈希与流量一致。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A15",
-      "title": "独立干净目录复跑",
+      "title": "独立复跑",
+      "owner": "A06",
+      "required_for_v0": true,
+      "expected": "E6在无旧输出的新目录产生新run_id，命令可原样运行，科学结果一致。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134514Z-E6-1bf2f3ab"
+        "20261017T002745Z-E6-e19642c4"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/scratch/24ac65590986/OrbitServe-Agent/src/orbitserve/__main__.py",
+          "run",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-acceptance-a649ed0d/independent-rerun",
+          "--case",
+          "lake_mead",
+          "--plan",
+          "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/plan.json",
+          "--forecast",
+          "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/forecast.json",
+          "--experiment",
+          "E6"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-acceptance-a649ed0d/independent-rerun/20261017T002745Z-E6-e19642c4/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-acceptance-a649ed0d/independent-rerun/20261017T002745Z-E6-e19642c4/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "E6新目录/运行/任务轨迹；A06又从干净目录执行代表业务和完整套件，产物一致。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A16",
-      "title": "未实现模型显式报错",
+      "title": "模块边界与替换点",
+      "owner": "A00",
+      "required_for_v0": true,
+      "expected": "规划/预测/策略接口明确，未实现LLM/学习WM/MARL模式显式不可用，无静默替代。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134417Z-E0-0e9e8f75"
+        "20261017T002642Z-E0-f2b5500b"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ],
+        [
+          "/workspace/shared/orbitserve-venv/bin/python",
+          "scripts/check_unavailable_modes.py"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "evidence/unavailable_modes.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "规则预测/规划/策略接口明确；learned_wm、llm、marl三个未实现模式实测显式报错。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
     },
     {
       "check_id": "A17",
-      "title": "证据报告与复现说明",
+      "title": "最终证据报告",
+      "owner": "A00",
+      "required_for_v0": true,
+      "expected": "完成声明均映射run_id、命令、证据，失败/未接入/模拟边界单列。",
       "status": "PASS",
       "run_ids": [
-        "20261016T134417Z-E0-0e9e8f75",
-        "20261016T134422Z-E1-f964c21a",
-        "20261016T134427Z-E1-278b50b9",
-        "20261016T134432Z-E1-b634a664",
-        "20261016T134437Z-E2-whole-00d21884",
-        "20261016T134442Z-E2-tiled-7e69305c",
-        "20261016T134448Z-E3-d40e9947",
-        "20261016T134453Z-E4-6ba40314",
-        "20261016T134507Z-E5-5970f5b6",
-        "20261016T134514Z-E6-1bf2f3ab"
+        "20261017T002642Z-E0-f2b5500b",
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002712Z-E2-tiled-39ad0dca",
+        "20261017T002718Z-E3-4b04b937",
+        "20261017T002723Z-E4-fe2a673b",
+        "20261017T002738Z-E5-c0e1d203",
+        "20261017T002745Z-E6-e19642c4"
       ],
-      "evidence": [
-        "evidence/acceptance_summary.json",
+      "commands": [
+        [
+          "/workspace/shared/orbitserve-venv/bin/orbitserve",
+          "accept",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal"
+        ],
+        [
+          "/workspace/scratch/24ac65590986/OrbitServe-Agent/src/orbitserve/__main__.py",
+          "run",
+          "--data-root",
+          "/workspace/shared/orbitserve-data",
+          "--run-root",
+          "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-acceptance-a649ed0d/independent-rerun",
+          "--case",
+          "lake_mead",
+          "--plan",
+          "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/plan.json",
+          "--forecast",
+          "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/forecast.json",
+          "--experiment",
+          "E6"
+        ]
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
         "docs/independent_review.md",
-        "docs/acceptance_report.md"
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-acceptance-a649ed0d/independent-rerun/20261017T002745Z-E6-e19642c4/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-acceptance-a649ed0d/independent-rerun/20261017T002745Z-E6-e19642c4/acceptance.json"
       ],
-      "reviewer": "A06 independent verification plus A00 integration and parent source review",
+      "observed": "原始A00–A17逐项映射命令/run_id/路径/观察值；完整外部证据归档，原始输入和秘密排除。",
+      "reviewer": "/root/audit_original_orbitserve_checklist; implementation lead and root source/output review",
       "failure_reason": null
+    }
+  ],
+  "work_items": [
+    {
+      "work_id": "W00",
+      "owner": "A00",
+      "goal": "确认工作区、能力、既有代码并固定接口",
+      "acceptance_ids": [
+        "A00",
+        "A16"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002642Z-E0-f2b5500b"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "docs/environment_inventory.json",
+        "docs/agent_responsibilities.json",
+        "evidence/unavailable_modes.json"
+      ]
+    },
+    {
+      "work_id": "W01",
+      "owner": "A01",
+      "goal": "获取并核验question2/question4，隔离参考",
+      "acceptance_ids": [
+        "A01",
+        "A02"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002642Z-E0-f2b5500b",
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "evidence/data_manifest_summary.json",
+        "/workspace/shared/orbitserve-restoration-20261017/restoration-summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json"
+      ]
+    },
+    {
+      "work_id": "W02",
+      "owner": "A02",
+      "goal": "通过harness执行真实小案例",
+      "acceptance_ids": [
+        "A03",
+        "A05"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002642Z-E0-f2b5500b",
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json"
+      ]
+    },
+    {
+      "work_id": "W03",
+      "owner": "A01+A02",
+      "goal": "获取三组双时相AOI并执行科学基线",
+      "acceptance_ids": [
+        "A01",
+        "A03",
+        "A04"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002642Z-E0-f2b5500b",
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002712Z-E2-tiled-39ad0dca"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "evidence/data_manifest_summary.json",
+        "/workspace/shared/orbitserve-restoration-20261017/restoration-summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/acceptance.json"
+      ]
+    },
+    {
+      "work_id": "W04",
+      "owner": "A03",
+      "goal": "四节点、资源、时间、真实传输和控制链路",
+      "acceptance_ids": [
+        "A08",
+        "A09"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002718Z-E3-4b04b937",
+        "20261017T002723Z-E4-fe2a673b",
+        "20261017T002738Z-E5-c0e1d203"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/acceptance.json"
+      ]
+    },
+    {
+      "work_id": "W05",
+      "owner": "A04",
+      "goal": "ForecastGraph和规则粒度规划，接入首个真实AOI",
+      "acceptance_ids": [
+        "A06",
+        "A07"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002712Z-E2-tiled-39ad0dca"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/acceptance.json"
+      ]
+    },
+    {
+      "work_id": "W06",
+      "owner": "A05",
+      "goal": "每节点规则策略、预约、卸载和队列",
+      "acceptance_ids": [
+        "A10"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002718Z-E3-4b04b937"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/acceptance.json"
+      ]
+    },
+    {
+      "work_id": "W07",
+      "owner": "A00",
+      "goal": "正常端到端集成与反馈闭环",
+      "acceptance_ids": [
+        "A05",
+        "A06",
+        "A09",
+        "A10",
+        "A11"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002642Z-E0-f2b5500b",
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002723Z-E4-fe2a673b",
+        "20261017T002738Z-E5-c0e1d203",
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002718Z-E3-4b04b937"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/acceptance.json"
+      ]
+    },
+    {
+      "work_id": "W08",
+      "owner": "A06",
+      "goal": "预测成对、动态卸载、断地面和断传输验收；作者修复",
+      "acceptance_ids": [
+        "A07",
+        "A08",
+        "A12",
+        "A13",
+        "A14"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002712Z-E2-tiled-39ad0dca",
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002718Z-E3-4b04b937",
+        "20261017T002723Z-E4-fe2a673b",
+        "20261017T002738Z-E5-c0e1d203"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/acceptance.json"
+      ]
+    },
+    {
+      "work_id": "W09",
+      "owner": "A06+A00",
+      "goal": "独立工作副本复跑",
+      "acceptance_ids": [
+        "A15"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002745Z-E6-e19642c4"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-acceptance-a649ed0d/independent-rerun/20261017T002745Z-E6-e19642c4/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-acceptance-a649ed0d/independent-rerun/20261017T002745Z-E6-e19642c4/acceptance.json"
+      ]
+    },
+    {
+      "work_id": "W10",
+      "owner": "A00",
+      "goal": "结构化验收、复现说明和简历事实",
+      "acceptance_ids": [
+        "A16",
+        "A17"
+      ],
+      "status": "PASS",
+      "run_ids": [
+        "20261017T002642Z-E0-f2b5500b",
+        "20261017T002646Z-E1-aa7783c0",
+        "20261017T002653Z-E1-08761985",
+        "20261017T002700Z-E1-a9652346",
+        "20261017T002706Z-E2-whole-ba50f368",
+        "20261017T002712Z-E2-tiled-39ad0dca",
+        "20261017T002718Z-E3-4b04b937",
+        "20261017T002723Z-E4-fe2a673b",
+        "20261017T002738Z-E5-c0e1d203",
+        "20261017T002745Z-E6-e19642c4"
+      ],
+      "evidence_paths": [
+        "docs/acceptance_report.md",
+        "docs/independent_review.md",
+        "evidence/acceptance_summary.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-E0-f2b5500b/acceptance.json",
+        "evidence/unavailable_modes.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002646Z-E1-aa7783c0/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002653Z-E1-08761985/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002700Z-E1-a9652346/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002706Z-E2-whole-ba50f368/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002712Z-E2-tiled-39ad0dca/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002718Z-E3-4b04b937/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002723Z-E4-fe2a673b/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002738Z-E5-c0e1d203/acceptance.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-acceptance-a649ed0d/independent-rerun/20261017T002745Z-E6-e19642c4/run_manifest.json",
+        "/workspace/shared/orbitserve-runs/reopened-formal/20261017T002642Z-acceptance-a649ed0d/independent-rerun/20261017T002745Z-E6-e19642c4/acceptance.json"
+      ]
     }
   ],
   "capability_status": {
@@ -353,51 +1136,5 @@
       "validated": false,
       "required_for_v0": false
     }
-  },
-  "work_items": [
-    {
-      "work_id": "W00",
-      "status": "PASS"
-    },
-    {
-      "work_id": "W01",
-      "status": "PASS"
-    },
-    {
-      "work_id": "W02",
-      "status": "PASS"
-    },
-    {
-      "work_id": "W03",
-      "status": "PASS"
-    },
-    {
-      "work_id": "W04",
-      "status": "PASS"
-    },
-    {
-      "work_id": "W05",
-      "status": "PASS"
-    },
-    {
-      "work_id": "W06",
-      "status": "PASS"
-    },
-    {
-      "work_id": "W07",
-      "status": "PASS"
-    },
-    {
-      "work_id": "W08",
-      "status": "PASS"
-    },
-    {
-      "work_id": "W09",
-      "status": "PASS"
-    },
-    {
-      "work_id": "W10",
-      "status": "PASS"
-    }
-  ]
+  }
 }

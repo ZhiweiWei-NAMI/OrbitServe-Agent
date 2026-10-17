@@ -7,6 +7,8 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 import threading
+import resource
+import os
 import time
 import traceback
 from uuid import uuid4
@@ -23,7 +25,13 @@ class Harness:
         self.started=time.monotonic()
 
     def _event(self, job, status, **extra):
-        event={**job, 'status':status,'timestamp':time.monotonic()-self.started,**extra}
+        usage=resource.getrusage(resource.RUSAGE_SELF)
+        observed_at=time.monotonic()-self.started
+        event={**job, 'status':status,'timestamp':observed_at,
+               'resource_observation':{'scope':'baseline_host_process_not_simulated_satellite',
+                   'process_id':os.getpid(),'observed_at':observed_at,
+                   'max_rss_bytes':usage.ru_maxrss*1024,'user_cpu_s':usage.ru_utime,
+                   'system_cpu_s':usage.ru_stime,'method':'Linux getrusage(RUSAGE_SELF); RSS high-water mark'},**extra}
         with self.lock:
             self.jobs[job['job_id']]=event
             append_jsonl(self.run_dir/'tool_calls.jsonl',event)
@@ -40,8 +48,8 @@ class Harness:
         return job_id
 
     def _run(self,job,case_dir,output_dir):
-        self._event(job,'running',input_manifest=file_manifest(case_dir,exclude=('outputs','evaluation')))
         try:
+            self._event(job,'running',input_manifest=file_manifest(case_dir,exclude=('outputs','evaluation')))
             from .science import run_operator
             output_dir.mkdir(parents=True,exist_ok=True)
             result=run_operator(job['tool_id'],case_dir,output_dir,job['params'])

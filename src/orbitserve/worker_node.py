@@ -4,6 +4,7 @@ import base64
 from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 import queue
@@ -74,10 +75,18 @@ class Node:
             return mid
         self.send({'kind':'send_control','source':self.id,'destination':destination,'message_id':mid,'payload':payload,**self.context})
         return mid
+    def storage_used(self):
+        return sum(p.stat().st_size for p in self.root.rglob('*') if p.is_file())
+    def require_storage(self, additional_bytes, operation):
+        used=self.storage_used()
+        if used+additional_bytes>self.config['storage_bytes']:
+            raise RuntimeError(f'{operation} exceeds node storage budget: used={used}, additional={additional_bytes}, capacity={self.config["storage_bytes"]}')
     def observation(self):
         work=sum(j['step'].get('estimated_compute_pixels',0) for j in self.jobs.values() if j['status'] in ('accepted','queued','running','waiting_link'))
         occupied=sum(j['step'].get('estimated_memory_bytes',0) for j in self.jobs.values() if j['status'] in ('accepted','queued','waiting_link','running'))
-        used=sum(p.stat().st_size for p in self.root.rglob('*') if p.is_file())
+        used=self.storage_used()
+        reserved_storage=sum(j['step'].get('estimated_storage_bytes',0) for j in self.jobs.values() if j['status'] in ('accepted','queued','waiting_link','running'))
+        reserved_energy=sum(j['step']['estimated_energy_j'] for j in self.jobs.values() if j['status'] in ('accepted','queued','waiting_link','running'))
         pending=sum(j['status'] in ('accepted','queued','waiting_link','running') for j in self.jobs.values())
         assets=[{'artifact_id':aid,'node_id':self.id,'sha256':a['sha256'],
                  'total_bytes':sum(f['size_bytes'] for f in a['files']),'file_count':len(a['files']),
@@ -86,7 +95,12 @@ class Node:
         result=dict(self.config,timestamp=self.now(),now=self.now(),queue_work_pixels=work+(self.external_queue if self.now()<self.busy_until_s else 0),
                     busy_until_s=self.busy_until_s,available_after_s=max(0,self.busy_until_s-self.now()),
                     assets=assets,pending_job_count=pending,service_available=pending<self.config['max_queued_jobs'] and self.now()>=self.busy_until_s,
-                    memory_bytes=self.config['memory_bytes']-occupied,storage_bytes=max(0,self.config['storage_bytes']-used),energy_j=self.energy)
+                    memory_bytes=max(0,self.config['memory_bytes']-occupied),
+                    storage_bytes=max(0,self.config['storage_bytes']-used-reserved_storage),
+                    energy_j=max(0,self.energy-reserved_energy),memory_reserved_bytes=occupied,
+                    storage_used_bytes=used,storage_reserved_bytes=reserved_storage,
+                    energy_remaining_j=self.energy,energy_reserved_j=reserved_energy,
+                    storage_reservation_model='conservative pending-work estimate additional to actual node files')
         return result
     def advertise(self):
         obs=self.observation();self.emit('observations',event='local_observation',observation=obs)
@@ -115,8 +129,12 @@ class Node:
         art=self.artifacts[artifact_id]
         dest=self.root/'outgoing'/f'{safe_name(artifact_id)}.zip'
         if not dest.exists():
+            # ZIP_STORED: payload plus deterministic local/central-directory headers.
+            required=sum(f['size_bytes']+76+2*len(f['path'].encode('utf-8')) for f in art['files'])+22
+            self.require_storage(required,'outgoing archive')
             with zipfile.ZipFile(dest,'w',compression=zipfile.ZIP_STORED) as z:
                 for f in art['files']:z.write(Path(art['path'])/f['path'],f['path'])
+            self.require_storage(0,'completed outgoing archive')
         return dest
     def transfer(self,artifact_id,destination,purpose,job=None):
         if destination==self.id:return None
@@ -138,15 +156,18 @@ class Node:
     def on_begin(self,info):
         tid=info['transfer_id'];p=self.root/'partial'/f'{tid}.part'
         if tid not in self.incoming:
-            if info['size_bytes'] > self.observation()['storage_bytes']:
-                raise RuntimeError('incoming artifact exceeds actual remaining storage capacity')
-            p.touch(exist_ok=False);self.incoming[tid]={'info':info,'path':p,'offset':0}
+            # The archive and unpacked files coexist until member hashes pass.
+            remaining=sum(x['storage_peak_bytes']-x['offset'] for x in self.incoming.values() if x['offset']<x['info']['size_bytes'])
+            peak=info['size_bytes']+sum(f['size_bytes'] for f in info['files'])
+            self.require_storage(remaining+peak,'incoming archive and extracted members')
+            p.touch(exist_ok=False);self.incoming[tid]={'info':info,'path':p,'offset':0,'storage_peak_bytes':peak}
             self.emit('node_events',event='artifact_incomplete',artifact_id=info['artifact_id'],transfer_id=tid,
                       partial_path=str(p),computable=False,size_bytes=0)
     def on_chunk(self,msg):
         incoming=self.incoming[msg['transfer_id']];info=incoming['info'];data=base64.b64decode(msg['data'])
         if msg['offset']!=incoming['offset']:raise RuntimeError('noncontiguous receive offset')
         if hashlib.sha256(data).hexdigest()!=msg['chunk_sha256']:raise RuntimeError('chunk hash mismatch')
+        self.require_storage(len(data),'incoming chunk')
         with incoming['path'].open('ab') as f:f.write(data)
         incoming['offset']+=len(data)
         self.send({'kind':'chunk_received','transfer_id':msg['transfer_id'],'offset':incoming['offset']})
@@ -154,6 +175,7 @@ class Node:
             actual=digest(incoming['path'])
             if actual!=info['sha256']:raise RuntimeError('completed transfer hash mismatch')
             dest=self.root/'artifacts'/safe_name(info['artifact_id']);dest.mkdir(exist_ok=True)
+            self.require_storage(sum(f['size_bytes'] for f in info['files']),'archive extraction')
             with zipfile.ZipFile(incoming['path']) as z:
                 for member in z.infolist():
                     name=Path(member.filename)
@@ -174,13 +196,14 @@ class Node:
         from PIL import Image
         import rasterio
         art=self.artifacts[info['artifact_id']];p=Path(art['path'])
-        required=['change.tif','before_water.tif','after_water.tif','valid_common.tif','stats.json','changes.geojson','map.png']
+        required=['change.tif','before_water.tif','after_water.tif','valid_common.tif','before_rgb.tif','after_rgb.tif','stats.json','changes.geojson','map.png']
         for fn in required:
             if not (p/fn).is_file():raise RuntimeError(f'ground delivery missing {fn}')
         raster_checks={}
-        for fn in required[:4]:
+        for fn in required[:6]:
             with rasterio.open(p/fn) as ds:
-                a=ds.read(1);raster_checks[fn]={'shape':list(a.shape),'crs':str(ds.crs),'pixels':a.size}
+                a=ds.read();raster_checks[fn]={'shape':list(a.shape),'crs':str(ds.crs),'pixels':ds.width*ds.height,'bands':ds.count}
+                if fn.endswith('_rgb.tif') and ds.count!=4:raise RuntimeError('ground RGB delivery needs four RGBA bands')
         stats=json.loads((p/'stats.json').read_text());geo=json.loads((p/'changes.geojson').read_text())
         if geo.get('type')!='FeatureCollection':raise RuntimeError('invalid GeoJSON delivery')
         with Image.open(p/'map.png') as im:im.verify()
@@ -229,6 +252,11 @@ class Node:
         if not self.plan:
             self.plan=payload['plan_metadata'];self.set_context()
         self.forecast_view=payload.get('forecast_view',self.forecast_view)
+        declared_energy=step.get('estimated_energy_j')
+        if not isinstance(declared_energy,(int,float)) or not math.isfinite(declared_energy) or declared_energy<0:
+            self.control(source,{'kind':'request_receipt','job_id':jid,'status':'rejected',
+                         'reason':['explicit_nonnegative_estimated_energy_j_required'],'observation':self.observation()})
+            return
         own_task=dict(step,job_id=jid,result_owner=source,allowed_nodes=[self.id],input_bytes=0,output_bytes=0)
         action=self.decide(own_task,[]);obs=self.observation();reasons=[]
         if action['action']!='local':reasons.append('own_policy_resource_or_capability_rejected')
@@ -247,6 +275,7 @@ class Node:
         self.advertise()
     def job_event(self,job,status,**extra):
         job['status']=status
+        extra.setdefault('resource_observation_after',self.observation())
         self.emit('tool_calls',event='job_status',status=status,job_id=job['job_id'],step_id=job['step']['step_id'],
                   tool_id=job['step']['tool_id'],params=job['step'].get('params',{}),
                   input_artifact_ids=job['input_artifact_ids'],output_artifact_ids=[job['artifact_id']] if status=='succeeded' else [],**extra)
@@ -272,19 +301,25 @@ class Node:
     def collect_job(self):
         if self.future is None or not self.future.done():return
         job=self.active
+        # Charge the declared attempt budget exactly once, including failed work.
+        cost=float(job['step']['estimated_energy_j']);charged_energy=0.0
         try:
+            if cost>self.energy:raise RuntimeError('reserved job energy exceeds remaining modeled budget')
+            self.energy-=cost;charged_energy=cost
             result=self.future.result();out=self.root/'jobs'/safe_name(job['job_id'])
+            self.require_storage(0,'scientific output')
             art=self.register_directory(job['artifact_id'],out,self.id,self.now())
             if not art['files']:raise RuntimeError('operator returned no files')
-            self.energy-=float(job['step'].get('estimated_energy_j',job['step'].get('estimated_compute_pixels',0)*.00001))
             self.job_event(job,'succeeded',output_artifacts=[{k:v for k,v in art.items() if k!='path'}],
                            result=result,actual_elapsed_s=self.now()-job['started_at'],
-                           simulated_extra_compute_delay_s=0,energy_source='configured_model_estimate',remaining_energy_j=self.energy)
+                           simulated_extra_compute_delay_s=0,energy_source='configured_model_estimate',remaining_energy_j=self.energy,
+                           charged_energy_j=charged_energy)
             self.transfer(job['artifact_id'],job['owner'],'job_result',job)
             self.control(job['owner'],{'kind':'tool_receipt','job_id':job['job_id'],'step_id':job['step']['step_id'],
                          'status':'succeeded','artifact_id':job['artifact_id'],'artifact_sha256':art['sha256']})
         except Exception as exc:
-            self.job_event(job,'failed',error=str(exc),traceback=traceback.format_exc())
+            self.job_event(job,'failed',error=str(exc),traceback=traceback.format_exc(),
+                           energy_source='configured_attempt_budget_estimate',remaining_energy_j=self.energy,charged_energy_j=charged_energy)
             self.control(job['owner'],{'kind':'tool_receipt','job_id':job['job_id'],'step_id':job['step']['step_id'],
                          'status':'failed','error':str(exc)})
         self.active=None;self.future=None;self.advertise()

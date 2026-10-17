@@ -2,7 +2,7 @@
 
 An explicitly bounded **prediction-interface-driven rule prototype** for remote-sensing workflows. An analytical reference forecaster projects observed resource queues and known synthetic contacts; the planner selects executable whole-AOI or tiled DAGs; node-local policies select execution locations; actual scientific operators consume real imagery; actual file bytes cross constrained links before ground delivery.
 
-**V0 local E0–E6 acceptance passed on 2026-10-16.** The lead's full suite exited 0 and the independent validator passed 168 suite checks. See the [acceptance report](docs/acceptance_report.md) and [machine-readable evidence](evidence/acceptance_summary.json). This is a rule prototype; no learned model capability is implied.
+**Original-checklist V0 acceptance passed after re-audit on 2026-10-17.** The lead and independent reviewer each ran the full E0–E6 suite, exited 0, and passed 248 top-level checks. The re-audit added real imagery overlays, pending energy/storage reservations, baseline process-resource records and acquisition timestamps. See the [acceptance report](docs/acceptance_report.md) and [per-requirement evidence](evidence/acceptance_checklist.json). No learned model capability is implied.
 
 ## Architecture
 
@@ -62,10 +62,18 @@ Public Earth-Bench question2 and question4 supply NDVI and LST products used for
 
 Three projected 5 km × 5 km Sentinel-2 L2A shoreline AOIs each contain two observation dates and B02/B03/B04/B08/B11/SCL. Continuous reflectance and categorical quality information have explicit resampling semantics. Water-change candidates use a fixed MNDWI threshold on the common valid observation mask. Unknown pixels remain unknown. Projected areas are reported in square metres.
 
-Results are GeoTIFF masks/indices, GeoJSON change candidates, a PNG map, and JSON statistics. They demonstrate computational consistency, not externally validated flood-classification accuracy. See [acquisition](docs/data_acquisition.md), [science](docs/science_methods.md), [runtime](docs/runtime.md), and [planning](docs/planning.md).
+Results are GeoTIFF masks/indices, GeoJSON change candidates, a real RGB-plus-mask PNG overlay, and JSON statistics. Two georeferenced RGBA display products travel with tile outputs; the merge does not reopen original imagery. They demonstrate computational consistency, not externally validated flood-classification accuracy. See [acquisition](docs/data_acquisition.md), [science](docs/science_methods.md), [runtime](docs/runtime.md), and [planning](docs/planning.md).
 
 ## Repository boundary
 
 This repository contains code, configurations, contracts, acquisition instructions, and small sanitized evidence summaries. It intentionally excludes raw imagery, derived binary imagery/maps, large catalogs, reference answers, credentials, environments and run directories. Running the documented acquisition command obtains public inputs independently. Full local run evidence is stored outside the repository and is not silently reused as a new run.
 
 Each run records a run ID, command, source/config/input hashes, dependency versions, actual process and tool events, forecasts, plans, decisions, transfers, product hashes, and acceptance findings. A delivered state is emitted only after ground receipt and validation.
+
+The separate `OrbitServe-Agent-evidence-20261017.zip` delivery preserves both
+fresh full suites, acquisition records, actual generated products and targeted
+failure proofs. Its [hash and inventory summary](evidence/evidence_bundle_summary.json)
+identify the exact bundle. Inside it, replace `/workspace/shared/` in original
+records with the archive-relative `shared/` prefix; the included manifest maps
+and hashes every retained file. Raw source imagery is intentionally reacquired
+through `prepare-data` rather than included in the delivery.

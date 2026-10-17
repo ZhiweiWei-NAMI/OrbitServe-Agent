@@ -16,17 +16,28 @@ import numpy as np
 import rasterio
 from affine import Affine
 from rasterio.crs import CRS
-from rasterio.enums import Resampling
+from rasterio.enums import ColorInterp, Resampling
 from rasterio.features import shapes
 from rasterio.vrt import WarpedVRT
 from rasterio.warp import transform_geom
 from rasterio.windows import Window
 
-VERSION = "orbitserve-science-1.0.1"
+VERSION = "orbitserve-science-1.0.2"
 FLOAT_NODATA = -9999.0
 WATER_NODATA = 255
 SCL_VALID = (4, 5, 6, 7)  # vegetation, bare soil, water, unclassified
 CLASS_NAMES = {0: "unknown", 1: "stable_nonwater", 2: "stable_water", 3: "gained", 4: "lost"}
+RGB_DISPLAY = {
+    "bands": ["B04", "B03", "B02"],
+    "source_values": "stored DN * asset.scale + asset.offset, applied once",
+    "reflectance_min": 0.0, "reflectance_max": 0.30,
+    "stretch": "uint8(round_half_even(255 * clip(reflectance / 0.30, 0, 1)))",
+    "gamma": 1.0, "alpha": "255 where phase-valid, otherwise 0; invalid RGB is 0",
+    "water_overlay": {"color": [35, 108, 177], "opacity": 0.35},
+    "change_overlay": {"gained_color": [20, 169, 145], "lost_color": [218, 89, 56], "opacity": 0.50},
+    "unknown_color": [165, 165, 165],
+    "purpose": "display only; quantized RGB does not enter indices, masks or areas",
+}
 FORMULAS = {
     "NDVI": "(B08-B04)/(B08+B04)",
     "NDWI": "(B03-B08)/(B03+B08)",
@@ -187,6 +198,31 @@ def _write_raster(path: Path, array: np.ndarray, task: dict, window=None, nodata
         dest.update_tags(implementation_version=VERSION, **(tags or {}))
 
 
+def _display_rgb(red: np.ndarray, green: np.ndarray, blue: np.ndarray, valid: np.ndarray) -> np.ndarray:
+    """Fixed, case-independent stretch of already decoded physical reflectance."""
+    rgba = np.zeros((4, *valid.shape), dtype="uint8")
+    for channel, values in enumerate((red, green, blue)):
+        rgba[channel, valid] = np.rint(255 * np.clip(values[valid] / RGB_DISPLAY["reflectance_max"], 0, 1)).astype("uint8")
+    rgba[3, valid] = 255
+    return rgba
+
+
+def _write_rgb_raster(path: Path, rgba: np.ndarray, task: dict, window=None) -> None:
+    crs, transform, _, _ = _grid(task)
+    row, col, height, width = _window(task, window)
+    if rgba.shape != (4, height, width) or rgba.dtype != np.uint8:
+        raise ValueError("RGB display product must be four uint8 bands on its declared window")
+    with rasterio.open(path, "w", driver="GTiff", width=width, height=height,
+                       count=4, dtype="uint8", crs=crs,
+                       transform=transform * Affine.translation(col, row),
+                       photometric="RGB", alpha="YES", compress="deflate", predictor=2) as dest:
+        dest.write(rgba)
+        dest.colorinterp = (ColorInterp.red, ColorInterp.green, ColorInterp.blue, ColorInterp.alpha)
+        dest.update_tags(implementation_version=VERSION, rgb_display=json.dumps(RGB_DISPLAY, sort_keys=True))
+        for channel, label in enumerate((*RGB_DISPLAY["bands"], "phase-valid alpha"), start=1):
+            dest.set_band_description(channel, label)
+
+
 def _describe(array: np.ndarray) -> dict:
     selected = array[np.isfinite(array)]
     if not selected.size:
@@ -221,6 +257,7 @@ def _water_tile(case_dir: Path, output_dir: Path, params: dict) -> dict:
         valid = observed & np.isfinite(indices["MNDWI"])
         arrays[f"valid_{phase}"] = valid.astype("uint8")
         arrays[f"{phase}_water"] = np.where(valid, indices["MNDWI"] > threshold, WATER_NODATA).astype("uint8")
+        arrays[f"{phase}_rgb"] = _display_rgb(r, g, b, valid)
         for key, index in indices.items():
             arrays[f"{phase}_{key.lower()}"] = np.where(valid, index, np.nan)
     common = arrays["valid_before"].astype(bool) & arrays["valid_after"].astype(bool)
@@ -234,15 +271,18 @@ def _water_tile(case_dir: Path, output_dir: Path, params: dict) -> dict:
     files = []
     for key, arr in arrays.items():
         name = f"{key}.tif"
-        _write_raster(output_dir / name, arr, task, window,
-                      nodata=WATER_NODATA if key.endswith("_water") else None,
-                      tags={"formula": FORMULAS.get(key.split("_", 1)[-1].upper(), ""), "threshold": str(threshold)})
+        if key.endswith("_rgb"):
+            _write_rgb_raster(output_dir / name, arr, task, window)
+        else:
+            _write_raster(output_dir / name, arr, task, window,
+                          nodata=WATER_NODATA if key.endswith("_water") else None,
+                          tags={"formula": FORMULAS.get(key.split("_", 1)[-1].upper(), ""), "threshold": str(threshold)})
         files.append(name)
     metadata = {"implementation_version": VERSION, "case_id": task.get("case_id"),
                 "window": list(window), "target_grid": {k: task[k] for k in ("crs", "transform", "height", "width")},
                 "threshold": threshold, "method": "MNDWI", "files": files,
                 "file_hashes": {name: _sha256(output_dir / name) for name in files},
-                "input_scaling": provenance, "formulas": FORMULAS,
+                "input_scaling": provenance, "formulas": FORMULAS, "rgb_display": RGB_DISPLAY,
                 "scl_valid_classes": list(SCL_VALID), "valid_common_pixels": int(common.sum()),
                 "class_counts": {name: int((change == code).sum()) for code, name in CLASS_NAMES.items()}}
     _write_json(output_dir / "tile.json", metadata)
@@ -338,26 +378,42 @@ def _draw_map(arrays: dict, task: dict, path: Path, *, continuous: bool = False)
         draw.text((20, 10), str(task.get("case_id", "Earth-Bench")) + " - " + arrays.get("label", "Index"), font=title_font, fill="black")
         draw.text((20, 490), "Blue: 0 | Green: 0.5 | Red: 1 | Gray: invalid. Display clipped to [0,1].", font=font, fill="black")
     else:
-        palette = np.array([(165, 165, 165), (232, 224, 206), (35, 108, 177), (20, 169, 145), (218, 89, 56)], dtype="uint8")
-        canvas = Image.new("RGB", (1000, 465), "white")
+        canvas = Image.new("RGB", (1000, 480), "white")
         draw = ImageDraw.Draw(canvas)
-        draw.text((20, 10), f"{task.get('case_id', 'Water change')}: MNDWI > 0.0 candidates", font=title_font, fill="black")
+        draw.text((20, 10), f"{task.get('case_id', 'Water change')}: real RGB with MNDWI > 0.0 candidate overlays", font=title_font, fill="black")
         for i, phase in enumerate(("before", "after", "change")):
+            source_phase = "after" if phase == "change" else phase
+            rgba = arrays[f"{source_phase}_rgb"]
+            rgb = np.moveaxis(rgba[:3], 0, -1).copy()
             if phase == "change":
-                labels = arrays["change"]
+                valid = arrays["valid_common"] == 1
+                overlay = RGB_DISPLAY["change_overlay"]
+                layers = [(arrays["change"] == 3, overlay["gained_color"], overlay["opacity"]),
+                          (arrays["change"] == 4, overlay["lost_color"], overlay["opacity"])]
+                label = "After RGB + gained/lost water"
             else:
-                water = arrays[f"{phase}_water"]
-                labels = np.where(water == WATER_NODATA, 0, water + 1)
-            rgb = palette[labels]
+                valid = rgba[3] == 255
+                overlay = RGB_DISPLAY["water_overlay"]
+                layers = [(arrays[f"{phase}_water"] == 1, overlay["color"], overlay["opacity"])]
+                label = phase.capitalize() + " RGB + water"
+            for selected, color, opacity in layers:
+                selected = selected & valid
+                rgb[selected] = np.rint((1 - opacity) * rgb[selected] + opacity * np.asarray(color)).astype("uint8")
+            rgb[~valid] = RGB_DISPLAY["unknown_color"]
             panel = Image.fromarray(rgb).resize((300, 300), Image.Resampling.NEAREST)
             x = 20 + i * 330
-            draw.text((x, 45), phase.capitalize(), font=font, fill="black")
+            draw.text((x, 45), label, font=font, fill="black")
             canvas.paste(panel, (x, 70))
-        for i, (code, name) in enumerate(CLASS_NAMES.items()):
-            x = 20 + i * 195
-            draw.rectangle((x, 395, x + 18, 413), fill=tuple(palette[code]))
+        legend = [(RGB_DISPLAY["water_overlay"]["color"], "Water (35% opacity)"),
+                  (RGB_DISPLAY["change_overlay"]["gained_color"], "Gained (50% opacity)"),
+                  (RGB_DISPLAY["change_overlay"]["lost_color"], "Lost (50% opacity)"),
+                  (RGB_DISPLAY["unknown_color"], "Invalid / unknown")]
+        for i, (color, name) in enumerate(legend):
+            x = 20 + i * 245
+            draw.rectangle((x, 395, x + 18, 413), fill=tuple(color))
             draw.text((x + 24, 394), name, font=font, fill="black")
-        draw.text((20, 435), "Common-valid comparison only. Grid-aligned quicklook; GeoTIFFs retain full resolution and georeferencing.", font=font, fill="black")
+        draw.text((20, 430), "RGB: B04/B03/B02. Fixed linear reflectance stretch [0, 0.30]; no per-date or per-tile contrast adjustment.", font=font, fill="black")
+        draw.text((20, 454), "Changes use common-valid pixels only. Full-resolution georeferenced RGBA and scientific masks are supplied.", font=font, fill="black")
     canvas.save(path, format="PNG")
 
 
@@ -371,7 +427,8 @@ def _water_merge(case_dir: Path, output_dir: Path, params: dict) -> dict:
         raise ValueError("water_merge requires received tile_dirs")
     coverage = np.zeros((height, width), dtype="uint8")
     arrays: dict[str, np.ndarray] = {}
-    expected_keys = {"before_water", "after_water", "valid_before", "valid_after", "valid_common", "change"}
+    expected_keys = {"before_water", "after_water", "valid_before", "valid_after", "valid_common", "change",
+                     "before_rgb", "after_rgb"}
     expected_keys |= {f"{phase}_{index.lower()}" for phase in ("before", "after") for index in ("NDVI", "NDWI", "MNDWI")}
     tile_records = []
     for directory in tile_dirs:
@@ -380,6 +437,8 @@ def _water_merge(case_dir: Path, output_dir: Path, params: dict) -> dict:
             raise ValueError("Incompatible tile case, threshold, or method")
         if meta.get("implementation_version") != VERSION:
             raise ValueError("Mixed science implementation versions")
+        if meta.get("rgb_display") != RGB_DISPLAY:
+            raise ValueError("Incompatible tile RGB display mapping")
         row, col, h, w = _window(task, meta["window"])
         target = np.s_[row:row+h, col:col+w]
         if np.any(coverage[target]):
@@ -393,16 +452,31 @@ def _water_merge(case_dir: Path, output_dir: Path, params: dict) -> dict:
             with rasterio.open(directory / name) as src:
                 if src.crs != crs or src.transform != transform * Affine.translation(col, row) or src.shape != (h, w):
                     raise ValueError("Tile raster grid does not match its declared window")
-                data = src.read(1)
+                if key.endswith("_rgb"):
+                    if (src.count != 4 or src.dtypes != ("uint8",) * 4 or src.nodata is not None
+                            or src.colorinterp != (ColorInterp.red, ColorInterp.green, ColorInterp.blue, ColorInterp.alpha)
+                            or src.descriptions != (*RGB_DISPLAY["bands"], "phase-valid alpha")
+                            or json.loads(src.tags().get("rgb_display", "null")) != RGB_DISPLAY):
+                        raise ValueError("Tile RGB display band interpretation does not match its contract")
+                    data = src.read()
+                else:
+                    if src.count != 1:
+                        raise ValueError("Quantitative tile products must have one band")
+                    data = src.read(1)
                 if np.issubdtype(data.dtype, np.floating):
                     data = np.where(data == src.nodata, np.nan, data)
                 if key not in arrays:
-                    arrays[key] = np.empty((height, width), dtype=data.dtype)
-                arrays[key][target] = data
+                    arrays[key] = np.empty((*data.shape[:-2], height, width), dtype=data.dtype)
+                arrays[key][..., row:row+h, col:col+w] = data
         coverage[target] = 1
         tile_records.append({"window": meta["window"], "input_scaling": meta.get("input_scaling", []), "file_hashes": meta["file_hashes"]})
     if not np.all(coverage == 1):
         raise ValueError(f"Tiles leave {int((coverage == 0).sum())} pixels uncovered")
+    for phase in ("before", "after"):
+        valid = arrays[f"valid_{phase}"] == 1
+        rgba = arrays[f"{phase}_rgb"]
+        if not np.array_equal(rgba[3], valid.astype("uint8") * 255) or np.any(rgba[:3, ~valid]):
+            raise ValueError("Tile RGB alpha/invalid samples disagree with the phase-valid mask")
     common = (arrays["valid_before"] == 1) & (arrays["valid_after"] == 1)
     before, after = arrays["before_water"], arrays["after_water"]
     expected_change = np.zeros((height, width), dtype="uint8")
@@ -416,12 +490,16 @@ def _water_merge(case_dir: Path, output_dir: Path, params: dict) -> dict:
     stats.update({"implementation_version": VERSION, "tile_count": len(tile_dirs), "tile_provenance": tile_records,
                   "grid": {key: task[key] for key in ("crs", "transform", "height", "width")},
                   "indices": {key: _describe(arr) for key, arr in arrays.items() if np.issubdtype(arr.dtype, np.floating)},
+                  "rgb_display": RGB_DISPLAY,
                   "merge_read_scope": "task.json and received tile outputs only; original imagery not opened"})
     files = []
     for key in sorted(arrays):
         name = f"{key}.tif"
-        _write_raster(output_dir / name, arrays[key], task, nodata=WATER_NODATA if key.endswith("_water") else None,
-                      tags={"formula": FORMULAS.get(key.split("_", 1)[-1].upper(), ""), "threshold": "0.0"})
+        if key.endswith("_rgb"):
+            _write_rgb_raster(output_dir / name, arrays[key], task)
+        else:
+            _write_raster(output_dir / name, arrays[key], task, nodata=WATER_NODATA if key.endswith("_water") else None,
+                          tags={"formula": FORMULAS.get(key.split("_", 1)[-1].upper(), ""), "threshold": "0.0"})
         files.append(name)
     stats["vectorization"] = _vectorize(arrays["change"], task, output_dir / "changes.geojson")
     _draw_map(arrays, task, output_dir / "map.png")

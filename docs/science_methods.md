@@ -1,6 +1,6 @@
 # Scientific methods and reproducibility boundaries
 
-Implementation: `src/orbitserve/science.py`, version `orbitserve-science-1.0.1`.
+Implementation: `src/orbitserve/science.py`, version `orbitserve-science-1.0.2`.
 Public API: `run_operator(tool_id, case_dir, output_dir, params) -> dict`.
 The result contains `status`, relative `files`, `statistics`, `formulas`, and the
 implementation version. Missing data or invalid scientific prerequisites raise
@@ -176,24 +176,74 @@ connectivity), reprojected to WGS84 longitude/latitude for RFC 7946. Each featur
 records its projected-raster pixel count and area in square metres. Areas are
 not measured from rounded longitude/latitude output geometry. Empty changes
 produce a valid FeatureCollection with no features. `map.png` is a labelled
-three-panel before/after/change quicklook with unknown shown in gray. GeoTIFFs
-retain exact full-resolution georeferencing.
+three-panel real-imagery overlay: before RGB with water candidates, after RGB
+with water candidates, and after RGB with gained/lost candidates. Unknown is
+shown in gray. GeoTIFFs retain exact full-resolution georeferencing.
+
+### Real RGB display products and overlays
+
+`water_tile` constructs `before_rgb.tif` and `after_rgb.tif` directly from the
+already-read, grid-aligned **physical** B04/B03/B02 values (red/green/blue).
+The existing asset-specific scale and offset have already been applied once;
+neither the display encoder nor merge reapplies them. The same fixed linear
+display stretch is used for every date, tile and AOI:
+
+`display = uint8(round_half_even(255 * clip(reflectance / 0.30, 0, 1)))`.
+
+Reflectance 0 maps to 0 and 0.30 maps to 255. Gamma is 1; there is no histogram,
+percentile, per-date or per-tile contrast adaptation. This is an explicitly
+chosen display mapping, not a change to reflectance, water thresholds or other
+quantitative outputs. Very bright surfaces can saturate. Quantized display
+values must not be used to recompute indices or areas.
+
+Each display GeoTIFF has four uint8 bands, color interpretations
+red/green/blue/alpha, descriptions `B04`, `B03`, `B02`, `phase-valid alpha`,
+and no nodata value. Alpha is 255 exactly on the existing phase-valid mask
+(all required finite spectral bands, accepted SCL, finite MNDWI); otherwise
+alpha and all three display channels are 0. Thus valid black pixels are
+distinct from invalid observations. The per-phase validity is unchanged.
+The original grid and tile-window transform are retained. The `rgb_display`
+GeoTIFF tag and tile/final JSON metadata record the fixed mapping, band order,
+invalid rule, colors and opacity. Source item IDs, URLs, hashes, observation
+times and applied scale/offset remain in the existing input-scaling provenance.
+
+The PNG uses the received display products as its image base. On before and
+after panels, water candidates receive blue `(35,108,177)` at opacity 0.35.
+On the third panel, gained water receives green `(20,169,145)` and lost water
+orange-red `(218,89,56)`, each at opacity 0.50; unchanged pixels retain the
+after-date RGB. Blending is `round_half_even((1-opacity)*RGB + opacity*color)`.
+Invalid pixels on each date, and pixels outside the common-valid mask on the
+change panel, are opaque gray `(165,165,165)`. These are unknown, never land.
+
+For independent image verification, the RGB canvas is 1000 by 480 pixels.
+Three 300 by 300 image panels start at `(20,70)`, `(350,70)`, `(680,70)`.
+Each full-grid overlay is resized with nearest-neighbor **after** blending;
+labels and legend are outside those panel rectangles. Full-resolution display
+GeoTIFFs preserve the grid pixels independently of the browsable PNG.
 
 The three continuous indices are exported for each phase as
 `{before,after}_{ndvi,ndwi,mndwi}.tif`. The final product set also
-includes the six mask/change rasters, `changes.geojson`, `map.png`, and
+includes the six mask/change rasters, two RGBA display rasters,
+`changes.geojson`, `map.png`, and
 `stats.json`. These are ordinary, reusable files without a proprietary service.
 
 ## Tile and merge boundary
 
 `water_tile` receives `[row_offset, col_offset, height, width]`. It outputs its
 window rasters and `tile.json`, including full-grid metadata, relative file
-names, SHA-256 hashes, scale audit records, threshold, and formulas.
+names, SHA-256 hashes, scale audit records, threshold, and formulas. Both RGBA
+display rasters are actual tile products included in this manifest and in the
+same transferred artifact bundle as the scientific rasters.
 
 `water_merge` reads only `task.json` and the received tile products. It never
 opens original imagery or `assets.json`. It validates the case, implementation
 version, threshold, product set, file hashes, raster CRS/transform/shape,
 nonoverlapping windows, complete full-grid coverage, and class consistency.
+It additionally checks the display mapping, band types/descriptions/color
+interpretations, and equality of RGB alpha with the phase-valid mask. It
+reconstructs the full-grid RGBA products from received tile windows; it never
+opens raw imagery to obtain a basemap. Every water tile and merged result has
+14 GeoTIFFs: the unchanged 12 scientific rasters plus the two display rasters.
 Missing, duplicated, overlapping, corrupt, or incompatible tiles fail loudly.
 A tile with no valid observations can be merged as unknown; an entire AOI
 without a common valid observation fails rather than claiming success.
@@ -201,85 +251,44 @@ without a common valid observation fails rather than claiming success.
 `water_full` calls the same tile implementation once for the full window and
 then the same merge implementation. No alternative full-scene algorithm exists.
 The acceptance tolerance is fixed in advance: exact equality for categorical
-rasters, absolute 1e-6 for continuous indices and 1e-6 m² for counted grid
+rasters and all RGBA bytes, absolute 1e-6 for continuous indices and 1e-6 m² for counted grid
 areas. These limits are not relaxed after seeing results. Independent acceptance
 must recalculate from inputs and outputs without calling these statistics
 functions.
 
-## Author execution evidence
+## Version history and fresh execution evidence
 
-Author direct invocation (not a substitute for the common harness or independent
-acceptance) used `/workspace/shared/orbitserve-venv/bin/python` with
-`PYTHONPATH=src`, calling `run_operator('earthbench_tvdi', case, out, {})` for
-both real input cases. Exit code was 0 on 2026-10-16.
+The [previous published V0 revision](https://github.com/ZhiweiWei-NAMI/OrbitServe-Agent/commit/153353920dcda1210d0753aae4c1a9d5a19cb4b0)
+used science version 1.0.1 and a categorical quicklook. Its external run directory
+was absent when the original checklist was reopened. Historical summaries are
+not counted as evidence for the real-imagery-overlay requirement.
 
-External run directory: `/workspace/shared/orbitserve-runs/a02-direct-20261016`.
+Version 1.0.2 adds the actual RGB display products and semitransparent overlays.
+It leaves indices, validity, water/change classes, areas and vectors unchanged.
+Fresh public inputs and every E0–E6 experiment were executed again on 2026-10-17.
+The lead suite `20261017T002642Z-acceptance-a649ed0d` and independent reviewer suite
+`20261017T002828Z-acceptance-cbb560f2` each exited 0 and passed 248 top-level checks.
+See the [current acceptance report](acceptance_report.md),
+[independent review](independent_review.md), and
+[original-checklist audit](../evidence/original_checklist_audit.json).
 
-- question2: 1,307,762 valid TVDI pixels; 367,090 above 0.75;
-  28.07009226449461 percent.
-- question4: 4,482,532 valid TVDI pixels; 669,532 above 0.75;
-  14.936468942106828 percent.
+Additional focused author proofs are under the externally delivered evidence
+prefix `shared/orbitserve-overlay-20261017/`:
 
-These observations are descriptive results from actual pixels, not embedded
-constants in the operator. Water sample execution and the common-harness,
-distributed, and independent acceptance records are owned by their actual run
-manifests; implementation availability alone is not proof of those experiments.
+| Case | Fresh proof run | Independent full / tiled checks |
+|---|---|---:|
+| Lake Mead | lake_mead-20261017T002441 | 700 / 718, all PASS |
+| Lake Powell | lake_powell-20261017T002443 | 690 / 708, all PASS |
+| Lake Shasta | lake_shasta-20261017T002444 | 340 / 358, all PASS |
 
-### Corrected source-data author run
-
-After the source-offset metadata correction and the independent validator's
-matching authority-field check, the following direct command completed with
-exit code 0 in a new directory (6.59 seconds). The script is an external author
-reproduction helper, not a committed test framework or a replacement for the
-common harness:
-
-```sh
-PYTHONPATH=src /workspace/shared/orbitserve-venv/bin/python \
-  /workspace/shared/orbitserve-runs/a02-direct-20261016/run_direct_science.py \
-  /workspace/shared/orbitserve-data \
-  /workspace/shared/orbitserve-runs/a02-direct-final-20261016T1337
-```
-
-Run ID: `a02-direct-final-20261016T1337`.
-The directory contains `author_run_summary.json`, individual scientific
-products, independent verification JSONs, and `full_tile_comparison.json` for
-each water case. Console evidence is in the adjacent
-`a02-direct-final-20261016T1337.log` file.
-
-| Real water case | Common-valid pixels | Gained pixels | Lost pixels | Unknown pixels |
-|---|---:|---:|---:|---:|
-| Lake Mead | 51,877 | 580 | 1,805 | 10,623 |
-| Lake Powell | 61,341 | 165 | 5,184 | 1,159 |
-| Lake Shasta | 62,228 | 110 | 5,033 | 272 |
-
-Every case uses 62,500 pixels on the original 250 x 250, 20 m grid. All three
-full versus four-tile comparisons passed with zero categorical mismatches and
-zero continuous-raster difference. Each merge was run against a directory
-containing only `task.json`, with tile directories passed separately: no
-original imagery or `assets.json` was available in its case input. Independent
-source-pixel recomputation passed for both full and merged products. All three
-map PNGs were opened and visually inspected. Earth-Bench results remained
-unchanged and also passed independent verification.
-
-The earlier `a02-direct-final-20261016T1336` attempt exited 1 because the
-independent validator expected different harmonization-authority field names.
-Its failure log and outputs are retained; they are not counted as final
-acceptance. Earlier water products with the contradictory -0.1 offset are
-superseded and must not be used for reported water areas. The run above predates the final narrowing of diagnostic outputs. The final
-science release retains only MNDWI, NDVI, and NDWI; water classifications are
-unchanged. Integration and four-node experiments remain the responsibility of
-their own run evidence.
-
-### Final scope freeze: version 1.0.1
-
-The same direct command was run again with the clean output destination
-`/workspace/shared/orbitserve-runs/a02-final-scope-20261016T1339` after narrowing
-water outputs to MNDWI, NDVI, and NDWI. Exit code 0; elapsed 5.77 seconds.
-All five cases passed independent recomputation and all three full/tiled water
-comparisons passed exactly. Counts in the table above were unchanged. Each
-water product now contains 12 GeoTIFFs plus GeoJSON, PNG, and JSON, with only
-MNDWI contributing to classification. Summary and per-case verification files
-are within that directory; the adjacent `.log` preserves console output.
-
-Frozen science SHA-256:
-`f0ee0b0e63a7be36721fbfb718e7285a3d6d4a8f152f05a4c49817a52657998e`.
+For every case, full/tiled versions of all 14 rasters and the PNG are identical.
+The merge case contains only task.json; received tile products supply display
+pixels. A fresh version 1.0.1 comparison on these same inputs matches all 12
+quantitative arrays, statistics and GeoJSON exactly. The independent verifier
+reconstructs RGBA values from raw physical reflectances and reconstructs all
+three PNG panels; disposable RGB, PNG and source-hash mutations are rejected.
+All three overlays were visually inspected and matched by hash to final ground
+products. The first alpha-interpretation failure, subsequent correction and
+negative checks are retained in the external evidence archive, not counted as
+successful experiments. These focused proofs supplement the real four-node
+and common-harness runs above.

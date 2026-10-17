@@ -2,14 +2,18 @@
   "planner_mode": "rule",
   "policy_mode": "rule",
   "forecast_source_kind": "analytical_reference",
-  "candidate_tile_sizes": [0, 128, 64],
+  "candidate_tile_sizes": [
+    0,
+    128,
+    64
+  ],
   "operator_base_memory_bytes": 8388608,
-  "water_tile_memory_bytes_per_pixel": 96,
-  "water_merge_memory_bytes_per_pixel": 16,
+  "water_tile_memory_bytes_per_pixel": 104,
+  "water_merge_memory_bytes_per_pixel": 24,
   "operator_startup_s": 0.25,
-  "water_tile_energy_j_per_pixel": 0.00001,
-  "intermediate_bytes_per_pixel": 16,
-  "final_bytes_per_pixel": 24,
+  "water_tile_energy_j_per_pixel": 1e-05,
+  "intermediate_bytes_per_pixel": 24,
+  "final_bytes_per_pixel": 48,
   "advertisement_max_age_s": 30,
   "description": "Zero tile size means full original grid. Memory and energy are configured accounting estimates, not hardware measurements."
 }
